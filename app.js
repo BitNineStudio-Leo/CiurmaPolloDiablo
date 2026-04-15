@@ -6,33 +6,33 @@
 const BUNDLED_NPCS = [
   // CA = Base + floor(lv/2) + bonus combat/furt/magia
   // Vieni Qua lv13: base16(arm.pesante) +6 +4(S) +0 +0 = 26 | F: Tempra,Volontà D: Riflessi
-  {id:'vieni_qua', name:'Vieni Qua',  star:false, classe:'Lv 13 · Orco · Guerriero',            image_url:'', ca:26, pf_max:3, ts_forte:['Tempra','Volontà'],    ts_debole:['Riflessi'],        combat:'S', magia:'D', nav:'B', tech:'D', cura:'D', furtivita:'D'},
+  {id:'vieni_qua', name:'Vieni Qua',  star:false, classe:'Lv 13 · Orco · Guerriero',            image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/vieniqua.jpg', ca:26, pf_max:3, ts_forte:['Tempra','Volontà'],    ts_debole:['Riflessi'],        combat:'S', magia:'D', nav:'B', tech:'D', cura:'D', furtivita:'D'},
   // Saltarello lv12: base13(arm.media) +6 +2(A) +0 +2(A) = 23 | F: Tempra,Volontà D: Riflessi
-  {id:'saltarello',name:'Saltarello', star:false, classe:'Lv 12 · Thri-Kreen · Mente Guerriera', image_url:'', ca:23, pf_max:3, ts_forte:['Tempra','Volontà'],    ts_debole:['Riflessi'],        combat:'A', magia:'A', nav:'B', tech:'D', cura:'D', furtivita:'D'},
+  {id:'saltarello',name:'Saltarello', star:false, classe:'Lv 12 · Thri-Kreen · Mente Guerriera', image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/saltarello.jpg', ca:23, pf_max:3, ts_forte:['Tempra','Volontà'],    ts_debole:['Riflessi'],        combat:'A', magia:'A', nav:'B', tech:'D', cura:'D', furtivita:'D'},
   // Wedge lv13: base13 +6 +0 +1(B) +0 = 20 | F: Tempra D: Riflessi,Volontà
-  {id:'wedge',     name:'Wedge',      star:false, classe:'Lv 13 · Umano · Esperto (marinaio)',   image_url:'', ca:20, pf_max:3, ts_forte:['Tempra'],              ts_debole:['Riflessi','Volontà'], combat:'C', magia:'D', nav:'S', tech:'A', cura:'C', furtivita:'B'},
+  {id:'wedge',     name:'Wedge',      star:false, classe:'Lv 13 · Umano · Esperto (marinaio)',   image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/wedge.jpg', ca:20, pf_max:3, ts_forte:['Tempra'],              ts_debole:['Riflessi','Volontà'], combat:'C', magia:'D', nav:'S', tech:'A', cura:'C', furtivita:'B'},
   // Bigs lv13: base13 +6 +0 +1(B) +0 = 20 | F: Tempra D: Riflessi,Volontà
-  {id:'bigs',      name:'Bigs',       star:false, classe:'Lv 13 · Umano · Esperto (marinaio)',   image_url:'', ca:20, pf_max:3, ts_forte:['Tempra'],              ts_debole:['Riflessi','Volontà'], combat:'C', magia:'D', nav:'S', tech:'C', cura:'A', furtivita:'B'},
+  {id:'bigs',      name:'Bigs',       star:false, classe:'Lv 13 · Umano · Esperto (marinaio)',   image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/biggs.jpg', ca:20, pf_max:3, ts_forte:['Tempra'],              ts_debole:['Riflessi','Volontà'], combat:'C', magia:'D', nav:'S', tech:'C', cura:'A', furtivita:'B'},
   // Son Goku lv18: base12(monaco) +9 +6(SS) +0 +0 = 27 | F: Tempra,Volontà D: Riflessi
-  {id:'son_goku',  name:'Son Goku',   star:true,  classe:'Lv 18 · Umano · Monaco',               image_url:'', ca:27, pf_max:4, ts_forte:['Tempra','Volontà'],    ts_debole:['Riflessi'],        combat:'SS',magia:'D', nav:'A', tech:'D', cura:'B', furtivita:'D'},
+  {id:'son_goku',  name:'Son Goku',   star:true,  classe:'Lv 18 · Umano · Monaco',               image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/viejo.jpg', ca:27, pf_max:4, ts_forte:['Tempra','Volontà'],    ts_debole:['Riflessi'],        combat:'SS',magia:'D', nav:'A', tech:'D', cura:'B', furtivita:'D'},
   // Lady lv18: base12 +9 +0 +2(A) +3(S) = 26 | F: Volontà D: Tempra,Riflessi
-  {id:'lady',      name:'Lady',       star:true,  classe:'Lv 18 · Umana · ???',                  image_url:'', ca:26, pf_max:4, ts_forte:['Volontà'],             ts_debole:['Tempra','Riflessi'], combat:'D', magia:'S', nav:'C', tech:'C', cura:'A', furtivita:'A'},
+  {id:'lady',      name:'Lady',       star:true,  classe:'Lv 18 · Umana · ???',                  image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/lady.jpg', ca:26, pf_max:4, ts_forte:['Volontà'],             ts_debole:['Tempra','Riflessi'], combat:'D', magia:'S', nav:'C', tech:'C', cura:'A', furtivita:'A'},
   // Quarantena lv16: base13 +8 +0 +2(A) +4(SS) = 27 | F: Volontà,Riflessi D: Tempra
-  {id:'quarantena',name:'Quarantena', star:true,  classe:'Lv 16 · Mezzelfa · Vera Negromante',   image_url:'', ca:27, pf_max:4, ts_forte:['Volontà','Riflessi'],   ts_debole:['Tempra'],          combat:'D', magia:'SS',nav:'A', tech:'D', cura:'C', furtivita:'A'},
+  {id:'quarantena',name:'Quarantena', star:true,  classe:'Lv 16 · Mezzelfa · Vera Negromante',   image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/quarantena.jpg', ca:27, pf_max:4, ts_forte:['Volontà','Riflessi'],   ts_debole:['Tempra'],          combat:'D', magia:'SS',nav:'A', tech:'D', cura:'C', furtivita:'A'},
   // Ducapollo lv15: base13 +7 +0 +3(S) +3(S) = 26 | F: Volontà,Riflessi D: Tempra
-  {id:'ducapollo', name:'Ducapollo',  star:false, classe:'Lv 15 · Gallinellan · Innato',         image_url:'', ca:26, pf_max:4, ts_forte:['Volontà','Riflessi'],   ts_debole:['Tempra'],          combat:'D', magia:'S', nav:'D', tech:'D', cura:'D', furtivita:'S'},
+  {id:'ducapollo', name:'Ducapollo',  star:false, classe:'Lv 15 · Gallinellan · Innato',         image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/ducapollo.jpg', ca:26, pf_max:4, ts_forte:['Volontà','Riflessi'],   ts_debole:['Tempra'],          combat:'D', magia:'S', nav:'D', tech:'D', cura:'D', furtivita:'S'},
   // Blood Mask lv9: base12 +4 +0 +2(A) +1(B) = 19 | F: Riflessi,Volontà D: Tempra
-  {id:'blood_mask',name:'Blood Mask', star:true,  classe:'Lv 9 · Umano (Yuan-ti) · Fantasma',    image_url:'', ca:19, pf_max:2, ts_forte:['Riflessi','Volontà'],   ts_debole:['Tempra'],          combat:'C', magia:'B', nav:'S', tech:'D', cura:'D', furtivita:'A'},
+  {id:'blood_mask',name:'Blood Mask', star:true,  classe:'Lv 9 · Umano (Yuan-ti) · Fantasma',    image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/bloodmask.jpg', ca:19, pf_max:2, ts_forte:['Riflessi','Volontà'],   ts_debole:['Tempra'],          combat:'C', magia:'B', nav:'S', tech:'D', cura:'D', furtivita:'A'},
   // Stella lv13: base16 +6 +2(A) +0 +3(S) = 27 | F: Tempra,Volontà D: Riflessi
-  {id:'stella',    name:'Stella',     star:false, classe:'Lv 13 · Elfa Occhirosi · Crusader',    image_url:'', ca:27, pf_max:3, ts_forte:['Tempra','Volontà'],    ts_debole:['Riflessi'],        combat:'A', magia:'S', nav:'D', tech:'D', cura:'A', furtivita:'D'},
+  {id:'stella',    name:'Stella',     star:false, classe:'Lv 13 · Elfa Occhirosi · Crusader',    image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/stella.jpg', ca:27, pf_max:3, ts_forte:['Tempra','Volontà'],    ts_debole:['Riflessi'],        combat:'A', magia:'S', nav:'D', tech:'D', cura:'A', furtivita:'D'},
   // Gurgo lv4: base10 +2 +0 +1(B) +0 = 13 | F: Riflessi D: Tempra,Volontà
-  {id:'gurgo',     name:'Gurgo (Scorpion)', star:false, classe:'Lv 4 · Gremlin · Ladro',         image_url:'', ca:13, pf_max:1, ts_forte:['Riflessi'],             ts_debole:['Tempra','Volontà'], combat:'C', magia:'D', nav:'B', tech:'B', cura:'D', furtivita:'B'},
+  {id:'gurgo',     name:'Gurgo (Scorpion)', star:false, classe:'Lv 4 · Gremlin · Ladro',         image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/gurgo.jpg', ca:13, pf_max:1, ts_forte:['Riflessi'],             ts_debole:['Tempra','Volontà'], combat:'C', magia:'D', nav:'B', tech:'B', cura:'D', furtivita:'B'},
   // Gatto TITANO: natura titanica = 30 fisso | F: Riflessi,Tempra D: Volontà (si inceppa nelle contraddizioni)
-  {id:'gatto',     name:'Gatto',      star:true,  classe:'Titano della Creatività · Gatto Supremo', image_url:'', ca:30, pf_max:1, ts_forte:['Riflessi','Tempra'], ts_debole:['Volontà'],         combat:'B', magia:'D', nav:'D', tech:'SS',cura:'SS',furtivita:'B'},
+  {id:'gatto',     name:'Gatto',      star:true,  classe:'Titano della Creatività · Gatto Supremo', image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/gatto.jpg', ca:30, pf_max:1, ts_forte:['Riflessi','Tempra'], ts_debole:['Volontà'],         combat:'B', magia:'D', nav:'D', tech:'SS',cura:'SS',furtivita:'B'},
   // Dorag ~lv18: base14(drago) +9 +2(A) +0 +1(B) = 26 | F: Tempra,Riflessi D: Volontà
-  {id:'dorag',     name:'Dorag',      star:false, classe:'Drago di ottone adulto',                image_url:'', ca:26, pf_max:4, ts_forte:['Tempra','Riflessi'],   ts_debole:['Volontà'],         combat:'A', magia:'B', nav:'D', tech:'D', cura:'C', furtivita:'C'},
+  {id:'dorag',     name:'Dorag',      star:false, classe:'Drago di ottone adulto',                image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/dorag.jpg', ca:26, pf_max:4, ts_forte:['Tempra','Riflessi'],   ts_debole:['Volontà'],         combat:'A', magia:'B', nav:'D', tech:'D', cura:'C', furtivita:'C'},
   // Murray lv5: base10 +2 +0 +0 +0 = 12 | F: Volontà D: Riflessi,Tempra
-  {id:'murray',    name:'Murray',     star:false, classe:'Lv 5 · Teschio rianimato · Stregone',   image_url:'', ca:12, pf_max:2, ts_forte:['Volontà'],             ts_debole:['Riflessi','Tempra'], combat:'D', magia:'C', nav:'D', tech:'D', cura:'D', furtivita:'D'},
+  {id:'murray',    name:'Murray',     star:false, classe:'Lv 5 · Teschio rianimato · Stregone',   image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/murray.jpg', ca:12, pf_max:2, ts_forte:['Volontà'],             ts_debole:['Riflessi','Tempra'], combat:'D', magia:'C', nav:'D', tech:'D', cura:'D', furtivita:'D'},
 ];
 
 const BUNDLED_CARDS = [
@@ -290,7 +290,7 @@ let S = {
   maxPool: LS.g('maxPool', 6),
   wounds:  LS.g('wounds', {}),
   loading:false, error:null, toast:null, dialog:null,
-  expanded:{}, openCard:null, openInfo:null,
+  expanded:{}, consultaExp:{}, openCard:null, openInfo:null,
   menuOpen:false, minionOpen:false, builderDeck:null,
   syncTime: LS.g('syncTime', null),
 };
@@ -319,6 +319,19 @@ const blocked  = npc => { const s=status(npc); return s==='fuori'||s==='morto'; 
 const isFree   = (npc,card) => npc?.star && parseInt(card.cost)===1 && timesUsed(npc.id,card.title)===0;
 const effCost  = (npc,card) => isFree(npc,card)?0:parseInt(card.cost)||1;
 const timesUsed= (nId,t) => (S.session?.used||{})[cKey(nId,t)]||0;
+
+// Render TS sempre in ordine fisso Tempra → Riflessi → Volontà
+function rTS(npc, large=false) {
+  const ORDER = ['Tempra','Riflessi','Volontà'];
+  const forte  = new Set(npc.ts_forte||[]);
+  const debole = new Set(npc.ts_debole||[]);
+  const sz = large ? 'font-size:12px;padding:3px 10px' : '';
+  return ORDER.map(t => {
+    if (forte.has(t))  return `<span class="ts-pill ts-forte"  style="${sz}">${t}✓</span>`;
+    if (debole.has(t)) return `<span class="ts-pill ts-debole" style="${sz}">${t}✕</span>`;
+    return '';
+  }).join('');
+}
 
 // ══════════════════════════════════════════════════
 // SYNC
@@ -420,7 +433,7 @@ function toast(msg,err=false){
 // RENDER
 // ══════════════════════════════════════════════════
 function render(){
-  const views={home:rHome,builder:rBuilder,session:rSession,settings:rSettings};
+  const views={home:rHome,builder:rBuilder,session:rSession,settings:rSettings,consulta:rConsulta};
   document.getElementById('app').innerHTML=
     (views[S.view]||rHome)()+
     (S.dialog     ? rDialog()    :'')+
@@ -466,10 +479,82 @@ function rHome(){
     </div>
     <button class="btn btn-g btn-lg" data-action="start-session">⚔ Inizia sessione</button>`
     :`<p class="hint-txt">Costruisci un mazzo per iniziare una sessione.</p>`}
-  </div></div>`;
+  </div>
+  ${rBotNav('home')}</div>`;
 }
 
-// ── Builder ─────────────────────────────────────
+// ── Bottom Nav ───────────────────────────────────
+function rBotNav(active){
+  return `<nav class="bot-nav">
+    <button class="bot-btn${active==='home'?' active':''}" data-action="goto" data-view="home">
+      <span class="bot-btn-icon">⚓</span>Home
+    </button>
+    <button class="bot-btn${active==='consulta'?' active':''}" data-action="goto" data-view="consulta">
+      <span class="bot-btn-icon">📖</span>Ciurma
+    </button>
+    <button class="bot-btn${active==='settings'?' active':''}" data-action="goto" data-view="settings">
+      <span class="bot-btn-icon">⚙️</span>Impostazioni
+    </button>
+  </nav>`;
+}
+
+// ── Consulta ─────────────────────────────────────
+function rConsulta(){
+  return `<div class="view">
+  <div class="hdr"><span class="hdr-title">⚓ Ciurma</span></div>
+  <div class="consulta-list">
+    ${S.npcs.map(npc=>{
+      const exp=S.consultaExp[npc.id];
+      const cards=npcCards(npc.id);
+      const w=wounds(npc.id), pf=npc.pf_max||1;
+      const st=status(npc);
+      const chip=st==='sano'?'':
+        st==='indebolito'?`<span class="chip chip-indebolito">⚠</span>`:
+        st==='fuori'?`<span class="chip chip-fuori">✕</span>`:
+        `<span class="chip chip-morto">☠</span>`;
+      const tsF=(npc.ts_forte||[]).map(t=>`<span class="ts-pill ts-forte">${t}✓</span>`).join('');
+      const tsD=(npc.ts_debole||[]).map(t=>`<span class="ts-pill ts-debole">${t}✕</span>`).join('');
+      const fb=initials(npc.name).replace(/'/g,"\\'");
+      return `<div class="cn-npc">
+        <div class="cn-hdr" data-action="toggle-consulta" data-npc="${npc.id}">
+          <div class="cn-avatar">
+            ${npc.image_url
+              ?`<img src="${npc.image_url}" alt="${npc.name}" onerror="this.parentElement.innerHTML='${fb}'">`
+              :initials(npc.name)}
+          </div>
+          <div class="cn-info">
+            <div class="cn-row1">
+              ${npc.star?'<span class="cn-star">★</span>':''}
+              <span class="cn-name">${npc.name}</span>
+              ${chip}
+            </div>
+            <div class="cn-row2">
+              <span class="ca-badge">CA ${npc.ca||'?'}</span>
+              ${rTS(npc)}
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0">
+            <button class="info-btn" data-action="open-info" data-npc="${npc.id}" data-stop>ℹ</button>
+            <span class="sn-arr">${exp?'▲':'▼'}</span>
+          </div>
+        </div>
+        ${exp?`<div class="cn-cards">
+          ${cards.map(card=>`
+            <div class="cn-card" data-action="open-card-consulta" data-npc="${npc.id}" data-card="${enc(card.title)}">
+              <div class="cn-card-row">
+                <span class="cn-card-title">${card.title}</span>
+                <span class="badge b-c${Math.min(parseInt(card.cost)||1,3)}">${card.cost}pt</span>
+              </div>
+              <span class="sp ${gc(card.grade)}">${SI[card.stat]||''} ${card.grade||''}</span>
+            </div>`).join('')}
+        </div>`:''}
+      </div>`;
+    }).join('')}
+  </div>
+  ${rBotNav('consulta')}</div>`;
+}
+
+
 function rBuilder(){
   const bd=S.builderDeck||[];
   return `<div class="view">
@@ -558,7 +643,7 @@ function rNpcHdr(npc,st,exp){
       </div>
       <div class="sn-row2">
         <span class="ca-badge">CA ${npc.ca||'?'}</span>
-        ${tsF}${tsD}
+        ${rTS(npc)}
       </div>
     </div>
     <div class="sn-right">
@@ -607,7 +692,9 @@ function rCardModal(){
   const canAfford=free||(S.session?.pool>=cost), used=timesUsed(npcId,cardTitle), bl=blocked(npc);
   return `<div class="mod-ov" data-action="close-modal">
   <div class="mod-card" data-stop>
-    ${npc.image_url?`<img class="mod-img" src="${npc.image_url}" alt="${npc.name}">`:`<div class="mod-img-ph">${initials(npc.name)}</div>`}
+    ${npc.image_url
+        ?`<div class="mod-img-wrap"><img class="mod-img" src="${npc.image_url}" alt="${npc.name}"></div>`
+        :`<div class="mod-img-wrap"><div class="mod-img-ph">${initials(npc.name)}</div></div>`}
     <div class="mod-body">
       <div class="mod-npc">${npc.name}${npc.star?' ★':''}</div>
       <div class="mod-title">${card.title}</div>
@@ -641,7 +728,9 @@ function rInfoModal(){
   const stLabel={sano:'🟢 Sano',indebolito:'🟡 Indebolito',fuori:'🔴 Fuori combattimento',morto:'☠️ Morto'}[st];
   return `<div class="mod-ov" data-action="close-info">
   <div class="mod-card" data-stop>
-    ${npc.image_url?`<img class="info-img" src="${npc.image_url}" alt="${npc.name}">`:`<div class="info-img-ph">${initials(npc.name)}</div>`}
+    ${npc.image_url
+        ?`<div class="info-img-wrap"><img class="info-img" src="${npc.image_url}" alt="${npc.name}"></div>`
+        :`<div class="info-img-wrap"><div class="info-img-ph">${initials(npc.name)}</div></div>`}
     <div class="info-body">
       <div class="info-name">${npc.star?'★ ':''}${npc.name}</div>
       <div class="info-cls">${npc.classe||''}</div>
@@ -652,8 +741,7 @@ function rInfoModal(){
       <div class="info-section">
         <div class="info-lbl">Tiri Salvezza</div>
         <div style="display:flex;gap:6px;flex-wrap:wrap">
-          ${(npc.ts_forte||[]).map(t=>`<span class="ts-pill ts-forte" style="font-size:12px;padding:3px 10px">${t} ✓ Forte</span>`).join('')}
-          ${(npc.ts_debole||[]).map(t=>`<span class="ts-pill ts-debole" style="font-size:12px;padding:3px 10px">${t} ✕ Debole</span>`).join('')}
+          ${rTS(npc, true)}
         </div>
       </div>
       <div class="info-section">
@@ -760,7 +848,8 @@ function rSettings(){
       <code>npc_id · title · cost · stat · grade · desc · rule · flavor · minion</code>
       ts_forte / ts_debole sono array JSON: ["Tempra","Riflessi"]
     </div>
-  </div></div>`;
+  </div>
+  ${rBotNav('settings')}</div>`;
 }
 
 // ══════════════════════════════════════════════════
@@ -784,6 +873,8 @@ document.addEventListener('click',e=>{
         i>=0?bd.splice(i,1):bd.push(npc); S.builderDeck=[...bd]; render();
       }else{ S.expanded[npc]=!S.expanded[npc]; render(); }
       break;
+    case 'toggle-consulta': S.consultaExp[npc]=!S.consultaExp[npc]; render(); break;
+    case 'open-card-consulta': S.openCard={npcId:npc,cardTitle:dec(card)}; render(); break;
     case 'adj-max':          adjMax(parseInt(d)); break;
     case 'start-session':    if(S.deck.length) startSession(); break;
     case 'adj-pool':         adjPool(parseInt(d)); break;
