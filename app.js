@@ -321,14 +321,16 @@ const effCost  = (npc,card) => isFree(npc,card)?0:parseInt(card.cost)||1;
 const timesUsed= (nId,t) => (S.session?.used||{})[cKey(nId,t)]||0;
 
 // Render TS sempre in ordine fisso Tempra → Riflessi → Volontà
+const TS_ABBR = {'Tempra':'Tmp','Riflessi':'Rif','Volontà':'Vol'};
 function rTS(npc, large=false) {
   const ORDER = ['Tempra','Riflessi','Volontà'];
   const forte  = new Set(npc.ts_forte||[]);
   const debole = new Set(npc.ts_debole||[]);
   const sz = large ? 'font-size:12px;padding:3px 10px' : '';
+  const lbl = large ? t => t : t => TS_ABBR[t]||t;
   return ORDER.map(t => {
-    if (forte.has(t))  return `<span class="ts-pill ts-forte"  style="${sz}">${t}✓</span>`;
-    if (debole.has(t)) return `<span class="ts-pill ts-debole" style="${sz}">${t}✕</span>`;
+    if (forte.has(t))  return `<span class="ts-pill ts-forte"  style="${sz}">${lbl(t)}✓</span>`;
+    if (debole.has(t)) return `<span class="ts-pill ts-debole" style="${sz}">${lbl(t)}✕</span>`;
     return '';
   }).join('');
 }
@@ -433,6 +435,11 @@ function toast(msg,err=false){
 // RENDER
 // ══════════════════════════════════════════════════
 function render(){
+  // Salva scroll position delle liste prima di re-render
+  const scrollEl = document.querySelector('.npc-list, .scroll-body, .settings-body');
+  const scrollTop = scrollEl ? scrollEl.scrollTop : 0;
+  const scrollId  = scrollEl ? (scrollEl.className.split(' ')[0]) : null;
+
   const views={home:rHome,builder:rBuilder,session:rSession,settings:rSettings,consulta:rConsulta};
   document.getElementById('app').innerHTML=
     (views[S.view]||rHome)()+
@@ -442,6 +449,12 @@ function render(){
     (S.minionOpen ? rMinion()    :'')+
     (S.menuOpen   ? rMenu()      :'')+
     (S.toast?`<div class="toast${S.toast.err?' toast-err':''}">${S.toast.msg}</div>`:'');
+
+  // Ripristina scroll se siamo nella stessa view e non c'è un modale aperto
+  if(scrollId && !S.openCard && !S.openInfo && !S.dialog && !S.menuOpen && !S.minionOpen){
+    const el = document.querySelector('.'+scrollId);
+    if(el) el.scrollTop = scrollTop;
+  }
 }
 
 // ── Bottom nav ───────────────────────────────────
@@ -455,10 +468,13 @@ function rBotNav(active){
       <span class="bot-btn-icon">👥</span>Ciurma
     </button>
     ${sess
-      ?`<button class="bot-btn${active==='session'?' active':''}" data-action="goto" data-view="session" style="color:var(--gold);font-weight:700">
+      ?`<button class="bot-btn bot-btn-sess${active==='session'?' active':''}" data-action="goto" data-view="session">
           <span class="bot-btn-icon">⚔️</span>Sessione
         </button>`
       :''}
+    <button class="bot-btn${active==='minion'?' active':''}" data-action="open-minion-nav">
+      <span class="bot-btn-icon">📖</span>Regole
+    </button>
     <button class="bot-btn${active==='settings'?' active':''}" data-action="goto" data-view="settings">
       <span class="bot-btn-icon">⚙️</span>Opzioni
     </button>
@@ -552,7 +568,7 @@ function rBuilder(){
 function rSession(){
   if(!S.session) return rHome();
   const {pool,maxPool}=S.session;
-  return `<div class="view">
+  return `<div class="view sess-view">
   <div class="hdr sess-hdr">
     <div class="pool-wrap">
       <div class="pool-dots">${rDots(pool,maxPool)}</div>
@@ -634,39 +650,39 @@ function rNpcRow(npc, st, exp, ctx){
   </div>`;
 }
 
-// ── Card items (session + consulta) ──────────────
+// ── Card items grid (session + consulta) ─────────
 function rCardItems(npc, readonly=false){
   const cards=npcCards(npc.id), bl=blocked(npc);
   if(!cards.length) return '<div style="padding:10px;font-size:13px;color:var(--muted)">Nessuna carta</div>';
-  return cards.map(card=>{
+  const items = cards.map(card=>{
     const cost=parseInt(card.cost)||1;
     const free=!readonly && isFree(npc,card);
     const used=timesUsed(npc.id,card.title);
     const canAfford=free||(S.session?.pool>=cost);
-    let badge, extra='';
+    let costHtml, extra='';
     if(readonly){
-      badge=`<span class="badge b-c${Math.min(cost,3)}">${cost}pt</span>`;
+      costHtml=`<span class="badge b-c${Math.min(cost,3)}">${cost}pt</span>`;
     } else if(bl){
-      badge=`<span class="badge b-c1">${cost}pt</span>`; extra='locked';
+      costHtml=`<span class="badge b-c1">${cost}pt</span>`; extra='locked';
     } else if(free){
-      badge=`<span class="badge b-free">★ gratis</span>`; extra='star-free';
+      costHtml=`<span class="badge b-free">★</span>`; extra='star-free';
     } else {
-      badge=`<span class="badge b-c${Math.min(cost,3)}">${cost}pt</span>`;
+      costHtml=`<span class="badge b-c${Math.min(cost,3)}">${cost}pt</span>`;
       if(!canAfford) extra='no-pool';
     }
     const isUsed = !readonly && used>0 && !(npc.star&&cost===1);
     const action = readonly ? 'open-card-consulta' : 'open-card';
     return `<div class="card-item${extra?' '+extra:''}${isUsed?' used':''}"
       data-action="${action}" data-npc="${npc.id}" data-card="${enc(card.title)}">
-      <div class="ci-row">
-        <span class="ci-title">${card.title}</span>${badge}
-      </div>
-      <div class="ci-meta">
-        <span class="sp ${gc(card.grade)}">${SI[card.stat]||''} ${card.grade||''}</span>
+      <div class="ci-top">
+        ${costHtml}
         ${isUsed?`<span class="use-cnt">${used}×</span>`:''}
       </div>
+      <div class="ci-title">${card.title}</div>
+      <div class="ci-grade"><span class="sp ${gc(card.grade)}">${SI[card.stat]||''} ${card.grade||''}</span></div>
     </div>`;
   }).join('');
+  return `<div class="cards-grid">${items}</div>`;
 }
 
 function rDots(pool,max){
@@ -877,6 +893,7 @@ document.addEventListener('click',e=>{
     case 'open-menu':            S.menuOpen=true; render(); break;
     case 'close-menu':           S.menuOpen=false; render(); break;
     case 'open-minion':          S.menuOpen=false; S.minionOpen=true; render(); break;
+    case 'open-minion-nav':      S.minionOpen=true; render(); break;
     case 'close-minion':         S.minionOpen=false; render(); break;
     case 'reset-session':        resetSession(); break;
     case 'end-session':          endSession(); break;
