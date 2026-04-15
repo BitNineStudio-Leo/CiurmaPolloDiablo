@@ -1,5 +1,5 @@
-const CACHE = 'ciurma-v1';
-const SHELL = ['./index.html', './manifest.json', './icon.svg'];
+const CACHE = 'ciurma-v6';
+const SHELL = ['./index.html', './app.js', './manifest.json', './icon.svg'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL).catch(() => {})));
@@ -17,17 +17,23 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
-  if (url.hostname.includes('google.com') || url.hostname.includes('googleapis.com')) {
-    e.respondWith(fetch(e.request).catch(() => new Response('', { status: 503 })));
+
+  // Dati esterni (immagini WordPress, GitHub JSON): sempre rete
+  if (!url.hostname.includes(self.location.hostname)) {
+    e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
     return;
   }
+
+  // App shell: network-first, fallback cache
+  // Così gli aggiornamenti vengono presi subito alla prima connessione
   e.respondWith(
-    caches.match(e.request).then(cached => cached || fetch(e.request).then(res => {
+    fetch(e.request).then(res => {
       if (res.ok) {
         const clone = res.clone();
         caches.open(CACHE).then(c => c.put(e.request, clone));
       }
       return res;
-    }))
+    }).catch(() => caches.match(e.request))
   );
 });
+
