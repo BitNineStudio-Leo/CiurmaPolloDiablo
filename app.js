@@ -136,19 +136,19 @@ const BUNDLED_CARDS = [
    desc:'A scelta: crea 4 scheletri obbedienti per 1 ora — oppure infligge 32 danni freddo — oppure drena 24 PF da un bersaglio recuperandoli.',
    rule:'Un solo effetto per attivazione.',
    flavor:'— Quanti ne puoi evocare? — Quanti ne vuoi?', minion:''},
-  {npc_id:'quarantena', title:'Frutto Feel-Feel', cost:1, stat:'furtivita', grade:'A',
-   desc:'Legge le emozioni di un PNG vicino. Rivela tre parole chiave: stato emotivo attuale, intenzione immediata, paura più profonda.',
-   rule:'Il PNG non se ne accorge. Nessun tiro.',
-   flavor:'— Come stai? — [Paura. Orgoglio. Speranza di essere abbracciata.] — Bene, grazie.', minion:''},
+  {npc_id:'quarantena', title:'Frutto Feel-Feel: Indifferenza', cost:2, stat:'magia', grade:'SS',
+   desc:'Un alleato a scelta guadagna +5 a CA e a tutti i tiri salvezza per 1 round. Contemporaneamente, Quarantena diventa immune a qualsiasi danno ed effetto per lo stesso round. Al termine del round, Quarantena viene rimossa dal combattimento anche se non ha subito ferite.',
+   rule:'Entrambi gli effetti sono simultanei e inscindibili. Quarantena esce dal combattimento a fine round indipendentemente dall\'esito.',
+   flavor:'Si siede in mezzo al combattimento. Apre il grimorio. Inizia a scrivere.', minion:''},
+  {npc_id:'quarantena', title:'Frutto Feel-Feel: Musica Deprimente', cost:1, stat:'magia', grade:'A',
+   desc:'Se è attiva musica bardica nelle vicinanze, tutti i neutrali che la sentono beneficiano di Ispirare Grandezza. Allo stesso tempo, qualsiasi incantatore che tenti di lanciare un incantesimo con descrittore Bene o Male deve superare una prova di Concentrazione CD 35 o l\'incantesimo fallisce.',
+   rule:'Entrambi gli effetti si attivano insieme finché dura la musica. Non funziona in assenza di una fonte musicale attiva.',
+   flavor:'A Glokka rimase colpita dalla musica che la spada di Rock sprigionava in battaglia. Non disse niente. Si unì alla ciurma.', minion:''},
   {npc_id:'quarantena', title:'Evoca le ombre', cost:2, stat:'magia', grade:'SS',
    desc:'Evoca 4 Ombre obbedienti per 10 ore. Automaticamente riuscito.',
    rule:'Ogni Ombra conta come minion separato con proprie regole ferite.',
    flavor:'Quattordici anni a comandare la Maradà da sola. Non era mai sola.',
    minion:'Ogni Ombra è un minion indipendente con pf_max 1.'},
-  {npc_id:'quarantena', title:'Dono del Shadow Man', cost:3, stat:'magia', grade:'SS',
-   desc:'Interroga lo spirito di un personaggio morto. Fino a 3 domande. Il defunto risponde veritieramente.',
-   rule:'Il corpo deve essere presente o il luogo di morte noto. 1 volta per sessione.',
-   flavor:'I morti hanno pochi segreti per chi li sa ascoltare.', minion:''},
 
   // ── Ducapollo ──
   {npc_id:'ducapollo', title:'Lancio innato', cost:1, stat:'magia', grade:'S',
@@ -548,16 +548,10 @@ function rBuilder(){
       const st=status(npc);
       return `<div class="npc-tile${sel?' sel':''}" data-action="toggle-npc" data-npc="${npc.id}">
         <div class="tile-img-wrap">
+          <div class="tile-name-ov">${npc.star?'★ ':''}${npc.name}</div>
           ${npc.image_url?`<img src="${npc.image_url}" alt="${npc.name}" onerror="this.style.display='none'">`:''}
           ${!npc.image_url?`<div class="tile-img-ph">${initials(npc.name)}</div>`:''}
-          ${npc.star?'<span class="tile-star-ov">★</span>':''}
           ${sel?'<span class="tile-chk-ov">✓</span>':''}
-        </div>
-        <div class="tile-body">
-          <div class="tile-name">${npc.name}</div>
-          <div class="tile-cls">${npc.classe||''}</div>
-          <div class="tile-stats">${SK.map(k=>`<span class="sp ${gc(npc[k])}">${SI[k]}${npc[k]||'D'}</span>`).join('')}</div>
-          <div class="tile-cnt">CA ${npc.ca||'?'} · ${npcCards(npc.id).length} carte${w?` · ❤ ${w}/${pf}`:''}</div>
         </div>
       </div>`;
     }).join('')}
@@ -617,43 +611,48 @@ function rNpcRow(npc, st, exp, ctx){
     st==='indebolito' ? `<span class="chip chip-indebolito">⚠ Indebolito</span>` :
     st==='fuori'      ? `<span class="chip chip-fuori">✕ Fuori</span>` :
                         `<span class="chip chip-morto">☠ Morto</span>`;
-  const wdots = Array.from({length:pf},(_,i)=>`<span class="wd ${i<w?'wd-on':'wd-off'}"></span>`).join('');
   const fb = initials(npc.name).replace(/'/g,"\\'");
   const toggleAction = ctx==='consulta' ? 'toggle-consulta' : 'toggle-npc';
-  return `<div class="nr-hdr" data-action="${toggleAction}" data-npc="${npc.id}">
-    <div class="nr-avatar">
-      ${npc.image_url
-        ?`<img src="${npc.image_url}" alt="${npc.name}" onerror="this.parentElement.innerHTML='${fb}'">`
-        :initials(npc.name)}
-    </div>
-    <div class="nr-info">
-      <div class="nr-row1">
-        ${npc.star?'<span class="nr-star">★</span>':''}
-        <span class="nr-name">${npc.name}</span>
-        ${chip}
+
+  return `
+    <div class="nr-hdr" data-action="${toggleAction}" data-npc="${npc.id}">
+      <div class="nr-avatar">
+        ${npc.image_url
+          ?`<img src="${npc.image_url}" alt="${npc.name}" onerror="this.parentElement.innerHTML='${fb}'">`
+          :initials(npc.name)}
       </div>
-      <div class="nr-row2">
-        <span class="ca-badge">CA ${npc.ca||'?'}</span>
-        ${rTS(npc)}
+      <div class="nr-info">
+        <div class="nr-row1">
+          ${npc.star?'<span class="nr-star">★</span>':''}
+          <span class="nr-name">${npc.name}</span>
+          ${chip}
+        </div>
+        <div class="nr-row2">
+          <span class="ca-badge">CA ${npc.ca||'?'}</span>
+          ${rTS(npc)}
+        </div>
       </div>
-    </div>
-    <div class="nr-right">
-      <div class="wounds-row">
-        ${wdots}
-        <button class="wd-btn" data-action="add-wound" data-npc="${npc.id}" data-stop>+❤</button>
-      </div>
-      <div class="nr-actions">
+      <div class="nr-right">
         <button class="info-btn" data-action="open-info" data-npc="${npc.id}" data-stop>ℹ</button>
         <span class="nr-arr">${exp?'▲':'▼'}</span>
       </div>
-    </div>
-  </div>`;
+    </div>`;
 }
 
 // ── Card items grid (session + consulta) ─────────
 function rCardItems(npc, readonly=false){
   const cards=npcCards(npc.id), bl=blocked(npc);
-  if(!cards.length) return '<div style="padding:10px;font-size:13px;color:var(--muted)">Nessuna carta</div>';
+  const w=wounds(npc.id), pf=npc.pf_max||1, st=status(npc);
+  const isDead = st==='morto';
+  const wdots = Array.from({length:pf},(_,i)=>
+    `<span class="wd ${i<w?'wd-on':'wd-off'}"></span>`).join('');
+  const woundBar = `<div class="nr-wound-bar">
+    <div class="wounds-row">${wdots}</div>
+    ${!isDead
+      ? `<button class="wd-btn" data-action="add-wound" data-npc="${npc.id}">+ Ferita</button>`
+      : `<span style="font-size:12px;color:var(--muted);padding:0 8px">Morto</span>`}
+  </div>`;
+  if(!cards.length) return woundBar+'<div style="padding:10px;font-size:13px;color:var(--muted)">Nessuna carta</div>';
   const items = cards.map(card=>{
     const cost=parseInt(card.cost)||1;
     const free=!readonly && isFree(npc,card);
@@ -682,7 +681,7 @@ function rCardItems(npc, readonly=false){
       <div class="ci-grade"><span class="sp ${gc(card.grade)}">${SI[card.stat]||''} ${card.grade||''}</span></div>
     </div>`;
   }).join('');
-  return `<div class="cards-grid">${items}</div>`;
+  return woundBar+`<div class="cards-grid">${items}</div>`;
 }
 
 function rDots(pool,max){
@@ -783,15 +782,24 @@ function rInfoModal(){
 // ── Minion Rules ─────────────────────────────────
 function rMinion(){
   const rules=[
-    ['Colpire un minion','Un qualsiasi colpo elimina il minion dalla battaglia e gli infligge 1 ferita.'],
-    ['Punti ferita','PF = 1 base + 1 ogni 5 livelli. A massimo ferite: morte permanente.'],
-    ['Non stellati','1 ferita → fuori combattimento. Carte bloccate.'],
-    ['Stellati ★','1 ferita → Indebolito (carte funzionano). 2 ferite → fuori combattimento.'],
-    ['Morte','Il PNG rimane nel mazzo come "Morto". Resuscitabile manualmente dal DM.'],
-    ['Guarire','Richiede una piccola quest. Il DM rimuove la ferita dal pannello ℹ.'],
-    ['Proteggere','1 punto carta per assorbire una ferita. Vieni Qua lo fa gratis con Scudo Vivente.'],
-    ['Tiri salvezza','Forte: superato auto. Debole: fallito auto. Non esistono altri TS.'],
-    ['Gatto — caos','Il DM tira 1d6 in segreto. Con 1-2 l\'effetto devia imprevedibilmente (vedi regola sulla carta).'],
+    ['Colpire un minion',
+     'Qualsiasi colpo andato a segno elimina il minion dalla battaglia corrente e gli infligge 1 ferita. Non importa l\'entità del danno: anche un colpo minimo è sufficiente.'],
+    ['Punti ferita (PF)',
+     'Ogni minion ha un numero di PF pari a 1 base più 1 ogni 5 livelli. Quando le ferite accumulate raggiungono il massimo, il minion muore in modo permanente e non può essere resuscitato normalmente.'],
+    ['Minion non stellati',
+     'Ricevono 1 ferita → vengono messi fuori combattimento. Le loro carte diventano inaccessibili e la scheda appare in grigio.'],
+    ['Minion stellati ★',
+     'Ricevono 1 ferita → diventano Indeboliti. Le carte funzionano normalmente ma il prossimo colpo li metterà fuori combattimento. Con 2 ferite totali → fuori combattimento.'],
+    ['Fuori combattimento',
+     'Il personaggio non può usare carte né partecipare attivamente al combattimento. Rimane presente in gioco ma inattivo fino a guarigione.'],
+    ['Morte permanente',
+     'Quando le ferite raggiungono il massimo, il personaggio muore. Rimane visibile nel mazzo con lo stato "Morto" come promemoria. Una resurrezione straordinaria è tecnicamente possibile ma richiede circostanze narrative eccezionali.'],
+    ['Guarire una ferita',
+     'Ogni ferita richiede una piccola quest dedicata per essere rimossa. Il DM gestisce la guarigione fuori dall\'app e la registra manualmente nel pannello ℹ del personaggio.'],
+    ['Proteggere un minion',
+     'Un giocatore può dichiarare di interporsi tra un minion e un attacco in arrivo, prima che venga risolto. Il personaggio subisce l\'attacco al posto del minion: tutti i danni e gli effetti si applicano al personaggio che protegge, come se l\'attacco fosse stato diretto a lui. Costa 1 punto carta.'],
+    ['Tiri salvezza',
+     'I minion non tirano i dadi per i TS. Un TS classificato come Forte viene superato automaticamente. Un TS classificato come Debole viene fallito automaticamente. Non esistono altri TS intermedi per i minion.'],
   ];
   return `<div class="mod-ov" data-action="close-minion">
   <div class="mod-sheet" data-stop>
