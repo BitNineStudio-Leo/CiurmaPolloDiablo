@@ -1,0 +1,13 @@
+{
+  "name": "Ciurma del Pollo Diablo",
+  "short_name": "Ciurma",
+  "description": "Gestisci mazzi PNG e pool per le sessioni di gioco",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0d0b07",
+  "theme_color": "#1c1712",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
