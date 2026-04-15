@@ -444,129 +444,92 @@ function render(){
     (S.toast?`<div class="toast${S.toast.err?' toast-err':''}">${S.toast.msg}</div>`:'');
 }
 
+// ── Bottom nav ───────────────────────────────────
+function rBotNav(active){
+  const sess = S.session;
+  return `<nav class="bot-nav">
+    <button class="bot-btn${active==='home'?' active':''}" data-action="goto" data-view="home">
+      <span class="bot-btn-icon">🏠</span>Home
+    </button>
+    <button class="bot-btn${active==='consulta'?' active':''}" data-action="goto" data-view="consulta">
+      <span class="bot-btn-icon">👥</span>Ciurma
+    </button>
+    ${sess
+      ?`<button class="bot-btn${active==='session'?' active':''}" data-action="goto" data-view="session" style="color:var(--gold);font-weight:700">
+          <span class="bot-btn-icon">⚔️</span>Sessione
+        </button>`
+      :''}
+    <button class="bot-btn${active==='settings'?' active':''}" data-action="goto" data-view="settings">
+      <span class="bot-btn-icon">⚙️</span>Opzioni
+    </button>
+  </nav>`;
+}
+
 // ── Home ────────────────────────────────────────
 function rHome(){
-  const deckTxt=S.deck.length?S.deck.map(id=>npcById(id)?.name||id).join(', '):'Nessun PNG selezionato';
-  const syncTxt=S.syncTime?new Date(S.syncTime).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'Mai (dati integrati)';
+  const deckTxt = S.deck.length
+    ? S.deck.map(id=>npcById(id)?.name||id).join(', ')
+    : 'Nessun PNG nel mazzo';
+  const syncTxt = S.syncTime
+    ? new Date(S.syncTime).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})
+    : 'Mai';
+
   return `<div class="view">
-  <div class="hdr"><span class="logo">⚓ Ciurma</span>
-    <button class="ico-btn" data-action="goto" data-view="settings">⚙️</button></div>
+  <div class="hdr">
+    <span class="logo">⚓ Pollo Diablo</span>
+  </div>
   <div class="scroll-body">
     ${S.loading?'<div class="loading">Sincronizzazione...</div>':''}
     ${S.error?`<div class="err-banner">⚠ ${S.error}</div>`:''}
-    <div class="home-card">
-      <div class="hc-lbl">Dati</div>
-      <div class="hc-val">${S.npcs.length} PNG · ${S.cards.length} carte</div>
-      <div class="hc-sub">Sync: ${syncTxt}</div>
-      ${S.rawUrl
-        ?`<button class="sm-btn" data-action="sync">🔄 Sincronizza GitHub</button>`
-        :`<button class="sm-btn" data-action="goto" data-view="settings">⚙ Collega GitHub JSON</button>`}
+
+    <div class="home-hero">
+      <div class="home-row">
+        <span class="home-label">Mazzo attivo</span>
+        <span class="home-val">${S.deck.length ? S.deck.length+' PNG' : '—'}</span>
+      </div>
+      <div class="home-sub" title="${deckTxt}">${deckTxt}</div>
+      <div class="home-actions">
+        <button class="sm-btn" data-action="open-builder">✏️ Modifica mazzo</button>
+        <button class="sm-btn" data-action="goto" data-view="consulta">👥 Consulta ciurma</button>
+      </div>
     </div>
-    <div class="home-card">
-      <div class="hc-lbl">Mazzo</div>
-      <div class="hc-val">${S.deck.length?S.deck.length+' PNG':'—'}</div>
-      <div class="hc-sub" title="${deckTxt}">${deckTxt}</div>
-      <button class="sm-btn" data-action="open-builder">✏ Modifica mazzo</button>
-    </div>
-    ${S.deck.length?`
+
+    ${S.deck.length ? `
     <div class="pool-cfg">
-      <label>Pool punti per sessione</label>
+      <div class="pool-cfg-label">Pool punti per sessione</div>
       <div class="stepper-row">
         <button class="step-btn" data-action="adj-max" data-d="-1">−</button>
         <span class="stepper-val">${S.maxPool}</span>
         <button class="step-btn" data-action="adj-max" data-d="1">+</button>
       </div>
     </div>
-    <button class="btn btn-g btn-lg" data-action="start-session">⚔ Inizia sessione</button>`
-    :`<p class="hint-txt">Costruisci un mazzo per iniziare una sessione.</p>`}
+    <button class="btn btn-g btn-lg" data-action="start-session">⚔ Inizia sessione</button>
+    ` : `<p class="hint-txt">Aggiungi PNG al mazzo per iniziare.</p>`}
+
+    <div class="sync-strip">
+      <span>Sync: ${syncTxt} · ${S.npcs.length} PNG · ${S.cards.length} carte</span>
+      ${S.rawUrl
+        ?`<button class="sm-btn" style="margin:0;padding:5px 10px" data-action="sync">🔄</button>`
+        :`<button class="sm-btn" style="margin:0;padding:5px 10px" data-action="goto" data-view="settings">Configura</button>`}
+    </div>
   </div>
   ${rBotNav('home')}</div>`;
 }
 
-// ── Bottom Nav ───────────────────────────────────
-function rBotNav(active){
-  return `<nav class="bot-nav">
-    <button class="bot-btn${active==='home'?' active':''}" data-action="goto" data-view="home">
-      <span class="bot-btn-icon">⚓</span>Home
-    </button>
-    <button class="bot-btn${active==='consulta'?' active':''}" data-action="goto" data-view="consulta">
-      <span class="bot-btn-icon">📖</span>Ciurma
-    </button>
-    <button class="bot-btn${active==='settings'?' active':''}" data-action="goto" data-view="settings">
-      <span class="bot-btn-icon">⚙️</span>Impostazioni
-    </button>
-  </nav>`;
-}
-
-// ── Consulta ─────────────────────────────────────
-function rConsulta(){
-  return `<div class="view">
-  <div class="hdr"><span class="hdr-title">⚓ Ciurma</span></div>
-  <div class="consulta-list">
-    ${S.npcs.map(npc=>{
-      const exp=S.consultaExp[npc.id];
-      const cards=npcCards(npc.id);
-      const w=wounds(npc.id), pf=npc.pf_max||1;
-      const st=status(npc);
-      const chip=st==='sano'?'':
-        st==='indebolito'?`<span class="chip chip-indebolito">⚠</span>`:
-        st==='fuori'?`<span class="chip chip-fuori">✕</span>`:
-        `<span class="chip chip-morto">☠</span>`;
-      const tsF=(npc.ts_forte||[]).map(t=>`<span class="ts-pill ts-forte">${t}✓</span>`).join('');
-      const tsD=(npc.ts_debole||[]).map(t=>`<span class="ts-pill ts-debole">${t}✕</span>`).join('');
-      const fb=initials(npc.name).replace(/'/g,"\\'");
-      return `<div class="cn-npc">
-        <div class="cn-hdr" data-action="toggle-consulta" data-npc="${npc.id}">
-          <div class="cn-avatar">
-            ${npc.image_url
-              ?`<img src="${npc.image_url}" alt="${npc.name}" onerror="this.parentElement.innerHTML='${fb}'">`
-              :initials(npc.name)}
-          </div>
-          <div class="cn-info">
-            <div class="cn-row1">
-              ${npc.star?'<span class="cn-star">★</span>':''}
-              <span class="cn-name">${npc.name}</span>
-              ${chip}
-            </div>
-            <div class="cn-row2">
-              <span class="ca-badge">CA ${npc.ca||'?'}</span>
-              ${rTS(npc)}
-            </div>
-          </div>
-          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0">
-            <button class="info-btn" data-action="open-info" data-npc="${npc.id}" data-stop>ℹ</button>
-            <span class="sn-arr">${exp?'▲':'▼'}</span>
-          </div>
-        </div>
-        ${exp?`<div class="cn-cards">
-          ${cards.map(card=>`
-            <div class="cn-card" data-action="open-card-consulta" data-npc="${npc.id}" data-card="${enc(card.title)}">
-              <div class="cn-card-row">
-                <span class="cn-card-title">${card.title}</span>
-                <span class="badge b-c${Math.min(parseInt(card.cost)||1,3)}">${card.cost}pt</span>
-              </div>
-              <span class="sp ${gc(card.grade)}">${SI[card.stat]||''} ${card.grade||''}</span>
-            </div>`).join('')}
-        </div>`:''}
-      </div>`;
-    }).join('')}
-  </div>
-  ${rBotNav('consulta')}</div>`;
-}
-
-
+// ── Builder ─────────────────────────────────────
 function rBuilder(){
   const bd=S.builderDeck||[];
   return `<div class="view">
   <div class="hdr">
     <button class="ico-btn" data-action="cancel-builder">←</button>
-    <span class="hdr-title">Mazzo</span>
-    <button class="confirm-btn" data-action="confirm-builder">✓ Salva</button>
+    <span class="hdr-title">Modifica mazzo</span>
+    <button class="confirm-btn" data-action="confirm-builder">✓ Salva (${bd.length})</button>
   </div>
-  <div class="bldr-sub">${bd.length} PNG selezionati</div>
+  <div class="bldr-sub">Tocca un PNG per aggiungerlo o rimuoverlo</div>
   <div class="npc-grid">
     ${S.npcs.map(npc=>{
       const sel=bd.includes(npc.id), w=wounds(npc.id), pf=npc.pf_max||1;
+      const st=status(npc);
       return `<div class="npc-tile${sel?' sel':''}" data-action="toggle-npc" data-npc="${npc.id}">
         <div class="tile-img-wrap">
           ${npc.image_url?`<img src="${npc.image_url}" alt="${npc.name}" onerror="this.style.display='none'">`:''}
@@ -578,7 +541,7 @@ function rBuilder(){
           <div class="tile-name">${npc.name}</div>
           <div class="tile-cls">${npc.classe||''}</div>
           <div class="tile-stats">${SK.map(k=>`<span class="sp ${gc(npc[k])}">${SI[k]}${npc[k]||'D'}</span>`).join('')}</div>
-          <div class="tile-cnt">CA ${npc.ca||'?'} · ${npcCards(npc.id).length} carte · ❤ ${w}/${pf}</div>
+          <div class="tile-cnt">CA ${npc.ca||'?'} · ${npcCards(npc.id).length} carte${w?` · ❤ ${w}/${pf}`:''}</div>
         </div>
       </div>`;
     }).join('')}
@@ -596,91 +559,119 @@ function rSession(){
       <div class="pool-txt">${pool} / ${maxPool} pt</div>
     </div>
     <div class="pool-ctrl">
-      <button class="step-btn" style="width:30px;height:30px;font-size:18px" data-action="adj-pool" data-d="-1">−</button>
-      <button class="step-btn" style="width:30px;height:30px;font-size:18px" data-action="adj-pool" data-d="1">+</button>
+      <button class="step-btn" style="width:32px;height:32px;font-size:18px" data-action="adj-pool" data-d="-1">−</button>
+      <button class="step-btn" style="width:32px;height:32px;font-size:18px" data-action="adj-pool" data-d="1">+</button>
       <button class="end-btn" data-action="end-session">Fine</button>
       <button class="ico-btn" data-action="open-menu">⋮</button>
     </div>
   </div>
-  <div class="sess-list">
+  <div class="npc-list">
     ${S.deck.map(id=>{
       const npc=npcById(id); if(!npc) return '';
       const st=status(npc), exp=S.expanded[id];
-      return `<div class="sess-npc ${st}">
-        ${rNpcHdr(npc,st,exp)}
-        ${exp?`<div class="sess-cards">${rNpcCards(npc)}</div>`:''}
+      return `<div class="npc-row ${st}">
+        ${rNpcRow(npc, st, exp, 'session')}
+        ${exp ? `<div class="cards-panel">${rCardItems(npc)}</div>` : ''}
       </div>`;
     }).join('')}
-  </div></div>`;
+  </div>
+  ${rBotNav('session')}</div>`;
 }
 
-function rDots(pool,max){
-  if(max>12) return `<span class="pool-big">${pool}</span>`;
-  return Array.from({length:max},(_,i)=>`<span class="pd ${i<pool?'pd-on':'pd-off'}"></span>`).join('');
+// ── Consulta ─────────────────────────────────────
+function rConsulta(){
+  return `<div class="view">
+  <div class="hdr"><span class="hdr-title">Ciurma del Pollo Diablo</span></div>
+  <div class="npc-list">
+    ${S.npcs.map(npc=>{
+      const exp=S.consultaExp[npc.id], st=status(npc);
+      return `<div class="npc-row ${st}">
+        ${rNpcRow(npc, st, exp, 'consulta')}
+        ${exp ? `<div class="cards-panel">${rCardItems(npc, true)}</div>` : ''}
+      </div>`;
+    }).join('')}
+  </div>
+  ${rBotNav('consulta')}</div>`;
 }
 
-function rNpcHdr(npc,st,exp){
+// ── Shared NPC row (session + consulta) ──────────
+function rNpcRow(npc, st, exp, ctx){
   const w=wounds(npc.id), pf=npc.pf_max||1;
-  const chip=st==='sano'?'':
-    st==='indebolito'?`<span class="chip chip-indebolito">⚠ Indebolito</span>`:
-    st==='fuori'?`<span class="chip chip-fuori">✕ Fuori</span>`:
-    `<span class="chip chip-morto">☠ Morto</span>`;
-  const tsF=(npc.ts_forte||[]).map(t=>`<span class="ts-pill ts-forte">${t}✓</span>`).join('');
-  const tsD=(npc.ts_debole||[]).map(t=>`<span class="ts-pill ts-debole">${t}✕</span>`).join('');
-  const wdots=Array.from({length:pf},(_,i)=>`<span class="wd ${i<w?'wd-on':'wd-off'}"></span>`).join('');
-  const fb=initials(npc.name).replace(/'/g,"\\'");
-  return `<div class="sn-hdr" data-action="toggle-npc" data-npc="${npc.id}">
-    <div class="sn-avatar">
+  const chip = st==='sano'  ? '' :
+    st==='indebolito' ? `<span class="chip chip-indebolito">⚠ Indebolito</span>` :
+    st==='fuori'      ? `<span class="chip chip-fuori">✕ Fuori</span>` :
+                        `<span class="chip chip-morto">☠ Morto</span>`;
+  const wdots = Array.from({length:pf},(_,i)=>`<span class="wd ${i<w?'wd-on':'wd-off'}"></span>`).join('');
+  const fb = initials(npc.name).replace(/'/g,"\\'");
+  const toggleAction = ctx==='consulta' ? 'toggle-consulta' : 'toggle-npc';
+  return `<div class="nr-hdr" data-action="${toggleAction}" data-npc="${npc.id}">
+    <div class="nr-avatar">
       ${npc.image_url
         ?`<img src="${npc.image_url}" alt="${npc.name}" onerror="this.parentElement.innerHTML='${fb}'">`
         :initials(npc.name)}
     </div>
-    <div class="sn-info">
-      <div class="sn-row1">
-        ${npc.star?'<span class="sn-star">★</span>':''}
-        <span class="sn-name">${npc.name}</span>
+    <div class="nr-info">
+      <div class="nr-row1">
+        ${npc.star?'<span class="nr-star">★</span>':''}
+        <span class="nr-name">${npc.name}</span>
         ${chip}
       </div>
-      <div class="sn-row2">
+      <div class="nr-row2">
         <span class="ca-badge">CA ${npc.ca||'?'}</span>
         ${rTS(npc)}
       </div>
     </div>
-    <div class="sn-right">
+    <div class="nr-right">
       <div class="wounds-row">
         ${wdots}
         <button class="wd-btn" data-action="add-wound" data-npc="${npc.id}" data-stop>+❤</button>
       </div>
-      <div class="sn-bottom">
+      <div class="nr-actions">
         <button class="info-btn" data-action="open-info" data-npc="${npc.id}" data-stop>ℹ</button>
-        <span class="sn-arr">${exp?'▲':'▼'}</span>
+        <span class="nr-arr">${exp?'▲':'▼'}</span>
       </div>
     </div>
   </div>`;
 }
 
-function rNpcCards(npc){
+// ── Card items (session + consulta) ──────────────
+function rCardItems(npc, readonly=false){
   const cards=npcCards(npc.id), bl=blocked(npc);
-  if(!cards.length) return '<div style="padding:8px;font-size:13px;color:var(--muted)">Nessuna carta</div>';
+  if(!cards.length) return '<div style="padding:10px;font-size:13px;color:var(--muted)">Nessuna carta</div>';
   return cards.map(card=>{
-    const cost=parseInt(card.cost)||1, free=isFree(npc,card), used=timesUsed(npc.id,card.title);
-    const canAfford=free||(S.session.pool>=cost);
-    let badge,extra='';
-    if(bl){badge=`<span class="badge b-c1">${cost}pt</span>`;extra='locked';}
-    else if(free){badge=`<span class="badge b-free">★ gratis</span>`;extra='star-free';}
-    else{badge=`<span class="badge b-c${Math.min(cost,3)}">${cost}pt</span>`;if(!canAfford)extra='no-pool';}
-    const isUsed=used>0&&!(npc.star&&cost===1);
-    return `<div class="sc${extra?' '+extra:''}${isUsed&&!bl?' used-card':''}"
-      data-action="open-card" data-npc="${npc.id}" data-card="${enc(card.title)}">
-      <div class="sc-row">
-        <span class="sc-title">${card.title}</span>${badge}
+    const cost=parseInt(card.cost)||1;
+    const free=!readonly && isFree(npc,card);
+    const used=timesUsed(npc.id,card.title);
+    const canAfford=free||(S.session?.pool>=cost);
+    let badge, extra='';
+    if(readonly){
+      badge=`<span class="badge b-c${Math.min(cost,3)}">${cost}pt</span>`;
+    } else if(bl){
+      badge=`<span class="badge b-c1">${cost}pt</span>`; extra='locked';
+    } else if(free){
+      badge=`<span class="badge b-free">★ gratis</span>`; extra='star-free';
+    } else {
+      badge=`<span class="badge b-c${Math.min(cost,3)}">${cost}pt</span>`;
+      if(!canAfford) extra='no-pool';
+    }
+    const isUsed = !readonly && used>0 && !(npc.star&&cost===1);
+    const action = readonly ? 'open-card-consulta' : 'open-card';
+    return `<div class="card-item${extra?' '+extra:''}${isUsed?' used':''}"
+      data-action="${action}" data-npc="${npc.id}" data-card="${enc(card.title)}">
+      <div class="ci-row">
+        <span class="ci-title">${card.title}</span>${badge}
       </div>
-      <div class="sc-meta">
+      <div class="ci-meta">
         <span class="sp ${gc(card.grade)}">${SI[card.stat]||''} ${card.grade||''}</span>
-        ${used&&!bl?`<span class="use-cnt">${used}× usata</span>`:''}
+        ${isUsed?`<span class="use-cnt">${used}×</span>`:''}
       </div>
     </div>`;
   }).join('');
+}
+
+function rDots(pool,max){
+  if(max>12) return `<span class="pool-big">${pool}</span>`;
+  return Array.from({length:max},(_,i)=>`<span class="pd ${i<pool?'pd-on':'pd-off'}"></span>`).join('');
 }
 
 // ── Card Modal ──────────────────────────────────
@@ -690,26 +681,33 @@ function rCardModal(){
   if(!npc||!card) return '';
   const cost=parseInt(card.cost)||1, free=isFree(npc,card), eff=effCost(npc,card);
   const canAfford=free||(S.session?.pool>=cost), used=timesUsed(npcId,cardTitle), bl=blocked(npc);
+  const inSession=!!S.session;
   return `<div class="mod-ov" data-action="close-modal">
-  <div class="mod-card" data-stop>
-    ${npc.image_url
-        ?`<div class="mod-img-wrap"><img class="mod-img" src="${npc.image_url}" alt="${npc.name}"></div>`
-        :`<div class="mod-img-wrap"><div class="mod-img-ph">${initials(npc.name)}</div></div>`}
+  <div class="mod-sheet" data-stop>
+    <div class="mod-img-wrap">
+      ${npc.image_url
+        ?`<img class="mod-img" src="${npc.image_url}" alt="${npc.name}">`
+        :`<div class="mod-img-ph">${initials(npc.name)}</div>`}
+    </div>
     <div class="mod-body">
       <div class="mod-npc">${npc.name}${npc.star?' ★':''}</div>
       <div class="mod-title">${card.title}</div>
-      <div class="mod-stat">
+      <div class="mod-meta">
         <span class="sp ${gc(card.grade)}">${SI[card.stat]||''} ${card.grade||''}</span>
-        ${bl?'<span style="font-size:12px;color:var(--red2)">PNG fuori combattimento</span>':
-          free?'<span class="mod-free-lg">★ Prima attivazione gratuita</span>':
-          `<span class="mod-cost">${eff}pt</span>`}
+        ${!inSession
+          ? `<span class="mod-readonly">Sola lettura</span>`
+          : bl
+            ? `<span style="font-size:12px;color:var(--red2)">PNG fuori combattimento</span>`
+            : free
+              ? `<span class="mod-free">★ Prima attivazione gratuita</span>`
+              : `<span class="mod-cost">${eff}pt</span>`}
       </div>
       <div class="mod-desc">${card.desc||''}</div>
       ${card.rule?`<div class="mod-rule">${card.rule}</div>`:''}
       ${card.flavor?`<div class="mod-flavor">"${card.flavor}"</div>`:''}
       ${card.minion?`<div class="mod-minion">⚓ ${card.minion}</div>`:''}
       <div class="mod-actions">
-        ${S.session&&!bl?`
+        ${inSession&&!bl?`
           <button class="btn btn-g${canAfford?'':' btn-dis'}" data-action="play-card" data-npc="${npcId}" data-card="${enc(cardTitle)}">
             ${free?'★ Attiva gratis':`Gioca (${eff}pt)`}
           </button>
@@ -727,10 +725,12 @@ function rInfoModal(){
   const w=wounds(npc.id), pf=npc.pf_max||1, st=status(npc);
   const stLabel={sano:'🟢 Sano',indebolito:'🟡 Indebolito',fuori:'🔴 Fuori combattimento',morto:'☠️ Morto'}[st];
   return `<div class="mod-ov" data-action="close-info">
-  <div class="mod-card" data-stop>
-    ${npc.image_url
-        ?`<div class="info-img-wrap"><img class="info-img" src="${npc.image_url}" alt="${npc.name}"></div>`
-        :`<div class="info-img-wrap"><div class="info-img-ph">${initials(npc.name)}</div></div>`}
+  <div class="mod-sheet" data-stop>
+    <div class="info-img-wrap">
+      ${npc.image_url
+        ?`<img class="info-img" src="${npc.image_url}" alt="${npc.name}">`
+        :`<div class="info-img-ph">${initials(npc.name)}</div>`}
+    </div>
     <div class="info-body">
       <div class="info-name">${npc.star?'★ ':''}${npc.name}</div>
       <div class="info-cls">${npc.classe||''}</div>
@@ -740,9 +740,7 @@ function rInfoModal(){
       </div>
       <div class="info-section">
         <div class="info-lbl">Tiri Salvezza</div>
-        <div style="display:flex;gap:6px;flex-wrap:wrap">
-          ${rTS(npc, true)}
-        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">${rTS(npc,true)}</div>
       </div>
       <div class="info-section">
         <div class="info-lbl">Ferite — ${w}/${pf}</div>
@@ -757,7 +755,7 @@ function rInfoModal(){
       <div class="info-stat-grid">
         ${SK.map(k=>`<div class="info-stat">
           <span class="info-stat-icon">${SI[k]}</span>
-          <div class="info-stat-grade ${gc(npc[k])}">${npc[k]||'D'}</div>
+          <span class="info-stat-grade ${gc(npc[k])}">${npc[k]||'D'}</span>
           <span class="info-stat-name">${SN[k]}</span>
         </div>`).join('')}
       </div>
@@ -770,17 +768,17 @@ function rInfoModal(){
 function rMinion(){
   const rules=[
     ['Colpire un minion','Un qualsiasi colpo elimina il minion dalla battaglia e gli infligge 1 ferita.'],
-    ['Punti ferita','PF = 1 base + 1 ogni 5 livelli. Quando le ferite raggiungono il massimo, il minion muore permanentemente.'],
-    ['PNG non stellati','1 ferita → fuori combattimento. Carte bloccate, scheda grigia.'],
-    ['PNG stellati ★','1 ferita → Indebolito (avviso visivo, carte funzionano normalmente). 2 ferite → fuori combattimento.'],
-    ['Morte permanente','ferite = pf_max → morte. Il PNG rimane visibile nel mazzo. Resuscitabile manualmente dal DM.'],
-    ['Guarire una ferita','Richiede una piccola quest dedicata. Il DM rimuove la ferita manualmente tramite il pannello ℹ.'],
-    ['Proteggere il minion','1 punto carta per assorbire una ferita al posto del minion. Vieni Qua lo fa gratis con Scudo Vivente.'],
-    ['Tiri salvezza','Forte: superato automaticamente. Debole: fallito automaticamente. Non esistono altri TS per i minion.'],
-    ['Gatto — meccanica caos','Il DM tira 1d6 in segreto prima di ogni carta di Gatto. Con 1-2 l\'effetto prende una piega imprevedibile descritta nella carta. Con 3-6 funziona normalmente.'],
+    ['Punti ferita','PF = 1 base + 1 ogni 5 livelli. A massimo ferite: morte permanente.'],
+    ['Non stellati','1 ferita → fuori combattimento. Carte bloccate.'],
+    ['Stellati ★','1 ferita → Indebolito (carte funzionano). 2 ferite → fuori combattimento.'],
+    ['Morte','Il PNG rimane nel mazzo come "Morto". Resuscitabile manualmente dal DM.'],
+    ['Guarire','Richiede una piccola quest. Il DM rimuove la ferita dal pannello ℹ.'],
+    ['Proteggere','1 punto carta per assorbire una ferita. Vieni Qua lo fa gratis con Scudo Vivente.'],
+    ['Tiri salvezza','Forte: superato auto. Debole: fallito auto. Non esistono altri TS.'],
+    ['Gatto — caos','Il DM tira 1d6 in segreto. Con 1-2 l\'effetto devia imprevedibilmente (vedi regola sulla carta).'],
   ];
   return `<div class="mod-ov" data-action="close-minion">
-  <div class="mod-card" data-stop>
+  <div class="mod-sheet" data-stop>
     <div class="minion-body">
       <div class="minion-title">⚓ Regole Minion</div>
       ${rules.map(([t,b])=>`<div class="mr"><div class="mr-t">${t}</div><div class="mr-b">${b}</div></div>`).join('')}
@@ -789,7 +787,7 @@ function rMinion(){
   </div></div>`;
 }
 
-// ── Menu ─────────────────────────────────────────
+// ── Session Menu ──────────────────────────────────
 function rMenu(){
   return `<div class="overlay" data-action="close-menu">
   <div class="menu-sheet" data-stop>
@@ -820,10 +818,7 @@ function rDialog(){
 function rSettings(){
   const syncTxt=S.syncTime?new Date(S.syncTime).toLocaleString('it-IT'):'—';
   return `<div class="view">
-  <div class="hdr">
-    <button class="ico-btn" data-action="goto" data-view="home">←</button>
-    <span class="hdr-title">Impostazioni</span>
-  </div>
+  <div class="hdr"><span class="hdr-title">⚙️ Impostazioni</span></div>
   <div class="settings-body">
     <div class="fld">
       <label>URL GitHub raw (data.json)</label>
@@ -846,7 +841,7 @@ function rSettings(){
       <code>id · name · star · classe · image_url · ca · pf_max · ts_forte · ts_debole · combat · magia · nav · tech · cura · furtivita</code>
       <strong>Campi carta</strong>
       <code>npc_id · title · cost · stat · grade · desc · rule · flavor · minion</code>
-      ts_forte / ts_debole sono array JSON: ["Tempra","Riflessi"]
+      ts_forte / ts_debole: array JSON come ["Tempra","Riflessi"]
     </div>
   </div>
   ${rBotNav('settings')}</div>`;
@@ -873,34 +868,34 @@ document.addEventListener('click',e=>{
         i>=0?bd.splice(i,1):bd.push(npc); S.builderDeck=[...bd]; render();
       }else{ S.expanded[npc]=!S.expanded[npc]; render(); }
       break;
-    case 'toggle-consulta': S.consultaExp[npc]=!S.consultaExp[npc]; render(); break;
-    case 'open-card-consulta': S.openCard={npcId:npc,cardTitle:dec(card)}; render(); break;
-    case 'adj-max':          adjMax(parseInt(d)); break;
-    case 'start-session':    if(S.deck.length) startSession(); break;
-    case 'adj-pool':         adjPool(parseInt(d)); break;
-    case 'open-menu':        S.menuOpen=true; render(); break;
-    case 'close-menu':       S.menuOpen=false; render(); break;
-    case 'open-minion':      S.menuOpen=false; S.minionOpen=true; render(); break;
-    case 'close-minion':     S.minionOpen=false; render(); break;
-    case 'reset-session':    resetSession(); break;
-    case 'end-session':      endSession(); break;
+    case 'toggle-consulta':      S.consultaExp[npc]=!S.consultaExp[npc]; render(); break;
+    case 'open-card':
+    case 'open-card-consulta':   S.openCard={npcId:npc,cardTitle:dec(card)}; render(); break;
+    case 'adj-max':              adjMax(parseInt(d)); break;
+    case 'start-session':        if(S.deck.length) startSession(); break;
+    case 'adj-pool':             adjPool(parseInt(d)); break;
+    case 'open-menu':            S.menuOpen=true; render(); break;
+    case 'close-menu':           S.menuOpen=false; render(); break;
+    case 'open-minion':          S.menuOpen=false; S.minionOpen=true; render(); break;
+    case 'close-minion':         S.minionOpen=false; render(); break;
+    case 'reset-session':        resetSession(); break;
+    case 'end-session':          endSession(); break;
     case 'do-end':
       S.dialog=null; S.session=null; LS.s('session',null); S.view='home'; render(); break;
     case 'do-reset':
       S.dialog=null;
       if(S.session){S.session.used={}; S.session.pool=S.session.maxPool; LS.s('session',S.session);}
       render(); break;
-    case 'close-dialog':     S.dialog=null; render(); break;
-    case 'open-card':        S.openCard={npcId:npc,cardTitle:dec(card)}; render(); break;
-    case 'close-modal':      S.openCard=null; render(); break;
-    case 'play-card':        playCard(npc,dec(card)); break;
-    case 'undo-card':        undoCard(npc,dec(card)); break;
+    case 'close-dialog':         S.dialog=null; render(); break;
+    case 'close-modal':          S.openCard=null; render(); break;
+    case 'play-card':            playCard(npc,dec(card)); break;
+    case 'undo-card':            undoCard(npc,dec(card)); break;
     case 'add-wound':
-    case 'add-wound-info':   addWound(npc); break;
-    case 'remove-wound-info':removeWound(npc); break;
-    case 'open-info':        S.openInfo=npc; render(); break;
-    case 'close-info':       S.openInfo=null; render(); break;
-    case 'save-url':         saveUrl(); break;
+    case 'add-wound-info':       addWound(npc); break;
+    case 'remove-wound-info':    removeWound(npc); break;
+    case 'open-info':            S.openInfo=npc; render(); break;
+    case 'close-info':           S.openInfo=null; render(); break;
+    case 'save-url':             saveUrl(); break;
     case 'clear-data':
       S.dialog={title:'Ripristina dati',msg:'I dati GitHub verranno rimossi e si tornerà ai dati integrati.',confirmLabel:'Ripristina',danger:true,confirmAction:'do-clear'};
       render(); break;
@@ -927,4 +922,6 @@ function saveUrl(){
 // INIT
 // ══════════════════════════════════════════════════
 if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+// Se c'è una sessione attiva al caricamento, va direttamente in sessione
+if(S.session) S.view='session';
 render();
