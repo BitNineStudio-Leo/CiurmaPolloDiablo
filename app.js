@@ -588,16 +588,66 @@ function rSession(){
   ${rBotNav('session')}</div>`;
 }
 
-// ── Consulta ─────────────────────────────────────
+// ── Consulta — Almanacco ─────────────────────────
 function rConsulta(){
   return `<div class="view">
   <div class="hdr"><span class="hdr-title">Ciurma del Pollo Diablo</span></div>
-  <div class="npc-list">
+  <div class="almanac">
     ${S.npcs.map(npc=>{
-      const exp=S.consultaExp[npc.id], st=status(npc);
-      return `<div class="npc-row ${st}">
-        ${rNpcRow(npc, st, exp, 'consulta')}
-        ${exp ? `<div class="cards-panel">${rCardItems(npc, true)}</div>` : ''}
+      const exp = S.consultaExp[npc.id];
+      const cards = npcCards(npc.id);
+      const w = wounds(npc.id), pf = npc.pf_max||1;
+      const st = status(npc);
+      const wdots = Array.from({length:pf},(_,i)=>
+        `<span class="wd ${i<w?'wd-on':'wd-off'}"></span>`).join('');
+      const statusChip = st==='sano' ? '' :
+        st==='indebolito' ? `<span class="chip chip-indebolito">⚠ Indebolito</span>` :
+        st==='fuori'      ? `<span class="chip chip-fuori">✕ Fuori</span>` :
+                            `<span class="chip chip-morto">☠ Morto</span>`;
+
+      return `<div class="alm-card${exp?' alm-open':''}">
+        <div class="alm-top">
+          <div class="alm-photo-wrap">
+            <div class="alm-photo-ph">${initials(npc.name)}</div>
+            ${npc.image_url
+              ? `<img class="alm-photo" src="${npc.image_url}" alt="${npc.name}"
+                  style="display:none"
+                  onload="this.style.display='block';this.previousElementSibling.style.display='none'"
+                  onerror="this.style.display='none'">`
+              : ''}
+          </div>
+          <div class="alm-info">
+            <div class="alm-name-row">
+              ${npc.star?'<span class="alm-star">★</span>':''}
+              <span class="alm-name">${npc.name}</span>
+              ${statusChip}
+            </div>
+            <div class="alm-classe">${npc.classe||''}</div>
+            <div class="alm-stats">
+              <span class="ca-badge">CA ${npc.ca||'?'}</span>
+              ${rTS(npc)}
+            </div>
+            <div class="alm-grades">
+              ${SK.map(k=>`<span class="sp ${gc(npc[k])}">${SI[k]}${npc[k]||'D'}</span>`).join('')}
+            </div>
+            <div class="alm-wounds-row">
+              ${wdots}
+            </div>
+          </div>
+        </div>
+        <button class="alm-cards-btn" data-action="toggle-consulta" data-npc="${npc.id}">
+          ${exp ? '▲ Nascondi carte' : `▼ Carte (${cards.length})`}
+        </button>
+        ${exp ? `<div class="alm-cards-drawer">
+          ${cards.map(card=>`
+            <div class="alm-card-row" data-action="open-card-consulta" data-npc="${npc.id}" data-card="${enc(card.title)}">
+              <span class="alm-card-title">${card.title}</span>
+              <div class="alm-card-right">
+                <span class="sp ${gc(card.grade)}">${SI[card.stat]||''} ${card.grade||''}</span>
+                <span class="badge b-c${Math.min(parseInt(card.cost)||1,3)}">${card.cost}pt</span>
+              </div>
+            </div>`).join('')}
+        </div>` : ''}
       </div>`;
     }).join('')}
   </div>

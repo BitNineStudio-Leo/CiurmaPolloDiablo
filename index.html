@@ -156,6 +156,30 @@ body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSys
 .ci-meta{display:flex;align-items:center;gap:8px}
 .use-cnt{font-size:10px;color:var(--muted)}
 
+/* ── Almanacco (tab Ciurma) ── */
+.almanac{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:10px;display:flex;flex-direction:column;gap:8px}
+.alm-card{background:var(--surf);border:1px solid var(--bord);border-radius:var(--r);overflow:hidden}
+.alm-open{border-color:var(--bord2)}
+.alm-top{display:flex;align-items:stretch}
+.alm-photo-wrap{width:90px;min-width:90px;min-height:90px;background:var(--surf2);flex-shrink:0;position:relative;overflow:hidden;align-self:stretch}
+.alm-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.alm-photo-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:28px;font-family:Georgia,serif;color:var(--muted2)}
+.alm-info{flex:1;padding:10px 12px;display:flex;flex-direction:column;gap:5px;min-width:0}
+.alm-name-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.alm-star{color:var(--gold);font-size:14px;flex-shrink:0}
+.alm-name{font-family:Georgia,serif;font-size:16px;font-weight:600;color:var(--txt)}
+.alm-classe{font-size:10px;color:var(--muted);line-height:1.4}
+.alm-stats{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.alm-grades{display:flex;gap:3px;flex-wrap:wrap}
+.alm-wounds-row{display:flex;gap:4px;align-items:center;margin-top:2px}
+.alm-cards-btn{width:100%;background:var(--surf2);border:none;border-top:1px solid var(--bord);color:var(--muted);font-size:12px;padding:8px 14px;cursor:pointer;text-align:left;font-family:inherit}
+.alm-cards-btn:active{background:var(--surf3)}
+.alm-cards-drawer{background:var(--bg);border-top:1px solid var(--bord);padding:8px 10px;display:flex;flex-direction:column;gap:5px}
+.alm-card-row{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--surf);border:1px solid var(--bord);border-radius:var(--rs);cursor:pointer}
+.alm-card-row:active{opacity:.7}
+.alm-card-title{font-size:13px;font-weight:500;flex:1;padding-right:8px;line-height:1.3}
+.alm-card-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
+
 /* ── Stat pills ── */
 .sp{font-size:10px;padding:2px 6px;border-radius:8px;display:inline-flex;align-items:center;gap:2px;white-space:nowrap}
 .g-ss{background:#3a2800;color:#ecc86a}
