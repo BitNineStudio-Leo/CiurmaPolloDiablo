@@ -1,4 +1,4 @@
-const CACHE = 'ciurma-v7.4';
+const CACHE = 'ciurma-v8';
 const SHELL = ['./index.html', './app.js', './manifest.json', './icon.svg'];
 
 self.addEventListener('install', e => {

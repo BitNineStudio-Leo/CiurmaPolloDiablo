@@ -159,20 +159,30 @@ body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSys
 
 /* ── Almanacco (tab Ciurma) ── */
 .almanac{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:10px;display:flex;flex-direction:column;gap:8px}
-.alm-card{background:var(--surf);border:1px solid var(--bord);border-radius:var(--r);overflow:hidden}
+.alm-card{background:var(--surf);border:1px solid var(--bord);border-radius:var(--r)}
 .alm-open{border-color:var(--bord2)}
-.alm-top{display:flex;align-items:stretch}
-.alm-photo-wrap{width:90px;min-width:90px;min-height:90px;background:var(--surf2);flex-shrink:0;position:relative;overflow:hidden;align-self:stretch}
-.alm-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-.alm-photo-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:28px;font-family:Georgia,serif;color:var(--muted2)}
-.alm-info{flex:1;padding:10px 12px;display:flex;flex-direction:column;gap:5px;min-width:0}
-.alm-name-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.alm-star{color:var(--gold);font-size:14px;flex-shrink:0}
-.alm-name{font-family:Georgia,serif;font-size:16px;font-weight:600;color:var(--txt)}
-.alm-classe{font-size:10px;color:var(--muted);line-height:1.4}
+.alm-top{display:grid;grid-template-columns:110px 1fr;align-items:start}
+.alm-photo-wrap{width:110px;height:110px;background:var(--surf3);overflow:hidden;border-right:1px solid var(--bord)}
+.alm-photo{width:110px;height:110px;object-fit:cover;display:block}
+.alm-photo-ph{width:110px;height:110px;display:flex;align-items:center;justify-content:center;font-size:28px;font-family:Georgia,serif;color:var(--txt);font-weight:600}
+.alm-info{padding:8px 12px 8px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.alm-name-row{display:flex;align-items:center;gap:5px}
+.alm-star{color:var(--gold);font-size:13px;flex-shrink:0}
+.alm-name{font-family:Georgia,serif;font-size:15px;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+.alm-wounds-top{display:none}
+.alm-wound-bar{display:flex;gap:0;margin-top:4px;border-radius:6px;overflow:hidden;height:18px}
+.alm-wd-on,.alm-wd-off{flex:1;height:18px;cursor:pointer;transition:background .15s}
+.alm-wd-on{background:var(--red2)}
+.alm-wd-off{background:var(--surf3);border-right:1px solid var(--bord)}
+.alm-wd-on:last-child,.alm-wd-off:last-child{border-right:none}
+.alm-wd-on:active,.alm-wd-off:active{opacity:.7}
+.alm-classe{font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .alm-stats{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
-.alm-grades{display:flex;gap:3px;flex-wrap:wrap}
-.alm-wounds-row{display:flex;gap:4px;align-items:center;margin-top:2px}
+.alm-stat-row{display:flex;justify-content:space-between;border-top:1px solid var(--bord);padding:6px 8px}
+.alm-stat-cell{display:flex;flex-direction:column;align-items:center;gap:1px;flex:1}
+.alm-stat-icon{font-size:13px;line-height:1}
+.alm-stat-name{font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.3px;white-space:nowrap}
+.alm-stat-grade{font-size:13px;font-weight:700}
 .alm-cards-btn{width:100%;background:var(--surf2);border:none;border-top:1px solid var(--bord);color:var(--muted);font-size:12px;padding:8px 14px;cursor:pointer;text-align:left;font-family:inherit}
 .alm-cards-btn:active{background:var(--surf3)}
 .alm-cards-drawer{background:var(--bg);border-top:1px solid var(--bord);padding:8px 10px;display:flex;flex-direction:column;gap:5px}

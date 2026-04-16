@@ -308,11 +308,20 @@ const initials = n  => (n||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUp
 
 function wounds(id){ return S.wounds[id]||0; }
 
+// Ferite subite durante la sessione corrente (0 se nessuna sessione attiva)
+function sessionWounds(id){
+  if(!S.session) return wounds(id);
+  const atStart = S.session.woundsAtStart?.[id] || 0;
+  return Math.max(0, wounds(id) - atStart);
+}
+
 function status(npc){
-  const w=wounds(npc.id), pf=npc.pf_max||1;
-  if(w>=pf) return 'morto';
-  if(npc.star){ if(w>=2) return 'fuori'; if(w===1) return 'indebolito'; }
-  else { if(w>=1) return 'fuori'; }
+  const w = wounds(npc.id), pf = npc.pf_max||1;
+  if(w >= pf) return 'morto';
+  // In sessione: stato basato sulle ferite subite durante la sessione
+  const sw = S.session ? sessionWounds(npc.id) : w;
+  if(npc.star){ if(sw >= 2) return 'fuori'; if(sw === 1) return 'indebolito'; }
+  else         { if(sw >= 1) return 'fuori'; }
   return 'sano';
 }
 const blocked  = npc => { const s=status(npc); return s==='fuori'||s==='morto'; };
@@ -363,7 +372,10 @@ async function syncGithub(){
 // ACTIONS
 // ══════════════════════════════════════════════════
 function startSession(){
-  S.session={pool:S.maxPool, maxPool:S.maxPool, used:{}};
+  // Snapshot ferite iniziali di ogni PNG nel mazzo
+  const woundsAtStart = {};
+  S.deck.forEach(id => { woundsAtStart[id] = wounds(id); });
+  S.session={pool:S.maxPool, maxPool:S.maxPool, used:{}, woundsAtStart};
   LS.s('session',S.session);
   S.view='session'; S.expanded={}; render();
 }
@@ -436,7 +448,7 @@ function toast(msg,err=false){
 // ══════════════════════════════════════════════════
 function render(){
   // Salva scroll position delle liste prima di re-render
-  const scrollEl = document.querySelector('.npc-list, .scroll-body, .settings-body');
+  const scrollEl = document.querySelector('.almanac, .npc-list, .scroll-body, .settings-body');
   const scrollTop = scrollEl ? scrollEl.scrollTop : 0;
   const scrollId  = scrollEl ? (scrollEl.className.split(' ')[0]) : null;
 
@@ -608,32 +620,36 @@ function rConsulta(){
       return `<div class="alm-card${exp?' alm-open':''}">
         <div class="alm-top">
           <div class="alm-photo-wrap">
-            <div class="alm-photo-ph">${initials(npc.name)}</div>
             ${npc.image_url
-              ? `<img class="alm-photo" src="${npc.image_url}" alt="${npc.name}"
-                  style="display:none"
-                  onload="this.style.display='block';this.previousElementSibling.style.display='none'"
-                  onerror="this.style.display='none'">`
-              : ''}
+              ? `<img class="alm-photo" src="${npc.image_url}" alt="${npc.name}" onerror="this.style.display='none';this.parentElement.querySelector('.alm-photo-ph').style.display='flex'">`+
+                `<div class="alm-photo-ph" style="display:none">${initials(npc.name)}</div>`
+              : `<div class="alm-photo-ph">${initials(npc.name)}</div>`}
           </div>
           <div class="alm-info">
             <div class="alm-name-row">
               ${npc.star?'<span class="alm-star">★</span>':''}
               <span class="alm-name">${npc.name}</span>
-              ${statusChip}
             </div>
             <div class="alm-classe">${npc.classe||''}</div>
             <div class="alm-stats">
               <span class="ca-badge">CA ${npc.ca||'?'}</span>
               ${rTS(npc)}
             </div>
-            <div class="alm-grades">
-              ${SK.map(k=>`<span class="sp ${gc(npc[k])}">${SI[k]}${npc[k]||'D'}</span>`).join('')}
-            </div>
-            <div class="alm-wounds-row">
-              ${wdots}
+            <div class="alm-wound-bar">
+              ${Array.from({length:pf},(_,i)=>`
+                <span class="alm-wd ${i<w?'alm-wd-on':'alm-wd-off'}"
+                  data-action="${i<w?'remove-wound-info':'add-wound'}"
+                  data-npc="${npc.id}"
+                  data-stop></span>`).join('')}
             </div>
           </div>
+        </div>
+        <div class="alm-stat-row">
+          ${SK.map(k=>`<div class="alm-stat-cell">
+            <span class="alm-stat-icon">${SI[k]}</span>
+            <span class="alm-stat-name">${SN[k]}</span>
+            <span class="alm-stat-grade ${gc(npc[k])}">${npc[k]||'D'}</span>
+          </div>`).join('')}
         </div>
         <button class="alm-cards-btn" data-action="toggle-consulta" data-npc="${npc.id}">
           ${exp ? '▲ Nascondi carte' : `▼ Carte (${cards.length})`}
