@@ -682,10 +682,10 @@ function rNpcRow(npc, st, exp, ctx){
           ${rTS(npc)}
         </div>
       </div>
-      <div class="nr-right">
-        <button class="info-btn" data-action="open-info" data-npc="${npc.id}" data-stop>ℹ</button>
-        <span class="nr-arr">${exp?'▲':'▼'}</span>
-      </div>
+      <button class="info-btn" data-action="open-info" data-npc="${npc.id}" data-stop>ℹ</button>
+    </div>
+    <div class="nr-expand-btn" data-action="${toggleAction}" data-npc="${npc.id}">
+      ${exp?'▲':'▼'}
     </div>`;
 }
 
