@@ -4,262 +4,785 @@
 // BUNDLED DATA — aggiornato con CA formula, TS completi, Gatto titanico
 // ══════════════════════════════════════════════════
 const BUNDLED_NPCS = [
-  // CA = Base + floor(lv/2) + bonus combat/furt/magia
-  // Vieni Qua lv13: base16(arm.pesante) +6 +4(S) +0 +0 = 26 | F: Tempra,Volontà D: Riflessi
-  {id:'vieni_qua', name:'Vieni Qua',  star:false, classe:'Lv 13 · Orco · Guerriero',            image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/vieniqua.jpg', ca:26, pf_max:3, ts_forte:['Tempra','Volontà'],    ts_debole:['Riflessi'],        combat:'S', magia:'D', nav:'B', tech:'D', cura:'D', furtivita:'D'},
-  // Saltarello lv12: base13(arm.media) +6 +2(A) +0 +2(A) = 23 | F: Tempra,Volontà D: Riflessi
-  {id:'saltarello',name:'Saltarello', star:false, classe:'Lv 12 · Thri-Kreen · Mente Guerriera', image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/saltarello.jpg', ca:23, pf_max:3, ts_forte:['Tempra','Volontà'],    ts_debole:['Riflessi'],        combat:'A', magia:'A', nav:'B', tech:'D', cura:'D', furtivita:'D'},
-  // Wedge lv13: base13 +6 +0 +1(B) +0 = 20 | F: Tempra D: Riflessi,Volontà
-  {id:'wedge',     name:'Wedge',      star:false, classe:'Lv 13 · Umano · Esperto (marinaio)',   image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/wedge.jpg', ca:20, pf_max:3, ts_forte:['Tempra'],              ts_debole:['Riflessi','Volontà'], combat:'C', magia:'D', nav:'S', tech:'A', cura:'C', furtivita:'B'},
-  // Bigs lv13: base13 +6 +0 +1(B) +0 = 20 | F: Tempra D: Riflessi,Volontà
-  {id:'bigs',      name:'Bigs',       star:false, classe:'Lv 13 · Umano · Esperto (marinaio)',   image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/biggs.jpg', ca:20, pf_max:3, ts_forte:['Tempra'],              ts_debole:['Riflessi','Volontà'], combat:'C', magia:'D', nav:'S', tech:'C', cura:'A', furtivita:'B'},
-  // Son Goku lv18: base12(monaco) +9 +6(SS) +0 +0 = 27 | F: Tempra,Volontà D: Riflessi
-  {id:'son_goku',  name:'Son Goku',   star:true,  classe:'Lv 18 · Umano · Monaco',               image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/viejo.jpg', ca:27, pf_max:4, ts_forte:['Tempra','Volontà'],    ts_debole:['Riflessi'],        combat:'SS',magia:'D', nav:'A', tech:'D', cura:'B', furtivita:'D'},
-  // Lady lv18: base12 +9 +0 +2(A) +3(S) = 26 | F: Volontà D: Tempra,Riflessi
-  {id:'lady',      name:'Lady',       star:true,  classe:'Lv 18 · Umana · ???',                  image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/lady.jpg', ca:26, pf_max:4, ts_forte:['Volontà'],             ts_debole:['Tempra','Riflessi'], combat:'D', magia:'S', nav:'C', tech:'C', cura:'A', furtivita:'A'},
-  // Quarantena lv16: base13 +8 +0 +2(A) +4(SS) = 27 | F: Volontà,Riflessi D: Tempra
-  {id:'quarantena',name:'Quarantena', star:true,  classe:'Lv 16 · Mezzelfa · Vera Negromante',   image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/quarantena.jpg', ca:27, pf_max:4, ts_forte:['Volontà','Riflessi'],   ts_debole:['Tempra'],          combat:'D', magia:'SS',nav:'A', tech:'D', cura:'C', furtivita:'A'},
-  // Ducapollo lv15: base13 +7 +0 +3(S) +3(S) = 26 | F: Volontà,Riflessi D: Tempra
-  {id:'ducapollo', name:'Ducapollo',  star:false, classe:'Lv 15 · Gallinellan · Innato',         image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/ducapollo.jpg', ca:26, pf_max:4, ts_forte:['Volontà','Riflessi'],   ts_debole:['Tempra'],          combat:'D', magia:'S', nav:'D', tech:'D', cura:'D', furtivita:'S'},
-  // Blood Mask lv9: base12 +4 +0 +2(A) +1(B) = 19 | F: Riflessi,Volontà D: Tempra
-  {id:'blood_mask',name:'Blood Mask', star:true,  classe:'Lv 9 · Umano (Yuan-ti) · Fantasma',    image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/bloodmask.jpg', ca:19, pf_max:2, ts_forte:['Riflessi','Volontà'],   ts_debole:['Tempra'],          combat:'C', magia:'B', nav:'S', tech:'D', cura:'D', furtivita:'A'},
-  // Stella lv13: base16 +6 +2(A) +0 +3(S) = 27 | F: Tempra,Volontà D: Riflessi
-  {id:'stella',    name:'Stella',     star:false, classe:'Lv 13 · Elfa Occhirosi · Crusader',    image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/stella.jpg', ca:27, pf_max:3, ts_forte:['Tempra','Volontà'],    ts_debole:['Riflessi'],        combat:'A', magia:'S', nav:'D', tech:'D', cura:'A', furtivita:'D'},
-  // Gurgo lv4: base10 +2 +0 +1(B) +0 = 13 | F: Riflessi D: Tempra,Volontà
-  {id:'gurgo',     name:'Gurgo (Scorpion)', star:false, classe:'Lv 4 · Gremlin · Ladro',         image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/gurgo.jpg', ca:13, pf_max:1, ts_forte:['Riflessi'],             ts_debole:['Tempra','Volontà'], combat:'C', magia:'D', nav:'B', tech:'B', cura:'D', furtivita:'B'},
-  // Gatto TITANO: natura titanica = 30 fisso | F: Riflessi,Tempra D: Volontà (si inceppa nelle contraddizioni)
-  {id:'gatto',     name:'Gatto',      star:true,  classe:'Titano della Creatività · Gatto Supremo', image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/gatto.jpg', ca:30, pf_max:1, ts_forte:['Riflessi','Tempra'], ts_debole:['Volontà'],         combat:'B', magia:'D', nav:'D', tech:'SS',cura:'SS',furtivita:'B'},
-  // Dorag ~lv18: base14(drago) +9 +2(A) +0 +1(B) = 26 | F: Tempra,Riflessi D: Volontà
-  {id:'dorag',     name:'Dorag',      star:false, classe:'Drago di ottone adulto',                image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/dorag.jpg', ca:26, pf_max:4, ts_forte:['Tempra','Riflessi'],   ts_debole:['Volontà'],         combat:'A', magia:'B', nav:'D', tech:'D', cura:'C', furtivita:'C'},
-  // Murray lv5: base10 +2 +0 +0 +0 = 12 | F: Volontà D: Riflessi,Tempra
-  {id:'murray',    name:'Murray',     star:false, classe:'Lv 5 · Teschio rianimato · Stregone',   image_url:'https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/murray.jpg', ca:12, pf_max:2, ts_forte:['Volontà'],             ts_debole:['Riflessi','Tempra'], combat:'D', magia:'C', nav:'D', tech:'D', cura:'D', furtivita:'D'},
+  {
+    "id": "vieni_qua",
+    "name": "Vieniqua",
+    "star": false,
+    "classe": "Lv 13 · Orco · Guerriero",
+    "image_url": "https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/vieniqua.jpg",
+    "ca": 26,
+    "pf_max": 3,
+    "ts_forte": [
+      "Tempra",
+      "Volontà"
+    ],
+    "ts_debole": [
+      "Riflessi"
+    ],
+    "combat": "S",
+    "magia": "D",
+    "nav": "B",
+    "tech": "D",
+    "cura": "D",
+    "furtivita": "D"
+  },
+  {
+    "id": "saltarello",
+    "name": "Saltarello",
+    "star": false,
+    "classe": "Lv 12 · Thri-Kreen · Mente Guerriera",
+    "image_url": "https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/saltarello.jpg",
+    "ca": 23,
+    "pf_max": 3,
+    "ts_forte": [
+      "Tempra",
+      "Volontà"
+    ],
+    "ts_debole": [
+      "Riflessi"
+    ],
+    "combat": "A",
+    "magia": "A",
+    "nav": "B",
+    "tech": "D",
+    "cura": "D",
+    "furtivita": "D"
+  },
+  {
+    "id": "wedge",
+    "name": "Wedge",
+    "star": false,
+    "classe": "Lv 13 · Umano · Esperto (marinaio)",
+    "image_url": "https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/wedge.jpg",
+    "ca": 20,
+    "pf_max": 3,
+    "ts_forte": [
+      "Tempra"
+    ],
+    "ts_debole": [
+      "Riflessi",
+      "Volontà"
+    ],
+    "combat": "C",
+    "magia": "D",
+    "nav": "S",
+    "tech": "A",
+    "cura": "C",
+    "furtivita": "B"
+  },
+  {
+    "id": "bigs",
+    "name": "Biggs",
+    "star": false,
+    "classe": "Lv 13 · Umano · Esperto (marinaio)",
+    "image_url": "https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/biggs.jpg",
+    "ca": 20,
+    "pf_max": 3,
+    "ts_forte": [
+      "Tempra"
+    ],
+    "ts_debole": [
+      "Riflessi",
+      "Volontà"
+    ],
+    "combat": "C",
+    "magia": "D",
+    "nav": "S",
+    "tech": "C",
+    "cura": "A",
+    "furtivita": "B"
+  },
+  {
+    "id": "son_goku",
+    "name": "Son Goku",
+    "star": true,
+    "classe": "Lv 18 · Umano · Monaco",
+    "image_url": "https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/viejo.jpg",
+    "ca": 27,
+    "pf_max": 4,
+    "ts_forte": [
+      "Tempra",
+      "Volontà"
+    ],
+    "ts_debole": [
+      "Riflessi"
+    ],
+    "combat": "SS",
+    "magia": "D",
+    "nav": "A",
+    "tech": "D",
+    "cura": "B",
+    "furtivita": "D"
+  },
+  {
+    "id": "lady",
+    "name": "Lady",
+    "star": true,
+    "classe": "Lv 18 · Umana · ???",
+    "image_url": "https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/lady.jpg",
+    "ca": 26,
+    "pf_max": 4,
+    "ts_forte": [
+      "Volontà"
+    ],
+    "ts_debole": [
+      "Tempra",
+      "Riflessi"
+    ],
+    "combat": "D",
+    "magia": "S",
+    "nav": "C",
+    "tech": "C",
+    "cura": "A",
+    "furtivita": "A"
+  },
+  {
+    "id": "quarantena",
+    "name": "Quarantena",
+    "star": true,
+    "classe": "Lv 16 · Mezzelfa · Shadow Man",
+    "image_url": "https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/quarantena.jpg",
+    "ca": 27,
+    "pf_max": 4,
+    "ts_forte": [
+      "Riflessi",
+      "Volontà"
+    ],
+    "ts_debole": [
+      "Tempra"
+    ],
+    "combat": "D",
+    "magia": "SS",
+    "nav": "A",
+    "tech": "D",
+    "cura": "C",
+    "furtivita": "A"
+  },
+  {
+    "id": "stella",
+    "name": "Stella",
+    "star": false,
+    "classe": "Lv 13 · Elfa Occhirosi · Crusader",
+    "image_url": "https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/stella.jpg",
+    "ca": 27,
+    "pf_max": 3,
+    "ts_forte": [
+      "Tempra",
+      "Volontà"
+    ],
+    "ts_debole": [
+      "Riflessi"
+    ],
+    "combat": "A",
+    "magia": "S",
+    "nav": "D",
+    "tech": "D",
+    "cura": "A",
+    "furtivita": "D"
+  },
+  {
+    "id": "gurgo",
+    "name": "Gurgo (Scorpion)",
+    "star": false,
+    "classe": "Lv 4 · Gnefro · Ladro",
+    "image_url": "https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/gurgo.jpg",
+    "ca": 13,
+    "pf_max": 1,
+    "ts_forte": [
+      "Riflessi"
+    ],
+    "ts_debole": [
+      "Tempra",
+      "Volontà"
+    ],
+    "combat": "C",
+    "magia": "D",
+    "nav": "B",
+    "tech": "B",
+    "cura": "D",
+    "furtivita": "B"
+  },
+  {
+    "id": "gatto",
+    "name": "Gatto",
+    "star": true,
+    "classe": "Titano della Creatività · Gatto Supremo",
+    "image_url": "https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/gatto.jpg",
+    "ca": 30,
+    "pf_max": 5,
+    "ts_forte": [
+      "Tempra",
+      "Riflessi"
+    ],
+    "ts_debole": [
+      "Volontà"
+    ],
+    "combat": "B",
+    "magia": "D",
+    "nav": "D",
+    "tech": "SS",
+    "cura": "SS",
+    "furtivita": "B"
+  },
+  {
+    "id": "dorag",
+    "name": "Dorag",
+    "star": false,
+    "classe": "Drago di ottone adulto",
+    "image_url": "https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/dorag.jpg",
+    "ca": 26,
+    "pf_max": 3,
+    "ts_forte": [
+      "Tempra",
+      "Riflessi"
+    ],
+    "ts_debole": [
+      "Volontà"
+    ],
+    "combat": "A",
+    "magia": "B",
+    "nav": "D",
+    "tech": "D",
+    "cura": "C",
+    "furtivita": "C"
+  },
+  {
+    "id": "murray",
+    "name": "Murray",
+    "star": false,
+    "classe": "Lv 5 · Teschio rianimato · Stregone",
+    "image_url": "https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/murray.jpg",
+    "ca": 12,
+    "pf_max": 2,
+    "ts_forte": [
+      "Volontà"
+    ],
+    "ts_debole": [
+      "Tempra",
+      "Riflessi"
+    ],
+    "combat": "D",
+    "magia": "C",
+    "nav": "D",
+    "tech": "D",
+    "cura": "D",
+    "furtivita": "D"
+  },
+  {
+    "id": "ombre",
+    "name": "Le Ombre",
+    "star": false,
+    "classe": "Evocazione · Quarantena",
+    "image_url": "",
+    "ca": 26,
+    "pf_max": 4,
+    "ts_forte": [
+      "Riflessi",
+      "Volontà"
+    ],
+    "ts_debole": [
+      "Tempra"
+    ],
+    "combat": "A",
+    "magia": "SS",
+    "nav": "D",
+    "tech": "D",
+    "cura": "D",
+    "furtivita": "B",
+    "summoned": true
+  }
 ];
 
 const BUNDLED_CARDS = [
-  // ── Vieni Qua ──
-  {npc_id:'vieni_qua', title:'Ascia-mano', cost:1, stat:'combat', grade:'S',
-   desc:'Attacca con il moncone-ascia. Infligge 36 danni. Se il bersaglio è taglia Media o inferiore, è anche Abbattuto per 1 round.',
-   rule:'Nessun tiro per colpire. Portata mischia.',
-   flavor:'Il vecchio capitano gliela fece costruire da un fabbro. Bal gli ha insegnato come usarla.', minion:''},
-  {npc_id:'vieni_qua', title:'Scudo vivente', cost:1, stat:'combat', grade:'S',
-   desc:'Si interpone tra un alleato adiacente e una ferita in arrivo, assorbendo il danno al suo posto.',
-   rule:'Sostituisce la regola "Proteggi il minion": non costa il punto carta aggiuntivo.',
-   flavor:'La prima lezione era sempre la stessa: metti il corpo davanti.',
-   minion:'Vieni Qua riporta la ferita al posto dell\'alleato protetto.'},
-  {npc_id:'vieni_qua', title:'Ambizione dell\'armatura', cost:2, stat:'combat', grade:'S',
-   desc:'Per 3 round: gli attacchi ignorano resistenze e riduzioni al danno; ogni danno subito viene dimezzato prima di qualsiasi riduzione.',
-   rule:'Usabile 1 volta per sessione. Non è magia — è spirito puro.',
-   flavor:'— Come fai a reggere tutto questo? — Non lo so. Il maestro Bal lo chiama "ambizione".', minion:''},
-
-  // ── Saltarello ──
-  {npc_id:'saltarello', title:'Raffica di arti', cost:1, stat:'combat', grade:'A',
-   desc:'Attacca due bersagli diversi nello stesso round infliggendo 24 danni a ciascuno.',
-   rule:'I due bersagli devono essere entro 3m tra loro.',
-   flavor:'Quattro braccia. Non gli è mai stato insegnato a esitare.', minion:''},
-  {npc_id:'saltarello', title:'Balzo psionico', cost:1, stat:'magia', grade:'A',
-   desc:'Salta fino a 18m in qualsiasi direzione. Può atterrare su un nemico: 20 danni e Abbattuto per 1 round.',
-   rule:'Non provoca attacchi di opportunità in uscita.',
-   flavor:'La ciurma ha smesso di chiedersi come ci arrivi lassù.', minion:''},
-  {npc_id:'saltarello', title:'Interrogatorio psichico', cost:2, stat:'magia', grade:'A',
-   desc:'Legge i pensieri superficiali di un PNG. Rivela: se mente, la preoccupazione principale, le intenzioni ostili.',
-   rule:'Il PNG non se ne accorge. Max 1 per scena.',
-   flavor:'Saltarello non si unì a LeBlanc per scelta. Ma scelse ogni giorno dopo.', minion:''},
-
-  // ── Wedge ──
-  {npc_id:'wedge', title:'Manovra esperta', cost:1, stat:'nav', grade:'S',
-   desc:'Una prova di navigazione o manovra della nave riesce automaticamente.',
-   rule:'Dichiarare prima del tiro.',
-   flavor:'Testa cucita con una corda. Timone in mano. Vento in poppa. Una buona giornata.', minion:''},
-  {npc_id:'wedge', title:'Riparazione rapida', cost:1, stat:'tech', grade:'A',
-   desc:'Ripara 30 PF strutturali della nave in 10 minuti.',
-   rule:'Non usabile in combattimento navale attivo.',
-   flavor:'— Come lavori con la testa così? — Con molta attenzione a non girarmi troppo veloce.', minion:''},
-  {npc_id:'wedge', title:'Tecnica rematoria', cost:2, stat:'nav', grade:'S',
-   desc:'La nave si muove al doppio della velocità per 1 ora. Se anche Bigs usa la stessa carta nella stessa ora: velocità triplicata.',
-   rule:'Inseguimento/fuga: la distanza varia di 6 miglia per ora.',
-   flavor:'La marina li cercava da tre mari. Non li trovò mai.', minion:''},
-
-  // ── Bigs ──
-  {npc_id:'bigs', title:'Manovra esperta', cost:1, stat:'nav', grade:'S',
-   desc:'Una prova di navigazione o manovra della nave riesce automaticamente.',
-   rule:'Dichiarare prima del tiro.',
-   flavor:'Bigs e Wedge non parlano molto. Non ne hanno bisogno.', minion:''},
-  {npc_id:'bigs', title:'Pronto soccorso', cost:1, stat:'cura', grade:'A',
-   desc:'Stabilizza un personaggio a 0 PF e lo riporta a 16 PF. Fuori combattimento: cura 28 PF a qualsiasi membro della ciurma.',
-   rule:'1 round di azione.',
-   flavor:'— Hai un buco nel petto. — Lo so. Fa un po\' freddo.', minion:''},
-  {npc_id:'bigs', title:'Tecnica rematoria', cost:2, stat:'nav', grade:'S',
-   desc:'La nave si muove al doppio della velocità per 1 ora. Se anche Wedge usa la stessa carta nella stessa ora: velocità triplicata.',
-   rule:'Inseguimento/fuga: la distanza varia di 6 miglia per ora.',
-   flavor:'Insieme valgono più di qualsiasi vento.', minion:''},
-
-  // ── Son Goku ──
-  {npc_id:'son_goku', title:'Pugno del monaco', cost:1, stat:'combat', grade:'SS',
-   desc:'Infligge 44 danni a un bersaglio senza tiro per colpire. Bersagli con meno di 10 DV: Abbattuto per 1 round.',
-   rule:'Portata mischia.',
-   flavor:'L\'ammiraglio che fondò una città. Il prigioniero che la abbandonò. Il monaco che non smise mai di allenarsi.',
-   minion:'★ In forma Re Kong non può ricevere ferite da attacchi normali.'},
-  {npc_id:'son_goku', title:'Ambizione del re conquistatore', cost:1, stat:'combat', grade:'SS',
-   desc:'Tutti i nemici con meno di 8 DV entro 18m cadono incoscienti per 1 round. I più forti subiscono Paura.',
-   rule:'CD Volontà 22 per nemici con 8+ DV. Non è magia.',
-   flavor:'— Sa chi sono? — Sì. — E allora sa già come finisce.', minion:''},
-  {npc_id:'son_goku', title:'Re Kong', cost:2, stat:'combat', grade:'SS',
-   desc:'Trasformazione in gorilla gigante per 3 round: immune alle ferite normali, ogni attacco infligge 60 danni, nemici con meno di 10 DV fuggono automaticamente.',
-   rule:'Usabile 1 volta per sessione.',
-   flavor:'Mouga pensava di averlo domato. Aveva torto.',
-   minion:'★ In forma Re Kong non può ricevere ferite da attacchi normali.'},
-  {npc_id:'son_goku', title:'Re Kong scatenato', cost:3, stat:'combat', grade:'SS',
-   desc:'Come Re Kong ma dura 5 round. Ogni attacco colpisce tutti i nemici entro 3m per 50 danni ciascuno.',
-   rule:'Usabile solo se Re Kong è già attivo. 1 volta per sessione.',
-   flavor:'Quando il Re Kong ruggisce, anche i leviatani nuotano dall\'altra parte.', minion:''},
-
-  // ── Lady ──
-  {npc_id:'lady', title:'Lettura del destino', cost:1, stat:'magia', grade:'S',
-   desc:'Domanda sì/no su un pericolo imminente. Il DM risponde onestamente. Non fallisce mai.',
-   rule:'Max 1 per sessione per giocatore.',
-   flavor:'Non predice il futuro. Lo vede già successo.', minion:''},
-  {npc_id:'lady', title:'Tisana della guaritrice', cost:1, stat:'cura', grade:'A',
-   desc:'Cura 28 PF e rimuove una condizione minore. Fuori combattimento.',
-   rule:'30 minuti di preparazione.',
-   flavor:'Sa di erbe e di rum e di qualcosa che non ha nome. Funziona sempre.', minion:''},
-  {npc_id:'lady', title:'Maledizione voodoo', cost:2, stat:'magia', grade:'S',
-   desc:'Un nemico scelto subisce -4 a tutti i tiri per 24 ore. Nessun tiro salvezza.',
-   rule:'Non si cumula con altre maledizioni.',
-   flavor:'Lady non odia nessuno. Ma ricorda tutto.', minion:''},
-  {npc_id:'lady', title:'Oracolo del crocicchio', cost:2, stat:'magia', grade:'S',
-   desc:'Consulta gli spiriti. Il DM fornisce un indizio concreto su un mistero attivo: un nome, un luogo o una connessione nascosta.',
-   rule:'Max 1 per sessione.',
-   flavor:'Al crocicchio si incontrano tutti i cammini. Anche quelli dei morti.', minion:''},
-
-  // ── Quarantena ──
-  {npc_id:'quarantena', title:'Tocco necromantico', cost:1, stat:'magia', grade:'SS',
-   desc:'A scelta: crea 4 scheletri obbedienti per 1 ora — oppure infligge 32 danni freddo — oppure drena 24 PF da un bersaglio recuperandoli.',
-   rule:'Un solo effetto per attivazione.',
-   flavor:'— Quanti ne puoi evocare? — Quanti ne vuoi?', minion:''},
-  {npc_id:'quarantena', title:'Frutto Feel-Feel: Indifferenza', cost:2, stat:'magia', grade:'SS',
-   desc:'Un alleato a scelta guadagna +5 a CA e a tutti i tiri salvezza per 1 round. Contemporaneamente, Quarantena diventa immune a qualsiasi danno ed effetto per lo stesso round. Al termine del round, Quarantena viene rimossa dal combattimento anche se non ha subito ferite.',
-   rule:'Entrambi gli effetti sono simultanei e inscindibili. Quarantena esce dal combattimento a fine round indipendentemente dall\'esito.',
-   flavor:'Si siede in mezzo al combattimento. Apre il grimorio. Inizia a scrivere.', minion:''},
-  {npc_id:'quarantena', title:'Frutto Feel-Feel: Musica Deprimente', cost:1, stat:'magia', grade:'A',
-   desc:'Se è attiva musica bardica nelle vicinanze, tutti i neutrali che la sentono beneficiano di Ispirare Grandezza. Allo stesso tempo, qualsiasi incantatore che tenti di lanciare un incantesimo con descrittore Bene o Male deve superare una prova di Concentrazione CD 35 o l\'incantesimo fallisce.',
-   rule:'Entrambi gli effetti si attivano insieme finché dura la musica. Non funziona in assenza di una fonte musicale attiva.',
-   flavor:'A Glokka rimase colpita dalla musica che la spada di Rock sprigionava in battaglia. Non disse niente. Si unì alla ciurma.', minion:''},
-  {npc_id:'quarantena', title:'Evoca le ombre', cost:2, stat:'magia', grade:'SS',
-   desc:'Evoca 4 Ombre obbedienti per 10 ore. Automaticamente riuscito.',
-   rule:'Ogni Ombra conta come minion separato con proprie regole ferite.',
-   flavor:'Quattordici anni a comandare la Maradà da sola. Non era mai sola.',
-   minion:'Ogni Ombra è un minion indipendente con pf_max 1.'},
-
-  // ── Ducapollo ──
-  {npc_id:'ducapollo', title:'Lancio innato', cost:1, stat:'magia', grade:'S',
-   desc:'A scelta: Sonno (3 creature addormentate 1 ora), Fascino Persone (1 PNG affascinato 4 ore), Nebbia Fitta (zona 12m, 10 min).',
-   rule:'CD 17 per Sonno e Fascino. Nessun componente.',
-   flavor:'— Cosa ha fatto esattamente? — Un piccolo incantesimo. Non si preoccupi.', minion:''},
-  {npc_id:'ducapollo', title:'Sparizione', cost:1, stat:'furtivita', grade:'S',
-   desc:'Diventa invisibile e inodore per 1 ora. Non lascia tracce. Automaticamente riuscito.',
-   rule:'Cessa se attacca o lancia incantesimi.',
-   flavor:'Un gentiluomo sa sempre quando non è il momento di farsi vedere.', minion:''},
-  {npc_id:'ducapollo', title:'Mascheramento innato', cost:2, stat:'furtivita', grade:'S',
-   desc:'Assume l\'aspetto fisico di un PNG noto per 4 ore. Supera automaticamente la prima prova di travestimento della scena.',
-   rule:'Deve aver osservato il bersaglio per almeno 1 minuto.',
-   flavor:'Geiz lo donò a Royna come guida, senza spiegazioni. Ducapollo conosce il motivo. Non lo dice.', minion:''},
-
-  // ── Blood Mask ──
-  {npc_id:'blood_mask', title:'Sorveglianza spettrale', cost:1, stat:'nav', grade:'S',
-   desc:'Attraversa una struttura e spia una stanza per 10 minuti. Riferisce tutto ciò che vede e sente con precisione assoluta.',
-   rule:'Non può essere rilevato. Nessun tiro.',
-   flavor:'Da morto vede più cose di quanto avesse mai visto da vivo.', minion:''},
-  {npc_id:'blood_mask', title:'Lamento del fantasma', cost:1, stat:'magia', grade:'B',
-   desc:'24 danni da forza a tutti i nemici entro 6m. Nemici con meno di 5 DV fuggono per 1 round.',
-   rule:'CD Tempra 14 per dimezzare i danni.',
-   flavor:'René Rottingam promise a se stesso che non avrebbe mai più gridato di dolore. Mantiene la promessa.', minion:''},
-  {npc_id:'blood_mask', title:'Dono della moda', cost:2, stat:'furtivita', grade:'A',
-   desc:'Crea un travestimento magicamente perfetto per un membro della ciurma. La prima prova di Travestimento della sessione riesce automaticamente.',
-   rule:'Il travestimento magico dura 8 ore.',
-   flavor:'Aveva promesso a una prigioniera un vestito di seta divina. Non smette di cucire.', minion:''},
-  {npc_id:'blood_mask', title:'Infestazione', cost:2, stat:'magia', grade:'B',
-   desc:'Possiede un oggetto o luogo per 10 minuti. A scelta: risponde come il precedente proprietario (RP) oppure lo rende fisicamente ostile ai nemici (combat).',
-   rule:'Forma e comportamento a discrezione del DM.',
-   flavor:'Uno specchio che ha visto troppe cose non dimentica facilmente.', minion:''},
-
-  // ── Stella ──
-  {npc_id:'stella', title:'Manovra del Crusader', cost:1, stat:'combat', grade:'A',
-   desc:'Attacca infliggendo 36 danni sacri. Contro non-morti o aberrazioni: 56 danni e Spaventato per 1 round.',
-   rule:'Nessun tiro per colpire.',
-   flavor:'L\'astrosauro le ha detto che è la prescelta. Stella non ha ragioni per dubitarne.', minion:''},
-  {npc_id:'stella', title:'Tocco della prescelta', cost:1, stat:'cura', grade:'A',
-   desc:'Cura 32 PF a un alleato. Se è a 0 PF, lo riporta a 16 PF automaticamente e rimuove una condizione.',
-   rule:'Contatto fisico richiesto.',
-   flavor:'Guarisce con la stessa intensità con cui combatte. Che è molta.', minion:''},
-  {npc_id:'stella', title:'Fervore degli astri', cost:2, stat:'magia', grade:'S',
-   desc:'Aura divina per 2 round. Tutti gli alleati in 9m: +3 attacchi, +3 danni, resistenza fisica 5.',
-   rule:'Non si cumula con altri bonus di aura.',
-   flavor:'— Da dove viene quella luce? — Da lei. È sempre stata lì.', minion:''},
-  {npc_id:'stella', title:'Astrosauro', cost:2, stat:'magia', grade:'S',
-   desc:'+30 PF temporanei, morso da 48 danni, immune a incantesimi di lv 1-3. Dura 3 round.',
-   rule:'Usabile 1 volta per sessione.',
-   flavor:'Il grande astrosauro non cammina su questa terra. Tranne quando lo fa.',
-   minion:'★ In forma astrosauro non può ricevere ferite da attacchi non magici.'},
-
-  // ── Gurgo ──
-  {npc_id:'gurgo', title:'Borseggio / scassinare', cost:1, stat:'furtivita', grade:'B',
-   desc:'Ruba un oggetto specifico da un PNG o apre una serratura. CD Furtività 14. Se il bersaglio non è allertato: riuscita automatica.',
-   rule:'Tentabile anche in combattimento (azione standard).',
-   flavor:'Lo chiamavano "Schifo" perché erano crudeli. Si chiama Scorpion perché lo ha scelto lui.', minion:''},
-  {npc_id:'gurgo', title:'Patetico', cost:1, stat:'furtivita', grade:'B',
-   desc:'Gurgo fa una scena tanto pietosa che un nemico perde la sua azione nel round successivo.',
-   rule:'CD Volontà 10. Non funziona su non-morti, costrutti o creature con Int < 3.',
-   flavor:'Non è una tecnica. È una vita intera di umiliazioni trasformata in arma.', minion:''},
-  {npc_id:'gurgo', title:'Sabotaggio gremlin', cost:2, stat:'tech', grade:'B',
-   desc:'Sabota un meccanismo nemico: cannone, trappola, serratura magica, gabbia. Effetto immediato e irreversibile senza riparazioni.',
-   rule:'Deve essere adiacente al meccanismo. 1 round di azione.',
-   flavor:'Si chiama anche "Gurgo" per non farsi trovare da Stella. Ma questo è un altro discorso.', minion:''},
-
-  // ── Gatto — carte titaniche con meccanica caos ──
-  {npc_id:'gatto', title:'Riparazione prodigiosa', cost:1, stat:'tech', grade:'SS',
-   desc:'Ripara istantaneamente qualsiasi oggetto meccanico o magico danneggiato. Nave: recupera 50 PF strutturali.',
-   rule:'Il DM tira 1d6 in segreto. Con 1-2: Gatto ripara qualcosa che nessuno aveva chiesto, o migliora l\'oggetto in modo inaspettato con conseguenze narrative imprevedibili. Non usabile in combattimento navale attivo.',
-   flavor:'— Come hai fatto? — Non ricordo. Ma funziona.', minion:''},
-  {npc_id:'gatto', title:'Cucina suprema', cost:1, stat:'cura', grade:'SS',
-   desc:'Tutti i commensali recuperano 40 PF e rimuovono una condizione a scelta.',
-   rule:'Il DM tira 1d6 in segreto. Con 1-2: il piatto ha un effetto aggiuntivo non richiesto — un commensale casuale acquisisce una capacità bizzarra o tutti subiscono un effetto narrativo imprevedibile per 1 ora.',
-   flavor:'Cucinò qualcosa di straordinario con tre chiodi arrugginiti e un pesce volante. Non rivela la ricetta.', minion:''},
-  {npc_id:'gatto', title:'Costruzione titanica', cost:2, stat:'tech', grade:'SS',
-   desc:'Il giocatore descrive un problema. Gatto costruisce in pochi minuti qualcosa che lo risolve. La forma della soluzione è a discrezione del DM.',
-   rule:'Il DM tira 1d6 in segreto. Con 1-2: la costruzione risolve il problema ma ne crea uno nuovo di proporzioni simili altrove. Il giocatore descrive il problema — non la soluzione.',
-   flavor:'Il giocatore spiega il problema. Gatto si addormenta. Si sveglia con la soluzione già costruita.', minion:''},
-  {npc_id:'gatto', title:'Balzo della nave', cost:3, stat:'tech', grade:'SS',
-   desc:'La nave compie un balzo prodigioso fino a 1km, superando qualsiasi ostacolo fisico o navale.',
-   rule:'Il DM tira 1d6 in segreto. Con 1-2: la nave atterra sulla terra ferma. Richiede almeno un giorno di riparazioni e un modo per rimetterla in mare prima di poter ripartire. Gatto deve essere sveglio e a bordo. 1 volta per sessione.',
-   flavor:'Nessuno sa cosa ci sia dentro quei pedali. Nessuno ha il coraggio di smontarli.', minion:''},
-
-  // ── Dorag ──
-  {npc_id:'dorag', title:'Soffio del drago', cost:1, stat:'combat', grade:'A',
-   desc:'A scelta: soffio di fuoco (36 danni, cono 9m, CD Riflessi 18 dimezza) oppure soffio soporifero (1 bersaglio dorme 10 min, CD For 16 annulla).',
-   rule:'Una sola forma per attivazione.',
-   flavor:'È educato. È cordiale. Brucia le cose solo quando necessario.', minion:''},
-  {npc_id:'dorag', title:'Contatto dell\'Airone', cost:2, stat:'magia', grade:'B',
-   desc:'Chiama un contatto nella rete dell\'Airone. Ottieni almeno 3 informazioni riservate e concrete su una fazione, PNG o luogo.',
-   rule:'Max 1 per sessione. Informazioni a discrezione del DM.',
-   flavor:'I draghi di ottone collezionano storie. Dorag ne conosce abbastanza da riempire tre biblioteche.', minion:''},
-  {npc_id:'dorag', title:'Maestà del drago', cost:2, stat:'combat', grade:'A',
-   desc:'Tutti i nemici entro 12m con meno di 10 DV fuggono per 2 round. I nemici più forti subiscono -2 agli attacchi per lo stesso periodo.',
-   rule:'CD Volontà 18 per nemici con 10+ DV.',
-   flavor:'Non urla. Non minaccia. Apre le ali e basta.', minion:''},
-
-  // ── Murray ──
-  {npc_id:'murray', title:'Maledizione dello stregone', cost:1, stat:'magia', grade:'C',
-   desc:'Un nemico subisce -2 a tutti i tiri salvezza per 1 ora. Murray lo fa nel modo più teatralmente minaccioso possibile.',
-   rule:'CD Volontà 14 annulla. Non si cumula con Maledizione Voodoo di Lady.',
-   flavor:'— Smettila con quelle maledizioni. — MAI. Sono il più terrificante teschio non-morto dei Mari del Sud.', minion:''},
-  {npc_id:'murray', title:'Proiettile magico', cost:1, stat:'magia', grade:'C',
-   desc:'3 dardi magici automatici da 8 danni l\'uno. Distribuibili su bersagli diversi.',
-   rule:'Non richiede tiro per colpire.',
-   flavor:'— Come fai a lanciare incantesimi senza mani? — Silenzio! Non distrarre il male con domande stupide.', minion:''},
-  {npc_id:'murray', title:'Trattativa con i morti', cost:2, stat:'magia', grade:'C',
-   desc:'Murray convince un non-morto non intelligente a ignorare la ciurma per 10 minuti, rotolandogli incontro.',
-   rule:'CD Carisma 14 del giocatore. Non funziona su non-morti intelligenti.',
-   flavor:'— Come ci parli? — Capiscono il dialetto. E rispettano l\'anzianità.', minion:''},
+  {
+    "npc_id": "vieni_qua",
+    "title": "Ascia-mano",
+    "cost": 1,
+    "stat": "combat",
+    "grade": "S",
+    "desc": "Attacca con la protesi ascia. Infligge 30 danni. Se il bersaglio è taglia Media o inferiore, è anche Abbattuto per 1 round.",
+    "rule": "Nessun tiro per colpire. Portata mischia.",
+    "flavor": "Dopo il tradimento di x si fece impiantare un'ascia in un braccio. Bal gli ha insegnato come usarla.",
+    "minion": ""
+  },
+  {
+    "npc_id": "vieni_qua",
+    "title": "Scudo vivente",
+    "cost": 1,
+    "stat": "combat",
+    "grade": "S",
+    "desc": "Si interpone tra un alleato adiacente e un attacco in arrivo, divenendone il bersaglio.",
+    "rule": "Vieni Qua riporta la ferita al posto dell'alleato protetto.",
+    "flavor": "La prima lezione che vieni qua abbia mai imparato: - mettere corpo davanti.",
+    "minion": ""
+  },
+  {
+    "npc_id": "vieni_qua",
+    "title": "Ambizione dell'armatura",
+    "cost": 2,
+    "stat": "combat",
+    "grade": "S",
+    "desc": "Per 3 round: gli attacchi ignorano resistenze e riduzioni al danno, durante questi round ignora il primo danno subito.",
+    "rule": "Usabile 1 volta per sessione. Non è magia — è spirito puro.",
+    "flavor": "- Come fai a reggere tutto questo?  -Non sapere. Maestro Bal chiamare questo \"ambizione\".",
+    "minion": ""
+  },
+  {
+    "npc_id": "saltarello",
+    "title": "Raffica di artigli",
+    "cost": 1,
+    "stat": "combat",
+    "grade": "A",
+    "desc": "Attacca due bersagli diversi nello stesso round infliggendo 25 danni a ciascuno.",
+    "rule": "I due bersagli devono essere entro 3m tra loro.",
+    "flavor": "Fra i Thri Kreen è quello che si definisce un “sangue scuro”, le sue braccia sono segno di un progenitore Formian.",
+    "minion": ""
+  },
+  {
+    "npc_id": "saltarello",
+    "title": "Balzo psionico",
+    "cost": 1,
+    "stat": "magia",
+    "grade": "A",
+    "desc": "Salta fino a 18m in qualsiasi direzione. Può atterrare su un nemico: 30 danni e Abbattuto per 1 round.",
+    "rule": "Non provoca attacchi di opportunità iniziando il salto.",
+    "flavor": "La ciurma ha smesso di chiedersi come riesca ad arrivare tanto in alto.",
+    "minion": ""
+  },
+  {
+    "npc_id": "saltarello",
+    "title": "Messaggio telepatico",
+    "cost": 2,
+    "stat": "magia",
+    "grade": "A",
+    "desc": "Invia un messaggio telepatico ad un qualsiasi membro della ciurma, ovunque si trovi. il contattato può rispondere.",
+    "rule": "Funziona solo se il bersaglio si trova sullo stesso piano, limite di 30 parole.",
+    "flavor": "Saltarello fu soldato presso un alveare che era in affari con il corsaro le Blanc. Scelse una nuova famiglia.",
+    "minion": ""
+  },
+  {
+    "npc_id": "wedge",
+    "title": "Manovra esperta",
+    "cost": 1,
+    "stat": "nav",
+    "grade": "S",
+    "desc": "Una prova di navigazione o manovra della nave riesce automaticamente.",
+    "rule": "Dichiarare prima del tiro.",
+    "flavor": "Testa cucita con una corda, timone in mano e vento in poppa. Una splendida giornata.",
+    "minion": ""
+  },
+  {
+    "npc_id": "wedge",
+    "title": "Riparazione rapida",
+    "cost": 1,
+    "stat": "tech",
+    "grade": "A",
+    "desc": "Ripara 30 PF strutturali della nave in 10 minuti.",
+    "rule": "Non usabile in combattimento navale attivo.",
+    "flavor": "- Come lavori con la testa così? - Facendo attenzione a non girarmi di scatto.",
+    "minion": ""
+  },
+  {
+    "npc_id": "wedge",
+    "title": "Tecnica rematoria",
+    "cost": 2,
+    "stat": "nav",
+    "grade": "S",
+    "desc": "La nave si muove al doppio della velocità per 1 ora. ",
+    "rule": "Se anche Bigs usa la stessa carta nella stessa ora, la velocità è triplicata.",
+    "flavor": "La marina li cerca per tre dei sei mari. Non li ha mai raggiunti.",
+    "minion": ""
+  },
+  {
+    "npc_id": "bigs",
+    "title": "Manovra esperta",
+    "cost": 1,
+    "stat": "nav",
+    "grade": "S",
+    "desc": "Una prova di navigazione o manovra della nave riesce automaticamente.",
+    "rule": "Dichiarare prima del tiro.",
+    "flavor": "Biggs e Wedge non parlano molto. Non ne hanno bisogno per capirsi.",
+    "minion": ""
+  },
+  {
+    "npc_id": "bigs",
+    "title": "Spuntino Rinvigorente",
+    "cost": 1,
+    "stat": "cura",
+    "grade": "A",
+    "desc": "Stabilizza un personaggio a 0 PF e lo riporta a 20 PF, oppure cura una ferita ad un qualsiasi membro della ciurma e finisce fuori combattimento.",
+    "rule": "Se Biggs cura un altro minion finisce fuori combattimento senza subire ferite.",
+    "flavor": "- Hai un buco nello stomaco. - Lo so, ho sempre fame.",
+    "minion": "",
+    "disable_if": {
+      "target": "self",
+      "condition": "ask",
+      "prompt": "Stai curando un minion?"
+    }
+  },
+  {
+    "npc_id": "bigs",
+    "title": "Tecnica rematoria",
+    "cost": 2,
+    "stat": "nav",
+    "grade": "S",
+    "desc": "La nave si muove al doppio della velocità per 1 ora.",
+    "rule": "Se anche Wedge usa la stessa carta nella stessa ora: velocità triplicata.",
+    "flavor": "Insieme, i due ex Marine, valgono più di qualsiasi vento.",
+    "minion": ""
+  },
+  {
+    "npc_id": "son_goku",
+    "title": "Pugno del monaco",
+    "cost": 1,
+    "stat": "combat",
+    "grade": "SS",
+    "desc": "Infligge 50 danni a un bersaglio senza tiro per colpire. Bersagli con meno di 12 DV: Abbattuto per 1 round.",
+    "rule": "Portata 3m",
+    "flavor": "L'ex-ammiraglio che fondò una città, l'ex-prigioniero che si consegnò per difenderla. Una volontà che non smise mai di lottare.",
+    "minion": "★ In forma Re Kong non può ricevere ferite da attacchi normali."
+  },
+  {
+    "npc_id": "son_goku",
+    "title": "Ambizione del re conquistatore",
+    "cost": 2,
+    "stat": "combat",
+    "grade": "SS",
+    "desc": "Tutti i nemici con meno di 12 DV entro 18m cadono infermi per 1d4 round. Tutti gli altri sono comunque scossi per la stessa durata",
+    "rule": "nessun tiro salvezza.",
+    "flavor": "- Sai chi sono?  - Sì. - Allora sai già come finirà.",
+    "minion": "★ In forma Re Kong non può ricevere ferite da attacchi normali."
+  },
+  {
+    "npc_id": "son_goku",
+    "title": "Re Kong",
+    "cost": 2,
+    "stat": "combat",
+    "grade": "SS",
+    "desc": "Trasformazione in gorilla gigante per 3 round: immune alle ferite normali, ogni round può infliggere un attacco da 40 danni, i nemici con meno di 12 DV sono spaventati.",
+    "rule": "Portata 6 m, taglia mastodontica, utilizzabile 1 volta per sessione.",
+    "flavor": "Mouga pensava di averlo spezzato. Aveva torto.",
+    "minion": "★ In forma Re Kong non può ricevere ferite da attacchi normali."
+  },
+  {
+    "npc_id": "son_goku",
+    "title": "Re Kong scatenato",
+    "cost": 3,
+    "stat": "combat",
+    "grade": "SS",
+    "desc": "Come Re Kong ma dura 5 round. Ogni attacco colpisce tutti i nemici entro 6m per 40 danni ciascuno.",
+    "rule": "Usabile solo se Re Kong è già attivo. taglia colossale, 1 volta per sessione.",
+    "flavor": "Re Kong non si inchina a nessuno. Nemmeno ai leviatani.",
+    "minion": "★ In forma Re Kong non può ricevere ferite da attacchi normali."
+  },
+  {
+    "npc_id": "lady",
+    "title": "Lettura del destino",
+    "cost": 1,
+    "stat": "magia",
+    "grade": "S",
+    "desc": "Domanda sì/no su un pericolo imminente. Il DM risponde onestamente. Non fallisce mai.",
+    "rule": "Max 1 per sessione per giocatore.",
+    "flavor": "Non predice il futuro, lo vede già successo.",
+    "minion": ""
+  },
+  {
+    "npc_id": "lady",
+    "title": "Tisana della guaritrice",
+    "cost": 1,
+    "stat": "cura",
+    "grade": "A",
+    "desc": "Cura 28 PF e rimuove maledizioni.",
+    "rule": "Solo fuori combattimento, 30 minuti di preparazione.",
+    "flavor": "Sa di erbe, di rum e di qualcosa che non ha nome. Funziona sempre.",
+    "minion": ""
+  },
+  {
+    "npc_id": "lady",
+    "title": "Maledizione voodoo",
+    "cost": 2,
+    "stat": "magia",
+    "grade": "S",
+    "desc": "Un nemico scelto subisce svantaggio ai prossimi 4 tiri. Nessun tiro salvezza.",
+    "rule": "Si può cumulare la durata con usi successivi.",
+    "flavor": "Lady non odia nessuno. Ma ricorda tutto.",
+    "minion": ""
+  },
+  {
+    "npc_id": "lady",
+    "title": "Oracolo del crocicchio",
+    "cost": 3,
+    "stat": "magia",
+    "grade": "S",
+    "desc": "Consulta gli spiriti. Il DM fornisce un indizio concreto su un mistero attivo: un nome, un luogo o una connessione nascosta, dopodiché Lady è fuori combattimento.",
+    "rule": "Max 1 per sessione.",
+    "flavor": "Al crocicchio si incontrano tutti i cammini. Anche quelli dei morti.",
+    "minion": ""
+  },
+  {
+    "npc_id": "quarantena",
+    "title": "Lama del Dolore e della paura",
+    "cost": 1,
+    "stat": "magia",
+    "grade": "SS",
+    "desc": "A scelta: Infligge 32 danni da energia negativa - oppure infligge un livello negativo - oppure prende il controllo di un non morto entro 14 DV per 1 round.",
+    "rule": "Un solo effetto per attivazione.",
+    "flavor": "- E' forte come incantesimo? - mah, è medio. ",
+    "minion": ""
+  },
+  {
+    "npc_id": "quarantena",
+    "title": "Frutto Feel-Feel: Indifferenza",
+    "cost": 2,
+    "stat": "magia",
+    "grade": "SS",
+    "desc": "Un alleato a scelta guadagna +5 a CA e a tutti i tiri salvezza per 1 round ed è immune a qualsiasi danno ed effetto per lo stesso round. Al termine del round, Quarantena viene rimossa dal combattimento anche se non ha subito ferite.",
+    "rule": "Entrambi gli effetti sono simultanei e inscindibili. Quarantena esce dal combattimento a fine round indipendentemente dall'esito.",
+    "flavor": "Si siede in mezzo al combattimento e apre la Smemo. Non le interessa.",
+    "minion": "",
+    "disable_if": {
+      "target": "self",
+      "condition": "always"
+    }
+  },
+  {
+    "npc_id": "quarantena",
+    "title": "Frutto Feel-Feel: Musica Deprimente",
+    "cost": 1,
+    "stat": "magia",
+    "grade": "A",
+    "desc": "Se è attiva musica bardica nelle vicinanze, tutti i neutrali che la sentono beneficiano di Ispirare Grandezza. Qualsiasi incantatore che tenti di lanciare un incantesimo con descrittore Bene o Male deve superare Concentrazione CD 35 o l'incantesimo fallisce.",
+    "rule": "Entrambi gli effetti si attivano insieme finché dura la musica. Non funziona in assenza di una fonte musicale attiva.",
+    "flavor": "Quarantena trova la musica di Rock accettabile. Abbastanza da fargli da manager.",
+    "minion": ""
+  },
+  {
+    "npc_id": "quarantena",
+    "title": "Shadow Man",
+    "cost": 2,
+    "stat": "magia",
+    "grade": "SS",
+    "desc": "Evoca 4 Ombre obbedienti per 10 ore.",
+    "rule": "Ogni Ombra conta come minion separato con proprie regole e ferite.",
+    "flavor": "- Quanti ne puoi evocare? - Quanti ne vuoi?",
+    "minion": "Ogni Ombra è un minion indipendente",
+    "summon": {
+      "npc_id": "ombre",
+      "pool": 4,
+      "pool_name": "PS"
+    }
+  },
+  {
+    "npc_id": "stella",
+    "title": "Arti marziali Occhirossi",
+    "cost": 1,
+    "stat": "combat",
+    "grade": "A",
+    "desc": "Attacca infliggendo 30 danni sacri. Contro non-morti o aberrazioni: 45 danni. Contro gli scorpioni 100.",
+    "rule": "Nessun tiro per colpire.",
+    "flavor": "L'astrosauro le ha parlato in sogno. Stella sa di essere la sua prescelta.",
+    "minion": "★ In forma astrosauro non può ricevere ferite da attacchi magici."
+  },
+  {
+    "npc_id": "stella",
+    "title": "Tocco delle stelle",
+    "cost": 2,
+    "stat": "cura",
+    "grade": "A",
+    "desc": "Cura 32 PF a un alleato. Può salvare un alleato che dovrebbe morire in questo round, riportandolo a 16 PF automaticamente.",
+    "rule": "Contatto fisico richiesto. Può salvare anche un minion dalla morte prevenendo il danno che lo ucciderebbe.",
+    "flavor": "I tessuti guariscono con la stessa forza vitale di un sole che brucia.",
+    "minion": "★ In forma astrosauro non può ricevere ferite da attacchi magici."
+  },
+  {
+    "npc_id": "stella",
+    "title": "Passo delle stelle",
+    "cost": 2,
+    "stat": "magia",
+    "grade": "S",
+    "desc": "Stance che genera aura divina per 2 round. Tutti gli alleati in 9m: +3 attacchi, +3 danni, riduzione danno 5/-.",
+    "rule": "Bonus di morale.",
+    "flavor": "- Da dove viene questa luce? - Dal cosmo che brucia dentro di me!",
+    "minion": "★ In forma astrosauro non può ricevere ferite da attacchi magici."
+  },
+  {
+    "npc_id": "stella",
+    "title": "Astrosauro",
+    "cost": 2,
+    "stat": "magia",
+    "grade": "S",
+    "desc": "linea di laser da 12 metri e 38 danni da fuoco, la velocità aumenta a 15m, può spostarsi senza causare attacchi d'opportunità. Dura 3 round.",
+    "rule": "Utilizzabile 1 volta per sessione.",
+    "flavor": "Il grande Astrosauro non cammina su questa terra. Tranne quando decide di farlo.",
+    "minion": "★ In forma astrosauro non può ricevere ferite da attacchi magici."
+  },
+  {
+    "npc_id": "gurgo",
+    "title": "Borseggio / scassinare",
+    "cost": 1,
+    "stat": "furtivita",
+    "grade": "B",
+    "desc": "Ruba un oggetto specifico da un PNG o apre una serratura. CD Furtività 14. Se il bersaglio non è allertato: riuscita automatica.",
+    "rule": "Anche in combattimento.",
+    "flavor": "Lo chiamavano \"Schifo\" perché erano crudeli, ora si chiama Scorpion e gliela farà vedere!",
+    "minion": ""
+  },
+  {
+    "npc_id": "gurgo",
+    "title": "Patetico",
+    "cost": 1,
+    "stat": "furtivita",
+    "grade": "B",
+    "desc": "Gurgo fa una scena tanto pietosa che un nemico perde la sua azione nel round successivo.",
+    "rule": "Non funziona su non-morti, costrutti o creature con Int < 6.",
+    "flavor": "Non è una tecnica, ma una vita intera di umiliazioni trasformata in arma.",
+    "minion": ""
+  },
+  {
+    "npc_id": "gurgo",
+    "title": "Sabotaggio gremlin",
+    "cost": 2,
+    "stat": "tech",
+    "grade": "B",
+    "desc": "Sabota un meccanismo nemico: cannone, trappola, serratura magica, gabbia. Effetto immediato e irreversibile senza riparazioni.",
+    "rule": "Deve essere adiacente al meccanismo.",
+    "flavor": "Si chiama anche \"Gurgo\" per non farsi trovare da Stella. Ma questo è un altro discorso.",
+    "minion": ""
+  },
+  {
+    "npc_id": "gatto",
+    "title": "Riparazione prodigiosa",
+    "cost": 1,
+    "stat": "tech",
+    "grade": "SS",
+    "desc": "Ripara istantaneamente qualsiasi oggetto meccanico o magico danneggiato. Nave: recupera 40 PF strutturali.",
+    "rule": "Il DM tira 1d6 in segreto. Con 1-2: Gatto ripara qualcosa che nessuno aveva chiesto, o migliora l'oggetto in modo inaspettato con conseguenze narrative imprevedibili. Non usabile in combattimento navale attivo.",
+    "flavor": "L'ordine in cui le cose si trovano è spesso sterile. Per questo le spingo giù dal tavolo.",
+    "minion": ""
+  },
+  {
+    "npc_id": "gatto",
+    "title": "Cucina suprema",
+    "cost": 1,
+    "stat": "cura",
+    "grade": "SS",
+    "desc": "Fuori dal combattimento. Tutti i commensali recuperano 40 PF e beneficiano dell'effetto di ristorare minore.",
+    "rule": "Il DM tira 1d6 in segreto. Con 1-2: il piatto ha un effetto aggiuntivo non richiesto - un commensale casuale acquisisce una capacità bizzarra o tutti subiscono un effetto narrativo imprevedibile per 1 ora.",
+    "flavor": "Ha buttato nella pentola tre chiodi arrugginiti, una vecchia pantofola e una crosta di pane. Ne ha tirato fuori un banchetto per 12 persone.",
+    "minion": ""
+  },
+  {
+    "npc_id": "gatto",
+    "title": "Costruzione titanica",
+    "cost": 2,
+    "stat": "tech",
+    "grade": "SS",
+    "desc": "Il giocatore descrive un problema. Gatto costruisce in pochi minuti qualcosa che lo risolve. La forma della soluzione è a discrezione del DM, e si rompe comunque in breve tempo.",
+    "rule": "Il DM tira 1d6 in segreto. Con 1-2: la costruzione risolve il problema ma ne crea uno nuovo di proporzioni simili altrove. Il giocatore descrive il problema - non la soluzione.",
+    "flavor": "Quello che voglio fare è qualcosa che quel rottame non sa ancora di poter essere.",
+    "minion": ""
+  },
+  {
+    "npc_id": "gatto",
+    "title": "Balzo della nave",
+    "cost": 3,
+    "stat": "tech",
+    "grade": "SS",
+    "desc": "La nave compie un balzo prodigioso fino a 1km, superando qualsiasi ostacolo fisico o navale.",
+    "rule": "Il DM tira 1d6 in segreto. Con 1-2: la nave atterra sulla terra ferma. Richiede almeno un giorno di riparazioni e un modo per rimetterla in mare prima di poter ripartire. Gatto deve essere sveglio e a bordo. 1 volta per sessione.",
+    "flavor": "Nessuno sa cosa ci sia dentro quei pedali. Nessuno ha il coraggio di cercare di scoprirlo.",
+    "minion": ""
+  },
+  {
+    "npc_id": "dorag",
+    "title": "Soffio del drago",
+    "cost": 1,
+    "stat": "combat",
+    "grade": "A",
+    "desc": "A scelta: soffio di fuoco (36 danni, cono 9m, CD Riflessi 25 dimezza) oppure soffio soporifero (1 bersaglio dorme 10 min, Tempra 25 nega).",
+    "rule": "Una sola forma per attivazione.",
+    "flavor": "È educato. È cordiale. Brucia le cose solo quando necessario.",
+    "minion": ""
+  },
+  {
+    "npc_id": "dorag",
+    "title": "Contatto dell'Airone",
+    "cost": 2,
+    "stat": "magia",
+    "grade": "B",
+    "desc": "Chiama un contatto nella rete dell'Airone. Ottieni almeno 3 informazioni riservate e concrete su una fazione, PNG o luogo.",
+    "rule": "Max 1 per sessione. Informazioni a discrezione del DM.",
+    "flavor": "I draghi di ottone collezionano storie. Dorag ne conosce abbastanza da riempire una biblioteca.",
+    "minion": ""
+  },
+  {
+    "npc_id": "dorag",
+    "title": "Maestà del drago",
+    "cost": 2,
+    "stat": "combat",
+    "grade": "A",
+    "desc": "Tutti i nemici entro 12m con meno di 10 DV sono spaventati per 2 round. Tutti gli altri sono comunque scossi.",
+    "rule": "si può cumulare con più attivazioni",
+    "flavor": "La sua stazza può diventare presto molto minacciosa.",
+    "minion": ""
+  },
+  {
+    "npc_id": "murray",
+    "title": "Maledizione dello stregone",
+    "cost": 1,
+    "stat": "magia",
+    "grade": "C",
+    "desc": "Un nemico subisce -2 a tutti i tiri salvezza per 1 ora. Murray scaglia la maledizione nel modo più teatralmente minaccioso possibile.",
+    "rule": "Non si cumula con Maledizione Voodoo di Lady.",
+    "flavor": "Sono il più terrificante non-morto dell'area delle tre isole! ok, il più terrificante PEZZO di non morto.",
+    "minion": ""
+  },
+  {
+    "npc_id": "murray",
+    "title": "Dardo incantato veramente spaventoso",
+    "cost": 1,
+    "stat": "magia",
+    "grade": "C",
+    "desc": "3 dardi magici automatici da 8 danni l'uno. Distribuibili su bersagli diversi.",
+    "rule": "Non richiede tiro per colpire.",
+    "flavor": "- Come fai a lanciare incantesimi senza mani? - Silenzio! Non distrarre la malignità con le tue stupide domande!",
+    "minion": ""
+  },
+  {
+    "npc_id": "murray",
+    "title": "Trattativa con i morti",
+    "cost": 2,
+    "stat": "magia",
+    "grade": "C",
+    "desc": "Murray convince un non-morto non intelligente a ignorare la ciurma per 10 minuti grazie alla sua parlantina.",
+    "rule": "Non funziona su non-morti intelligenti.",
+    "flavor": "Varcheremo le porte dell'inferno reggendo le loro teste su una picca! beh ok tu varcherai e io rotolerò.",
+    "minion": ""
+  },
+  {
+    "npc_id": "ombre",
+    "title": "Assalto delle Ombre",
+    "cost": 1,
+    "summon_cost": true,
+    "stat": "magia",
+    "grade": "SS",
+    "desc": "Le Ombre attaccano tutti i nemici entro 1,5m da loro. 1ps: 15 danni. 2ps: 30 danni. 3ps: 45 danni. 4ps: 60 danni.",
+    "rule": "Spendi 1-4 PS. I danni scalano con i punti spesi. Le Ombre devono essere entro 1,5m dai bersagli.",
+    "flavor": "Non fanno rumore. Non lasciano tracce. Non si fermano.",
+    "minion": ""
+  },
+  {
+    "npc_id": "ombre",
+    "title": "Comanda le Ombre",
+    "cost": 1,
+    "summon_cost": true,
+    "stat": "furtivita",
+    "grade": "SS",
+    "desc": "1ps: fiancheggia un nemico — vantaggio al primo attacco verso quel nemico. 2ps: due Ombre si sacrificano, assorbono la prossima ferita di un minion. 3ps: esplorano una zona, il DM fornisce un'informazione tattica. 4ps: bloccano un nemico per 1 round, non può agire.",
+    "rule": "Spendi 1-4 PS. L'effetto corrisponde ai punti spesi. Le Ombre devono essere entro 1,5m dal bersaglio.",
+    "flavor": "Quarantena alza un dito. Le Ombre capiscono.",
+    "minion": ""
+  }
 ];
 
 // ══════════════════════════════════════════════════
@@ -318,13 +841,21 @@ function sessionWounds(id){
 function status(npc){
   const w = wounds(npc.id), pf = npc.pf_max||1;
   if(w >= pf) return 'morto';
+  // Fuori per carta (disable_if)
+  if(S.session?.disabledBy?.[npc.id]) return 'fuori';
   // In sessione: stato basato sulle ferite subite durante la sessione
   const sw = S.session ? sessionWounds(npc.id) : w;
   if(npc.star){ if(sw >= 2) return 'fuori'; if(sw === 1) return 'indebolito'; }
   else         { if(sw >= 1) return 'fuori'; }
   return 'sano';
 }
-const blocked  = npc => { const s=status(npc); return s==='fuori'||s==='morto'; };
+const blocked  = npc => {
+  if(npc.summoned){
+    const summon=S.session?.summons?.[npc.id];
+    return !summon || summon.pool<=0;
+  }
+  const s=status(npc); return s==='fuori'||s==='morto';
+};
 const isFree   = (npc,card) => npc?.star && parseInt(card.cost)===1 && timesUsed(npc.id,card.title)===0;
 const effCost  = (npc,card) => isFree(npc,card)?0:parseInt(card.cost)||1;
 const timesUsed= (nId,t) => (S.session?.used||{})[cKey(nId,t)]||0;
@@ -375,7 +906,11 @@ function startSession(){
   // Snapshot ferite iniziali di ogni PNG nel mazzo
   const woundsAtStart = {};
   S.deck.forEach(id => { woundsAtStart[id] = wounds(id); });
-  S.session={pool:S.maxPool, maxPool:S.maxPool, used:{}, woundsAtStart};
+  S.session={pool:S.maxPool, maxPool:S.maxPool, used:{}, woundsAtStart,
+    disabledBy:{},   // npc_id → true se fuori per carta (non ferita)
+    summons:{},      // npc_id → {pool, maxPool, pool_name} per PNG evocati
+    summonDeck:[]    // ids dei PNG evocati attivi in sessione
+  };
   LS.s('session',S.session);
   S.view='session'; S.expanded={}; render();
 }
@@ -403,7 +938,75 @@ function playCard(npcId,cardTitle){
   const npc=npcById(npcId), card=npcCards(npcId).find(c=>c.title===cardTitle);
   if(!npc||!card) return;
   if(blocked(npc)){toast('PNG fuori combattimento!',true);return;}
+
+  // Carte ombre — usano summon pool invece del pool globale
+  const isSummonCard = card.summon_cost;
+  if(isSummonCard){
+    const summon = S.session.summons?.[npcId];
+    if(!summon||summon.pool<=0){toast('Punti evocazione esauriti!',true);return;}
+    // Mostra selettore punti — gestito da dialog dedicato
+    S.dialog={
+      title: card.title,
+      msg: `Quanti ${summon.pool_name||'PS'} vuoi spendere? (1-${summon.pool})`,
+      confirmLabel: null,
+      isSummonCost: true,
+      summonNpcId: npcId,
+      summonCardTitle: cardTitle,
+      summonMax: summon.pool
+    };
+    render(); return;
+  }
+
   const cost=effCost(npc,card);
+
+  // disable_if: always — fuori combattimento immediato
+  if(card.disable_if?.condition==='always'){
+    if(cost>S.session.pool){toast('Punti insufficienti!',true);return;}
+    S.session.pool-=cost;
+    S.session.used[cKey(npcId,cardTitle)]=(S.session.used[cKey(npcId,cardTitle)]||0)+1;
+    S.session.disabledBy[npcId]=true;
+    LS.s('session',S.session); S.openCard=null;
+    toast(`${npc.name} esce dal combattimento`); render(); return;
+  }
+
+  // disable_if: ask — chiede conferma prima
+  if(card.disable_if?.condition==='ask'){
+    S.dialog={
+      title: card.title,
+      msg: card.disable_if.prompt||'Confermi effetto speciale?',
+      confirmLabel: 'Sì — applica',
+      cancelLabel: 'No — effetto normale',
+      confirmAction: 'play-card-disable',
+      cancelAction: 'play-card-normal',
+      pendingNpc: npcId,
+      pendingCard: cardTitle
+    };
+    render(); return;
+  }
+
+  // summon: aggiunge PNG evocato al mazzo sessione
+  if(card.summon){
+    const sId = card.summon.npc_id;
+    if(S.session.summonDeck?.includes(sId)){
+      toast('Evocazione già attiva!',true); return;
+    }
+    if(cost>S.session.pool){toast('Punti insufficienti!',true);return;}
+    S.session.pool-=cost;
+    S.session.used[cKey(npcId,cardTitle)]=(S.session.used[cKey(npcId,cardTitle)]||0)+1;
+    if(!S.session.summons) S.session.summons={};
+    if(!S.session.summonDeck) S.session.summonDeck=[];
+    S.session.summons[sId]={
+      pool: card.summon.pool,
+      maxPool: card.summon.pool,
+      pool_name: card.summon.pool_name||'PS'
+    };
+    S.session.summonDeck.push(sId);
+    LS.s('session',S.session); S.openCard=null;
+    const sNpc=npcById(sId);
+    toast(`✦ ${sNpc?.name||sId} evocate!`); render(); return;
+  }
+
+  // Carta normale
   if(cost>S.session.pool){toast('Punti insufficienti!',true);return;}
   S.session.pool-=cost;
   S.session.used[cKey(npcId,cardTitle)]=(S.session.used[cKey(npcId,cardTitle)]||0)+1;
@@ -424,6 +1027,18 @@ function undoCard(npcId,cardTitle){
 }
 function addWound(npcId){
   const npc=npcById(npcId); if(!npc) return;
+  // Per i PNG evocati: sottrai un punto pool invece di aggiungere una ferita
+  if(npc.summoned && S.session?.summons?.[npcId]){
+    const summon=S.session.summons[npcId];
+    summon.pool=Math.max(0,summon.pool-1);
+    if(summon.pool<=0){
+      S.session.summonDeck=(S.session.summonDeck||[]).filter(id=>id!==npcId);
+      toast(`✦ ${npc.name} si dissolvono`,true);
+    } else {
+      toast(`✦ ${npc.name} — ${summon.pool}/${summon.maxPool} ${summon.pool_name||'PS'}`);
+    }
+    LS.s('session',S.session); render(); return;
+  }
   const cur=wounds(npcId);
   if(cur>=npc.pf_max){toast('PNG già al massimo delle ferite!',true);return;}
   S.wounds[npcId]=cur+1; LS.s('wounds',S.wounds);
@@ -467,6 +1082,17 @@ function render(){
     const el = document.querySelector('.'+scrollId);
     if(el) el.scrollTop = scrollTop;
   }
+}
+
+// ── Summon card effect label ──────────────────────
+function getSummonEffect(card, n){
+  // Cerca la riga corrispondente a npo nella desc
+  const lines = (card.desc||'').split(/[.—]/).map(s=>s.trim()).filter(Boolean);
+  const match = lines.find(l=>l.startsWith(`${n}ps`)||l.startsWith(`${n} ps`));
+  if(match) return match.replace(/^\d+\s*ps:?\s*/i,'');
+  // Fallback: danni per Assalto
+  if(card.title.includes('Assalto')) return `${n*15} danni`;
+  return `Effetto ${n}`;
 }
 
 // ── Bottom nav ───────────────────────────────────
@@ -574,6 +1200,7 @@ function rBuilder(){
 function rSession(){
   if(!S.session) return rHome();
   const {pool,maxPool}=S.session;
+  const summonDeck = S.session.summonDeck||[];
   return `<div class="view sess-view">
   <div class="hdr sess-hdr">
     <div class="pool-wrap">
@@ -596,6 +1223,38 @@ function rSession(){
         ${exp ? `<div class="cards-panel">${rCardItems(npc)}</div>` : ''}
       </div>`;
     }).join('')}
+    ${summonDeck.map(id=>{
+      const npc=npcById(id); if(!npc) return '';
+      const summon=S.session.summons?.[id];
+      const exp=S.expanded[id];
+      const pool=summon?.pool||0, maxPool=summon?.maxPool||0;
+      const isDead=pool<=0;
+      const spDots = Array.from({length:maxPool},(_,i)=>
+        `<span class="sp-dot ${i<pool?'sp-dot-on':'sp-dot-off'}"></span>`).join('');
+      return `<div class="npc-row summon-row${isDead?' fuori':''}">
+        <div class="nr-hdr" data-action="toggle-npc" data-npc="${id}">
+          <div class="nr-avatar" style="border:1px solid var(--gold)">
+            ${npc.image_url
+              ?`<img src="${npc.image_url}" alt="${npc.name}">`
+              :`<span style="font-size:18px;color:var(--gold)">✦</span>`}
+          </div>
+          <div class="nr-info">
+            <div class="nr-row1">
+              <span class="nr-name" style="color:var(--gold)">${npc.name}</span>
+            </div>
+            <div class="nr-row2">
+              <span class="ca-badge">CA ${npc.ca||'?'}</span>
+              ${rTS(npc)}
+            </div>
+          </div>
+          <button class="info-btn" data-action="open-info" data-npc="${id}" data-stop>ℹ</button>
+        </div>
+        <div class="nr-expand-btn" data-action="toggle-npc" data-npc="${id}">
+          ${exp?'▲':'▼'}
+        </div>
+        ${exp&&!isDead ? `<div class="cards-panel">${rCardItems(npc, true)}</div>` : ''}
+      </div>`;
+    }).join('')}
   </div>
   ${rBotNav('session')}</div>`;
 }
@@ -605,7 +1264,7 @@ function rConsulta(){
   return `<div class="view">
   <div class="hdr"><span class="hdr-title">Ciurma del Pollo Diablo</span></div>
   <div class="almanac">
-    ${S.npcs.map(npc=>{
+    ${S.npcs.filter(npc=>!npc.summoned).map(npc=>{
       const exp = S.consultaExp[npc.id];
       const cards = npcCards(npc.id);
       const w = wounds(npc.id), pf = npc.pf_max||1;
@@ -660,7 +1319,9 @@ function rConsulta(){
               <span class="alm-card-title">${card.title}</span>
               <div class="alm-card-right">
                 <span class="sp ${gc(card.grade)}">${SI[card.stat]||''} ${card.grade||''}</span>
-                <span class="badge b-c${Math.min(parseInt(card.cost)||1,3)}">${card.cost}pt</span>
+                ${card.summon_cost
+                  ? `<span class="badge" style="background:#0d1f3a;color:#4a8fe0;border:1px solid #2a5090">1–4 PS</span>`
+                  : `<span class="badge b-c${Math.min(parseInt(card.cost)||1,3)}">${card.cost}pt</span>`}
               </div>
             </div>`).join('')}
         </div>` : ''}
@@ -708,24 +1369,47 @@ function rNpcRow(npc, st, exp, ctx){
 // ── Card items grid (session + consulta) ─────────
 function rCardItems(npc, readonly=false){
   const cards=npcCards(npc.id), bl=blocked(npc);
-  const w=wounds(npc.id), pf=npc.pf_max||1, st=status(npc);
-  const isDead = st==='morto';
-  const wdots = Array.from({length:pf},(_,i)=>
-    `<span class="wd ${i<w?'wd-on':'wd-off'}"></span>`).join('');
-  const woundBar = `<div class="nr-wound-bar">
-    <div class="wounds-row">${wdots}</div>
-    ${!isDead
-      ? `<button class="wd-btn" data-action="add-wound" data-npc="${npc.id}">+ Ferita</button>`
-      : `<span style="font-size:12px;color:var(--muted);padding:0 8px">Morto</span>`}
-  </div>`;
-  if(!cards.length) return woundBar+'<div style="padding:10px;font-size:13px;color:var(--muted)">Nessuna carta</div>';
+  const isSummon = npc.summoned;
+  const summon = isSummon ? S.session?.summons?.[npc.id] : null;
+
+  // Barra superiore: ferite per normali, pallini blu per summon
+  let topBar = '';
+  if(isSummon){
+    const pool=summon?.pool||0, maxPool=summon?.maxPool||0;
+    const spDots=Array.from({length:maxPool},(_,i)=>
+      `<span class="wd" style="background:${i<pool?'#4a8fe0':'var(--surf3)'};border:${i<pool?'none':'1px solid var(--bord2)'}"></span>`).join('');
+    topBar=`<div class="nr-wound-bar">
+      <div class="wounds-row">${spDots}</div>
+      <button class="wd-btn" data-action="add-wound" data-npc="${npc.id}">+ Ferita</button>
+    </div>`;
+  } else {
+    const w=wounds(npc.id), pf=npc.pf_max||1, st=status(npc);
+    const isDead = st==='morto';
+    const wdots=Array.from({length:pf},(_,i)=>
+      `<span class="wd ${i<w?'wd-on':'wd-off'}"></span>`).join('');
+    topBar=`<div class="nr-wound-bar">
+      <div class="wounds-row">${wdots}</div>
+      ${!isDead
+        ? `<button class="wd-btn" data-action="add-wound" data-npc="${npc.id}">+ Ferita</button>`
+        : `<span style="font-size:12px;color:var(--muted);padding:0 8px">Morto</span>`}
+    </div>`;
+  }
+
+  if(!cards.length) return topBar+'<div style="padding:10px;font-size:13px;color:var(--muted)">Nessuna carta</div>';
   const items = cards.map(card=>{
     const cost=parseInt(card.cost)||1;
     const free=!readonly && isFree(npc,card);
     const used=timesUsed(npc.id,card.title);
-    const canAfford=free||(S.session?.pool>=cost);
+    const canAfford = card.summon_cost
+      ? (summon?.pool||0)>0
+      : free||(S.session?.pool>=cost);
     let costHtml, extra='';
-    if(readonly){
+    if(card.summon_cost){
+      const maxPs = summon?.maxPool||4;
+      const avail = summon?.pool||0;
+      costHtml=`<span class="badge" style="background:#0d1f3a;color:#4a8fe0;border:1px solid #2a5090">1–${maxPs} PS</span>`;
+      if(!canAfford) extra='no-pool';
+    } else if(readonly){
       costHtml=`<span class="badge b-c${Math.min(cost,3)}">${cost}pt</span>`;
     } else if(bl){
       costHtml=`<span class="badge b-c1">${cost}pt</span>`; extra='locked';
@@ -747,7 +1431,7 @@ function rCardItems(npc, readonly=false){
       <div class="ci-grade"><span class="sp ${gc(card.grade)}">${SI[card.stat]||''} ${card.grade||''}</span></div>
     </div>`;
   }).join('');
-  return woundBar+`<div class="cards-grid">${items}</div>`;
+  return topBar+`<div class="cards-grid">${items}</div>`;
 }
 
 function rDots(pool,max){
@@ -760,8 +1444,14 @@ function rCardModal(){
   const {npcId,cardTitle}=S.openCard;
   const npc=npcById(npcId), card=npcCards(npcId).find(c=>c.title===cardTitle);
   if(!npc||!card) return '';
+  const isSummonCard = card.summon_cost;
+  const summon = isSummonCard ? S.session?.summons?.[npcId] : null;
+  const summonPool = summon?.pool||0;
   const cost=parseInt(card.cost)||1, free=isFree(npc,card), eff=effCost(npc,card);
-  const canAfford=free||(S.session?.pool>=cost), used=timesUsed(npcId,cardTitle), bl=blocked(npc);
+  const canAfford = isSummonCard
+    ? summonPool>0
+    : free||(S.session?.pool>=cost);
+  const used=timesUsed(npcId,cardTitle), bl=blocked(npc);
   const inSession=!!S.session;
   return `<div class="mod-ov" data-action="close-modal">
   <div class="mod-sheet" data-stop>
@@ -779,9 +1469,11 @@ function rCardModal(){
           ? `<span class="mod-readonly">Sola lettura</span>`
           : bl
             ? `<span style="font-size:12px;color:var(--red2)">PNG fuori combattimento</span>`
-            : free
-              ? `<span class="mod-free">★ Prima attivazione gratuita</span>`
-              : `<span class="mod-cost">${eff}pt</span>`}
+            : isSummonCard
+              ? `<span class="mod-cost" style="color:var(--gold)">${summonPool} ${summon?.pool_name||'PS'} disponibili</span>`
+              : free
+                ? `<span class="mod-free">★ Prima attivazione gratuita</span>`
+                : `<span class="mod-cost">${eff}pt</span>`}
       </div>
       <div class="mod-desc">${card.desc||''}</div>
       ${card.rule?`<div class="mod-rule">${card.rule}</div>`:''}
@@ -789,10 +1481,28 @@ function rCardModal(){
       ${card.minion?`<div class="mod-minion">⚓ ${card.minion}</div>`:''}
       <div class="mod-actions">
         ${inSession&&!bl?`
-          <button class="btn btn-g${canAfford?'':' btn-dis'}" data-action="play-card" data-npc="${npcId}" data-card="${enc(cardTitle)}">
-            ${free?'★ Attiva gratis':`Gioca (${eff}pt)`}
-          </button>
-          ${used?`<button class="btn btn-s" data-action="undo-card" data-npc="${npcId}" data-card="${enc(cardTitle)}">↩ Annulla ultima</button>`:''}
+          ${isSummonCard
+            ? (summonPool>0 ? `
+              <div class="summon-slider">
+                <div class="summon-slider-ctrl">
+                  <button class="step-btn" style="width:40px;height:40px;font-size:20px"
+                    data-action="summon-slider-adj" data-npc="${npcId}" data-card="${enc(cardTitle)}" data-d="-1">−</button>
+                  <span class="summon-slider-val" id="sslider-val">${S.openCard.sliderVal||1}</span>
+                  <button class="step-btn" style="width:40px;height:40px;font-size:20px"
+                    data-action="summon-slider-adj" data-npc="${npcId}" data-card="${enc(cardTitle)}" data-d="1">+</button>
+                </div>
+                <div class="summon-slider-effect">${getSummonEffect(card, S.openCard.sliderVal||1)}</div>
+                <button class="btn btn-g" data-action="play-summon-card"
+                  data-npc="${npcId}" data-card="${enc(cardTitle)}" data-cost="${S.openCard.sliderVal||1}">
+                  Gioca — ${S.openCard.sliderVal||1} ${summon?.pool_name||'PS'}
+                </button>
+              </div>`
+            : `<span style="font-size:13px;color:var(--muted)">Evocazione esaurita</span>`)
+            : `<button class="btn btn-g${canAfford?'':' btn-dis'}" data-action="play-card" data-npc="${npcId}" data-card="${enc(cardTitle)}">
+                ${free?'★ Attiva gratis':`Gioca (${eff}pt)`}
+              </button>
+              ${used?`<button class="btn btn-s" data-action="undo-card" data-npc="${npcId}" data-card="${enc(cardTitle)}">↩ Annulla ultima</button>`:''}`
+          }
         `:''}
         <button class="btn btn-gh" data-action="close-modal">Chiudi</button>
       </div>
@@ -803,35 +1513,50 @@ function rCardModal(){
 // ── Info Modal ──────────────────────────────────
 function rInfoModal(){
   const npc=npcById(S.openInfo); if(!npc) return '';
+  const isSummon = npc.summoned && S.session?.summons?.[npc.id];
+  const summon = isSummon ? S.session.summons[npc.id] : null;
   const w=wounds(npc.id), pf=npc.pf_max||1, st=status(npc);
   const stLabel={sano:'🟢 Sano',indebolito:'🟡 Indebolito',fuori:'🔴 Fuori combattimento',morto:'☠️ Morto'}[st];
+  const pool=summon?.pool||0, maxPool=summon?.maxPool||0;
+  const poolName=summon?.pool_name||'PS';
   return `<div class="mod-ov" data-action="close-info">
   <div class="mod-sheet" data-stop>
     <div class="info-img-wrap">
       ${npc.image_url
         ?`<img class="info-img" src="${npc.image_url}" alt="${npc.name}">`
-        :`<div class="info-img-ph">${initials(npc.name)}</div>`}
+        :`<div class="info-img-ph" style="${isSummon?'color:var(--gold)':''}">${isSummon?'✦':initials(npc.name)}</div>`}
     </div>
     <div class="info-body">
-      <div class="info-name">${npc.star?'★ ':''}${npc.name}</div>
+      <div class="info-name" style="${isSummon?'color:var(--gold)':''}">${npc.name}</div>
       <div class="info-cls">${npc.classe||''}</div>
       <div class="info-row">
         <span class="ca-badge" style="font-size:13px;padding:4px 10px">CA ${npc.ca||'?'}</span>
-        <span style="font-size:13px;color:var(--muted)">${stLabel}</span>
+        ${isSummon
+          ? `<span style="font-size:13px;color:#4a8fe0">✦ Evocazione attiva</span>`
+          : `<span style="font-size:13px;color:var(--muted)">${stLabel}</span>`}
       </div>
       <div class="info-section">
         <div class="info-lbl">Tiri Salvezza</div>
         <div style="display:flex;gap:6px;flex-wrap:wrap">${rTS(npc,true)}</div>
       </div>
       <div class="info-section">
-        <div class="info-lbl">Ferite — ${w}/${pf}</div>
-        <div class="wounds-ctrl">
-          <button class="step-btn" data-action="remove-wound-info" data-npc="${npc.id}">−</button>
-          <div class="wounds-dots-lg">
-            ${Array.from({length:pf},(_,i)=>`<span class="wd-lg ${i<w?'wd-lg-on':'wd-lg-off'}"></span>`).join('')}
-          </div>
-          <button class="step-btn" data-action="add-wound-info" data-npc="${npc.id}">+</button>
-        </div>
+        ${isSummon
+          ? `<div class="info-lbl">${poolName} — ${pool}/${maxPool}</div>
+             <div class="wounds-ctrl">
+               <button class="step-btn" data-action="adj-summon-pool" data-npc="${npc.id}" data-d="-1">−</button>
+               <div class="wounds-dots-lg">
+                 ${Array.from({length:maxPool},(_,i)=>`<span class="wd-lg ${i<pool?'':'wd-lg-off'}" style="${i<pool?'background:#4a8fe0':''}"></span>`).join('')}
+               </div>
+               <button class="step-btn" data-action="adj-summon-pool" data-npc="${npc.id}" data-d="1">+</button>
+             </div>`
+          : `<div class="info-lbl">Ferite — ${w}/${pf}</div>
+             <div class="wounds-ctrl">
+               <button class="step-btn" data-action="remove-wound-info" data-npc="${npc.id}">−</button>
+               <div class="wounds-dots-lg">
+                 ${Array.from({length:pf},(_,i)=>`<span class="wd-lg ${i<w?'wd-lg-on':'wd-lg-off'}"></span>`).join('')}
+               </div>
+               <button class="step-btn" data-action="add-wound-info" data-npc="${npc.id}">+</button>
+             </div>`}
       </div>
       <div class="info-stat-grid">
         ${SK.map(k=>`<div class="info-stat">
@@ -867,11 +1592,23 @@ function rMinion(){
     ['Tiri salvezza',
      'I minion non tirano i dadi per i TS. Un TS classificato come Forte viene superato automaticamente. Un TS classificato come Debole viene fallito automaticamente. Non esistono altri TS intermedi per i minion.'],
   ];
+  const summonRules=[
+    ['Evocazioni',
+     'Alcuni personaggi possono evocare PNG speciali durante il combattimento tramite carte apposite. Le evocazioni appaiono nel mazzo di sessione solo quando attivate.'],
+    ['PS',
+     'Le evocazioni non hanno ferite. Al posto delle ferite usano un pool di PS (Punti Summon) (blu). Ogni volta che vengono colpite perdono 1 PS.'],
+    ['Esaurimento',
+     'Quando i PS (Punti Summon) raggiungono 0, l\'evocazione sparisce dal mazzo e non può essere riattivata finché non si usa nuovamente la carta di evocazione (se le condizioni lo permettono).'],
+    ['Carte delle Evocazioni',
+     'Le carte di un\'evocazione scalano con i PS (Punti Summon) spesi: spendere più punti produce effetti più potenti. Il costo è scelto al momento dell\'attivazione con il selettore.'],
+  ];
   return `<div class="mod-ov" data-action="close-minion">
   <div class="mod-sheet" data-stop>
     <div class="minion-body">
       <div class="minion-title">⚓ Regole Minion</div>
       ${rules.map(([t,b])=>`<div class="mr"><div class="mr-t">${t}</div><div class="mr-b">${b}</div></div>`).join('')}
+      <div class="minion-title" style="margin-top:16px">✦ Evocazioni</div>
+      ${summonRules.map(([t,b])=>`<div class="mr"><div class="mr-t">${t}</div><div class="mr-b">${b}</div></div>`).join('')}
       <button class="btn btn-gh" style="margin-top:8px" data-action="close-minion">Chiudi</button>
     </div>
   </div></div>`;
@@ -892,13 +1629,14 @@ function rMenu(){
 
 // ── Dialog ────────────────────────────────────────
 function rDialog(){
-  const{title,msg,confirmLabel,danger,confirmAction}=S.dialog;
+  const{title,msg,confirmLabel,danger,confirmAction,cancelLabel,cancelAction}=S.dialog;
   return `<div class="dlg-ov">
   <div class="dlg-box" data-stop>
     <div class="dlg-title">${title}</div>
     <div class="dlg-msg">${msg}</div>
     <div class="dlg-btns">
-      <button class="btn ${danger?'btn-d':'btn-g'}" data-action="${confirmAction}">${confirmLabel}</button>
+      ${confirmLabel?`<button class="btn ${danger?'btn-d':'btn-g'}" data-action="${confirmAction}">${confirmLabel}</button>`:''}
+      ${cancelLabel?`<button class="btn btn-s" data-action="${cancelAction}">${cancelLabel}</button>`:''}
       <button class="btn btn-gh" data-action="close-dialog">Annulla</button>
     </div>
   </div></div>`;
@@ -981,6 +1719,79 @@ document.addEventListener('click',e=>{
     case 'close-modal':          S.openCard=null; render(); break;
     case 'play-card':            playCard(npc,dec(card)); break;
     case 'undo-card':            undoCard(npc,dec(card)); break;
+
+    // Slider punti evocazione nel modal
+    case 'summon-slider-adj': {
+      if(!S.openCard) break;
+      const summon=S.session?.summons?.[npc];
+      const maxVal=summon?.pool||1;
+      const cur=S.openCard.sliderVal||1;
+      S.openCard.sliderVal=Math.max(1,Math.min(maxVal,cur+parseInt(el.dataset.d||0)));
+      render(); break;
+    }
+
+    // Carta con costo evocazione variabile
+    case 'play-summon-card': {
+      const cost=parseInt(el.dataset.cost)||1;
+      const c=npcCards(npc).find(x=>x.title===dec(card));
+      const summon=S.session?.summons?.[npc];
+      if(!summon||summon.pool<cost){toast('Punti evocazione insufficienti!',true);break;}
+      summon.pool-=cost;
+      S.session.used[cKey(npc,dec(card))]=(S.session.used[cKey(npc,dec(card))]||0)+1;
+      // Se pool a 0, rimuovi dal summonDeck
+      if(summon.pool<=0){
+        S.session.summonDeck=S.session.summonDeck.filter(id=>id!==npc);
+        toast(`✦ Le Ombre si dissolvono`, true);
+      } else {
+        toast(`✦ ${dec(card)} — ${cost} ${summon.pool_name||'PS'} (rimasti: ${summon.pool})`);
+      }
+      LS.s('session',S.session); S.openCard=null; render(); break;
+    }
+
+    // disable_if ask — confermato: applica e disabilita il caster
+    case 'play-card-disable': {
+      const dlg=S.dialog; S.dialog=null;
+      if(!dlg) break;
+      const {pendingNpc,pendingCard}=dlg;
+      const pnpc=npcById(pendingNpc), pcard=npcCards(pendingNpc).find(c=>c.title===pendingCard);
+      if(!pnpc||!pcard) break;
+      const cost=effCost(pnpc,pcard);
+      if(cost>S.session.pool){toast('Punti insufficienti!',true);break;}
+      S.session.pool-=cost;
+      S.session.used[cKey(pendingNpc,pendingCard)]=(S.session.used[cKey(pendingNpc,pendingCard)]||0)+1;
+      S.session.disabledBy[pendingNpc]=true;
+      LS.s('session',S.session); S.openCard=null;
+      toast(`${pnpc.name} esce dal combattimento`); render(); break;
+    }
+
+    // disable_if ask — annullato: carta normale senza effetto disable
+    case 'play-card-normal': {
+      const dlg=S.dialog; S.dialog=null;
+      if(!dlg) break;
+      const {pendingNpc,pendingCard}=dlg;
+      const pnpc=npcById(pendingNpc), pcard=npcCards(pendingNpc).find(c=>c.title===pendingCard);
+      if(!pnpc||!pcard) break;
+      const cost=effCost(pnpc,pcard);
+      if(cost>S.session.pool){toast('Punti insufficienti!',true);break;}
+      S.session.pool-=cost;
+      S.session.used[cKey(pendingNpc,pendingCard)]=(S.session.used[cKey(pendingNpc,pendingCard)]||0)+1;
+      LS.s('session',S.session); S.openCard=null;
+      toast(`${pendingCard} — ${cost}pt`); render(); break;
+    }
+
+    // Aggiusta pool evocazione manualmente
+    case 'adj-summon-pool': {
+      const delta=parseInt(el.dataset.d)||0;
+      const summon=S.session?.summons?.[npc];
+      if(!summon) break;
+      summon.pool=Math.max(0,Math.min(summon.maxPool,summon.pool+delta));
+      if(summon.pool<=0){
+        S.session.summonDeck=S.session.summonDeck.filter(id=>id!==npc);
+        toast('✦ Evocazione esaurita');
+      }
+      LS.s('session',S.session); render(); break;
+    }
+
     case 'add-wound':
     case 'add-wound-info':       addWound(npc); break;
     case 'remove-wound-info':    removeWound(npc); break;
