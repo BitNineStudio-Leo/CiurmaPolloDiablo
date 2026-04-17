@@ -270,7 +270,7 @@ const BUNDLED_NPCS = [
   },
   {
     "id": "ombre",
-    "name": "Le Ombre",
+    "name": "Ombre del crocicchio",
     "star": false,
     "classe": "Evocazione · Quarantena",
     "image_url": "https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/ombre.jpg",
