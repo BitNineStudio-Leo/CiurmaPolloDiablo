@@ -1130,7 +1130,7 @@ function rHome(){
 
   return `<div class="view">
   <div class="hdr">
-    <span class="logo">⚓ Pollo Diablo</span>
+    <span class="logo">⚓ Ciurma del Pollo Diablo</span>
   </div>
   <div class="scroll-body">
     ${S.loading?'<div class="loading">Sincronizzazione...</div>':''}
@@ -1262,7 +1262,7 @@ function rSession(){
 // ── Consulta — Almanacco ─────────────────────────
 function rConsulta(){
   return `<div class="view">
-  <div class="hdr"><span class="hdr-title">Ciurma del Pollo Diablo</span></div>
+  <div class="hdr"><span class="hdr-title">Pendagli da Forca</span></div>
   <div class="almanac">
     ${S.npcs.filter(npc=>!npc.summoned).map(npc=>{
       const exp = S.consultaExp[npc.id];
