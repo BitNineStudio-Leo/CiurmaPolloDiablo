@@ -142,7 +142,7 @@ body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSys
 .chip-morto{background:#1a0a0a;color:#aa5050;border:1px solid #3a1010}
 
 /* ── Cards panel ── */
-.cards-panel{padding:8px 10px 10px;background:var(--bg);display:flex;flex-direction:column;gap:6px}
+.cards-panel{padding:8px 10px 10px;background:var(--bg);display:flex;flex-direction:column;gap:6px;animation:slide-down .2s ease}
 .cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:8px 10px 12px;background:var(--bg)}
 .card-item{background:var(--surf);border:1px solid var(--bord);border-radius:var(--rs);padding:9px 10px;cursor:pointer;user-select:none;transition:opacity .15s;display:flex;flex-direction:column;gap:4px;min-height:72px}
 .card-item:active{opacity:.7}
@@ -174,8 +174,9 @@ body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSys
 .alm-star{color:var(--gold);font-size:13px;flex-shrink:0}
 .alm-name{font-family:Georgia,serif;font-size:15px;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
 .alm-wounds-top{display:none}
-.alm-wound-bar{display:flex;gap:3px;margin-top:4px;height:18px}
-.alm-wd-on,.alm-wd-off{flex:1;height:18px;cursor:pointer;border-radius:4px;transition:background .15s}
+.alm-wound-bar{display:flex;gap:10px;margin-top:4px;height:18px}
+.alm-wd,.alm-wd-on,.alm-wd-off{flex:1;height:18px;border-radius:4px;transition:background .15s}
+.alm-wd-on,.alm-wd-off{cursor:pointer}
 .alm-wd-on{background:var(--red2)}
 .alm-wd-off{background:var(--surf3)}
 .alm-wd-on:active,.alm-wd-off:active{opacity:.7}
@@ -196,6 +197,7 @@ body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSys
 
 /* ── Summon row ── */
 .summon-row{border-bottom:1px solid var(--bord);border-left:3px solid var(--gold)}
+.summon-row.anim-summon{animation:slide-down .35s ease}
 .summon-hdr{display:flex;align-items:center;padding:10px 14px;gap:10px;cursor:pointer;background:var(--surf);user-select:none}
 .summon-pool-ctrl{display:flex;gap:6px;margin-left:auto}
 /* Pallini blu per punti evocazione */
@@ -222,8 +224,50 @@ body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSys
 .b-c3{background:#2a0808;color:#e05050;border:1px solid #5a1010}
 
 /* ── Modals ── */
-.mod-ov{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:flex-end;z-index:100}
-.mod-sheet{background:var(--surf);border-radius:var(--r2) var(--r2) 0 0;width:100%;max-height:92dvh;overflow-y:auto;border-top:2px solid var(--bord)}
+.mod-ov{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
+/* Card modal — centrato come carta da gioco */
+.mod-sheet{background:var(--surf);border-radius:14px;width:min(420px,100%);max-height:90dvh;overflow-y:auto;border:2px solid var(--gold);box-shadow:0 8px 40px rgba(0,0,0,.6)}
+.mod-sheet.anim-card-flip{animation:card-flip .4s cubic-bezier(.2,.8,.3,1) both}
+/* Info/dialog modal — slide dal basso */
+.mod-ov.mod-bottom{align-items:flex-end;padding:0}
+.mod-sheet.mod-sheet-bottom{border-radius:var(--r2) var(--r2) 0 0;width:100%;border:none;border-top:2px solid var(--bord);box-shadow:none}
+.mod-sheet.mod-sheet-bottom.anim-slide-up{animation:slide-up-sheet .28s ease}
+
+/* Drawer — animazione solo su apertura esplicita */
+.cards-panel{padding:8px 10px 10px;background:var(--bg);display:flex;flex-direction:column;gap:6px}
+.cards-panel.anim-open{animation:slide-down .22s ease}
+
+/* Animazioni ── */
+@keyframes slide-down{
+  from{opacity:0;transform:translateY(-6px)}
+  to  {opacity:1;transform:translateY(0)}
+}
+@keyframes slide-up-sheet{
+  from{opacity:0;transform:translateY(30px)}
+  to  {opacity:1;transform:translateY(0)}
+}
+@keyframes slide-up-toast{
+  0%  {opacity:0;transform:translateX(-50%) translateY(10px)}
+  100%{opacity:1;transform:translateX(-50%) translateY(0)}
+}
+@keyframes wound-flash{
+  0%  {background:rgba(220,50,50,0)}
+  20% {background:rgba(220,50,50,.45)}
+  100%{background:rgba(220,50,50,0)}
+}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  20%    {transform:translateX(-6px)}
+  40%    {transform:translateX(6px)}
+  60%    {transform:translateX(-4px)}
+  80%    {transform:translateX(4px)}
+}
+@keyframes card-flip{
+  0%  {opacity:0;transform:perspective(900px) rotateY(-90deg) scale(.9)}
+  55% {opacity:1;transform:perspective(900px) rotateY(6deg) scale(1.02)}
+  75% {transform:perspective(900px) rotateY(-2deg) scale(.99)}
+  100%{opacity:1;transform:perspective(900px) rotateY(0deg) scale(1)}
+}
 
 /* Card modal */
 .mod-img-wrap{display:flex;justify-content:center;padding:22px 20px 0}
@@ -297,7 +341,7 @@ body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSys
 .hint-box code{display:block;font-family:monospace;background:var(--bg);padding:5px 8px;border-radius:4px;margin:2px 0 8px;overflow-x:auto;white-space:nowrap;font-size:11px;color:#9a8a70}
 
 /* ── Toast ── */
-.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--surf2);color:var(--txt);padding:9px 20px;border-radius:20px;font-size:13px;border:1px solid var(--bord);z-index:500;white-space:nowrap;max-width:92vw;text-align:center;pointer-events:none}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--surf2);color:var(--txt);padding:9px 20px;border-radius:20px;font-size:13px;border:1px solid var(--bord);z-index:500;white-space:nowrap;max-width:92vw;text-align:center;pointer-events:none;animation:slide-up-toast .25s ease}
 .toast-err{background:#2a0a0a;border-color:var(--red);color:#ff9090}
 
 /* ── Misc ── */

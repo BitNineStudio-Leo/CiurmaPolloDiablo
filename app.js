@@ -1031,7 +1031,6 @@ function undoCard(npcId,cardTitle){
 }
 function addWound(npcId){
   const npc=npcById(npcId); if(!npc) return;
-  // Per i PNG evocati: sottrai un punto pool invece di aggiungere una ferita
   if(npc.summoned && S.session?.summons?.[npcId]){
     const summon=S.session.summons[npcId];
     summon.pool=Math.max(0,summon.pool-1);
@@ -1041,16 +1040,30 @@ function addWound(npcId){
     } else {
       toast(`✦ ${npc.name} — ${summon.pool}/${summon.maxPool} ${summon.pool_name||'PS'}`);
     }
+    flashWound();
     LS.s('session',S.session); render(); return;
   }
   const cur=wounds(npcId);
   if(cur>=npc.pf_max){toast('PNG già al massimo delle ferite!',true);return;}
   S.wounds[npcId]=cur+1; LS.s('wounds',S.wounds);
+  flashWound();
   const st=status(npc);
   if(st==='morto')           toast(`☠ ${npc.name} è morto!`,true);
-  else if(st==='fuori')      toast(`✕ ${npc.name} è fuori combattimento`);
+  else if(st==='fuori')      { toast(`✕ ${npc.name} è fuori combattimento`); shakeNpc(npcId); }
   else if(st==='indebolito') toast(`⚠ ${npc.name} è indebolito — al prossimo colpo fuori`);
   render();
+}
+function flashWound(){
+  const el=document.createElement('div');
+  el.style.cssText='position:fixed;inset:0;z-index:9999;pointer-events:none;animation:wound-flash .5s ease forwards';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),520);
+}
+function shakeNpc(npcId){
+  setTimeout(()=>{
+    const row=document.querySelector(`[data-npc="${npcId}"]`)?.closest('.npc-row');
+    if(row){row.style.animation='shake .4s ease';setTimeout(()=>row.style.animation='',420);}
+  },50);
 }
 function removeWound(npcId){
   const cur=wounds(npcId); if(cur<=0) return;
@@ -1065,11 +1078,19 @@ function toast(msg,err=false){
 // ══════════════════════════════════════════════════
 // RENDER
 // ══════════════════════════════════════════════════
+let _prevOpenCard = null;
+let _prevExpanded = {};
+let _prevSummonDeck = [];
+
 function render(){
-  // Salva scroll position delle liste prima di re-render
   const scrollEl = document.querySelector('.almanac, .npc-list, .scroll-body, .settings-body');
   const scrollTop = scrollEl ? scrollEl.scrollTop : 0;
   const scrollId  = scrollEl ? (scrollEl.className.split(' ')[0]) : null;
+
+  // Traccia cosa era aperto prima del render
+  const wasCardNew   = S.openCard && S.openCard !== _prevOpenCard;
+  const prevExpanded = {..._prevExpanded};
+  const prevSummons  = [..._prevSummonDeck];
 
   const views={home:rHome,builder:rBuilder,session:rSession,settings:rSettings,consulta:rConsulta};
   document.getElementById('app').innerHTML=
@@ -1081,7 +1102,36 @@ function render(){
     (S.menuOpen   ? rMenu()      :'')+
     (S.toast?`<div class="toast${S.toast.err?' toast-err':''}">${S.toast.msg}</div>`:'');
 
-  // Ripristina scroll se siamo nella stessa view e non c'è un modale aperto
+  // Anima card modal solo se appena aperto
+  if(wasCardNew){
+    document.querySelector('.mod-sheet:not(.mod-sheet-bottom)')?.classList.add('anim-card-flip');
+  }
+  // Anima info/minion modal solo se appena aperto
+  if(S.openInfo && !_prevOpenCard){
+    document.querySelector('.mod-sheet-bottom')?.classList.add('anim-slide-up');
+  }
+  // Anima drawer solo se appena espanso (non su ogni re-render)
+  Object.keys(S.expanded).forEach(id=>{
+    if(S.expanded[id] && !prevExpanded[id]){
+      const panel=document.querySelector(`.npc-row [data-npc="${id}"] ~ * .cards-panel, .cards-panel`);
+      // Trova il cards-panel del PNG appena espanso
+      const row=document.querySelector(`[data-npc="${id}"]`)?.closest('.npc-row, .summon-row');
+      row?.querySelector('.cards-panel')?.classList.add('anim-open');
+    }
+  });
+  // Anima summon row solo se appena aggiunto
+  (S.session?.summonDeck||[]).forEach(id=>{
+    if(!prevSummons.includes(id)){
+      document.querySelector(`.summon-row [data-npc="${id}"]`)?.closest('.summon-row')
+        ?.classList.add('anim-summon');
+    }
+  });
+
+  // Aggiorna tracking
+  _prevOpenCard = S.openCard;
+  _prevExpanded = {...S.expanded};
+  _prevSummonDeck = [...(S.session?.summonDeck||[])];
+
   if(scrollId && !S.openCard && !S.openInfo && !S.dialog && !S.menuOpen && !S.minionOpen){
     const el = document.querySelector('.'+scrollId);
     if(el) el.scrollTop = scrollTop;
@@ -1310,11 +1360,14 @@ function rConsulta(){
               ${rTS(npc)}
             </div>
             <div class="alm-wound-bar">
-              ${Array.from({length:pf},(_,i)=>`
-                <span class="alm-wd ${i<w?'alm-wd-on':'alm-wd-off'}"
-                  data-action="${i<w?'remove-wound-info':'add-wound'}"
-                  data-npc="${npc.id}"
-                  data-stop></span>`).join('')}
+              ${npc.summoned
+                ? Array.from({length:npc.pf_max||4},(_,i)=>`
+                    <span class="alm-wd" style="background:#4a8fe0;cursor:default"></span>`).join('')
+                : Array.from({length:pf},(_,i)=>`
+                    <span class="alm-wd ${i<w?'alm-wd-on':'alm-wd-off'}"
+                      data-action="${i<w?'remove-wound-info':'add-wound'}"
+                      data-npc="${npc.id}"
+                      data-stop></span>`).join('')}
             </div>
           </div>
         </div>
@@ -1534,8 +1587,8 @@ function rInfoModal(){
   const stLabel={sano:'🟢 Sano',indebolito:'🟡 Indebolito',fuori:'🔴 Fuori combattimento',morto:'☠️ Morto'}[st];
   const pool=summon?.pool||0, maxPool=summon?.maxPool||0;
   const poolName=summon?.pool_name||'PS';
-  return `<div class="mod-ov" data-action="close-info">
-  <div class="mod-sheet" data-stop>
+  return `<div class="mod-ov mod-bottom" data-action="close-info">
+  <div class="mod-sheet mod-sheet-bottom" data-stop>
     <div class="info-img-wrap">
       ${npc.image_url
         ?`<img class="info-img" src="${npc.image_url}" alt="${npc.name}">`
@@ -1617,8 +1670,8 @@ function rMinion(){
     ['Carte delle Evocazioni',
      'Le carte di un\'evocazione scalano con i PS (Punti Summon) spesi: spendere più punti produce effetti più potenti. Il costo è scelto al momento dell\'attivazione con il selettore.'],
   ];
-  return `<div class="mod-ov" data-action="close-minion">
-  <div class="mod-sheet" data-stop>
+  return `<div class="mod-ov mod-bottom" data-action="close-minion">
+  <div class="mod-sheet mod-sheet-bottom" data-stop>
     <div class="minion-body">
       <div class="minion-title">⚓ Regole Minion</div>
       ${rules.map(([t,b])=>`<div class="mr"><div class="mr-t">${t}</div><div class="mr-b">${b}</div></div>`).join('')}
