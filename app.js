@@ -273,7 +273,7 @@ const BUNDLED_NPCS = [
     "name": "Le Ombre",
     "star": false,
     "classe": "Evocazione · Quarantena",
-    "image_url": "",
+    "image_url": "https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/ombre.jpg",
     "ca": 26,
     "pf_max": 4,
     "ts_forte": [
@@ -284,8 +284,8 @@ const BUNDLED_NPCS = [
       "Tempra"
     ],
     "combat": "A",
-    "magia": "SS",
-    "nav": "D",
+    "magia": "A",
+    "nav": "B",
     "tech": "D",
     "cura": "D",
     "furtivita": "B",
@@ -761,26 +761,26 @@ const BUNDLED_CARDS = [
   },
   {
     "npc_id": "ombre",
-    "title": "Assalto delle Ombre",
+    "title": "Armata delle tenebre",
     "cost": 1,
     "summon_cost": true,
-    "stat": "magia",
-    "grade": "SS",
+    "stat": "combat",
+    "grade": "A",
     "desc": "Le Ombre attaccano tutti i nemici entro 1,5m da loro. 1ps: 15 danni. 2ps: 30 danni. 3ps: 45 danni. 4ps: 60 danni.",
     "rule": "Spendi 1-4 PS. I danni scalano con i punti spesi. Le Ombre devono essere entro 1,5m dai bersagli.",
-    "flavor": "Non fanno rumore. Non lasciano tracce. Non si fermano.",
+    "flavor": "Era poco più che un'ombra poco fa, ma ora sono corpi fatti di ossa spezzate, carne rinsecchita e fauci affamate.",
     "minion": ""
   },
   {
     "npc_id": "ombre",
-    "title": "Comanda le Ombre",
+    "title": "Servitori non morti",
     "cost": 1,
     "summon_cost": true,
-    "stat": "furtivita",
-    "grade": "SS",
+    "stat": "combat",
+    "grade": "A",
     "desc": "1ps: fiancheggia un nemico — vantaggio al primo attacco verso quel nemico. 2ps: due Ombre si sacrificano, assorbono la prossima ferita di un minion. 3ps: esplorano una zona, il DM fornisce un'informazione tattica. 4ps: bloccano un nemico per 1 round, non può agire.",
     "rule": "Spendi 1-4 PS. L'effetto corrisponde ai punti spesi. Le Ombre devono essere entro 1,5m dal bersaglio.",
-    "flavor": "Quarantena alza un dito. Le Ombre capiscono.",
+    "flavor": "Lo ombre emergono dal crocicchio al richiamo dello shadow man.",
     "minion": ""
   }
 ];
@@ -813,7 +813,7 @@ let S = {
   maxPool: LS.g('maxPool', 6),
   wounds:  LS.g('wounds', {}),
   loading:false, error:null, toast:null, dialog:null,
-  expanded:{}, consultaExp:{}, openCard:null, openInfo:null,
+  expanded:{}, consultaExp:{}, consultaTab:'ciurma', openCard:null, openInfo:null,
   menuOpen:false, minionOpen:false, builderDeck:null,
   syncTime: LS.g('syncTime', null),
 };
@@ -903,13 +903,17 @@ async function syncGithub(){
 // ACTIONS
 // ══════════════════════════════════════════════════
 function startSession(){
+  // Rimuovi dal mazzo PNG che non esistono più nel JSON
+  S.deck = S.deck.filter(id => npcById(id));
+  if(S.deck.length === 0){ toast('Nessun PNG valido nel mazzo!', true); return; }
+  LS.s('deck', S.deck);
   // Snapshot ferite iniziali di ogni PNG nel mazzo
   const woundsAtStart = {};
   S.deck.forEach(id => { woundsAtStart[id] = wounds(id); });
   S.session={pool:S.maxPool, maxPool:S.maxPool, used:{}, woundsAtStart,
-    disabledBy:{},   // npc_id → true se fuori per carta (non ferita)
-    summons:{},      // npc_id → {pool, maxPool, pool_name} per PNG evocati
-    summonDeck:[]    // ids dei PNG evocati attivi in sessione
+    disabledBy:{},
+    summons:{},
+    summonDeck:[]
   };
   LS.s('session',S.session);
   S.view='session'; S.expanded={}; render();
@@ -1181,7 +1185,7 @@ function rBuilder(){
   </div>
   <div class="bldr-sub">Tocca un PNG per aggiungerlo o rimuoverlo</div>
   <div class="npc-grid">
-    ${S.npcs.map(npc=>{
+    ${S.npcs.filter(npc=>!npc.summoned).map(npc=>{
       const sel=bd.includes(npc.id), w=wounds(npc.id), pf=npc.pf_max||1;
       const st=status(npc);
       return `<div class="npc-tile${sel?' sel':''}" data-action="toggle-npc" data-npc="${npc.id}">
@@ -1261,10 +1265,21 @@ function rSession(){
 
 // ── Consulta — Almanacco ─────────────────────────
 function rConsulta(){
+  const showSummon = S.consultaTab === 'summon';
+  const npcList = showSummon
+    ? S.npcs.filter(npc=>npc.summoned)
+    : S.npcs.filter(npc=>!npc.summoned);
+
   return `<div class="view">
-  <div class="hdr"><span class="hdr-title">Pendagli da Forca</span></div>
+  <div class="hdr"><span class="hdr-title">🪝 Pendagli da forca</span></div>
+  <div class="consulta-tabs">
+    <button class="ctab${!showSummon?' ctab-active':''}" data-action="consulta-tab" data-tab="ciurma">👥 Ciurma</button>
+    <button class="ctab${showSummon?' ctab-active':''}" data-action="consulta-tab" data-tab="summon">✦ Evocazioni</button>
+  </div>
   <div class="almanac">
-    ${S.npcs.filter(npc=>!npc.summoned).map(npc=>{
+    ${npcList.length === 0
+      ? `<div style="padding:30px;text-align:center;color:var(--muted);font-size:14px">${showSummon?'Nessuna evocazione disponibile':'Nessun PNG'}</div>`
+      : npcList.map(npc=>{
       const exp = S.consultaExp[npc.id];
       const cards = npcCards(npc.id);
       const w = wounds(npc.id), pf = npc.pf_max||1;
@@ -1697,6 +1712,7 @@ document.addEventListener('click',e=>{
       }else{ S.expanded[npc]=!S.expanded[npc]; render(); }
       break;
     case 'toggle-consulta':      S.consultaExp[npc]=!S.consultaExp[npc]; render(); break;
+    case 'consulta-tab':         S.consultaTab=el.dataset.tab; render(); break;
     case 'open-card':
     case 'open-card-consulta':   S.openCard={npcId:npc,cardTitle:dec(card)}; render(); break;
     case 'adj-max':              adjMax(parseInt(d)); break;
