@@ -295,8 +295,8 @@ const BUNDLED_NPCS = [
     "id": "chuck",
     "name": "Chuckonius",
     "star": true,
-    "classe": "Lv 18, Lich, Geomante",
-    "image_url": "",
+    "classe": "Lv 17, Lich, Geomante",
+    "image_url": "https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/chuck.jpg",
     "ca": 28,
     "pf_max": 4,
     "ts_forte": [
@@ -318,14 +318,14 @@ const BUNDLED_NPCS = [
     "name": "Simon Sgabelloviz",
     "star": false,
     "classe": "Lv 15, Sgabello/Umano, Chierico della Fortuna",
-    "image_url": "",
+    "image_url": "https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/simon.jpg",
     "ca": 25,
     "pf_max": 3,
     "ts_forte": [
-      "Tempra"
+      "Tempra",
+      "Riflessi"
     ],
     "ts_debole": [
-      "Riflessi",
       "Volontà"
     ],
     "combat": "C",
@@ -336,11 +336,11 @@ const BUNDLED_NPCS = [
     "furtivita": "A"
   },
   {
-    "id": "billy",
-    "name": "Billy",
+    "id": "arredamento",
+    "name": "Arredamento",
     "star": false,
-    "classe": "Mobile Animato · Simon",
-    "image_url": "",
+    "classe": "Oggetto Animato · Simon",
+    "image_url": "https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/arredamento.jpg",
     "ca": 20,
     "pf_max": 2,
     "ts_forte": [
@@ -857,8 +857,8 @@ const BUNDLED_CARDS = [
     "stat": "magia",
     "grade": "SS",
     "desc": "Chuck sfrutta il potere del suo filatterio. Per questo round è immune ai danni.",
-    "rule": "Usabile 1 volta per combattimento.",
-    "flavor": "Non è una gamba. Non è mai stata solo una gamba.",
+    "rule": "Utilizzabile 1 volta per combattimento.",
+    "flavor": "Si è spostata? curioso.",
     "minion": ""
   },
   {
@@ -869,7 +869,7 @@ const BUNDLED_CARDS = [
     "grade": "SS",
     "desc": "Chuck lancia una maledizione su un nemico. Il bersaglio subisce svantaggio a tutti i tiri per 1 round e non può beneficiare di cure durante questo periodo.",
     "rule": "Bersaglio singolo. Gli effetti durano fino all'inizio del prossimo turno di Chuck.",
-    "flavor": "— Cosa hai fatto? — Niente di permanente. Probabilmente.",
+    "flavor": "- Cosa hai fatto? - Niente di permanente. Probabilmente.",
     "minion": ""
   },
   {
@@ -878,9 +878,9 @@ const BUNDLED_CARDS = [
     "cost": 1,
     "stat": "magia",
     "grade": "SS",
-    "desc": "Chuck lancia una classica palla di fuoco. Tutti i nemici entro 6m dal punto di impatto subiscono 35 danni da fuoco. CD Riflessi 22 dimezza.",
-    "rule": "Raggio 6m dal punto di impatto. Colpisce tutti i nemici nell'area indiscriminatamente.",
-    "flavor": "Dopo trent'anni, è ancora il suo incantesimo preferito.",
+    "desc": "Chuck lancia una classica palla di fuoco. Tutti i nemici entro 6m dal punto di impatto subiscono 35 danni da fuoco. CD Riflessi 24 dimezza.",
+    "rule": "Raggio 6m dal punto di impatto. Colpisce tutti bersagli nell'area indiscriminatamente.",
+    "flavor": "C'era un alto tasso di nemici nel raggio dell'esplosione, qualche alleato impreparato non rende la scelta meno strategica, capitano.",
     "minion": ""
   },
   {
@@ -891,7 +891,7 @@ const BUNDLED_CARDS = [
     "grade": "A",
     "desc": "La fortuna sfacciata di Simon sorride a un alleato. Un alleato a scelta può ritirare immediatamente un dado appena tirati e tenere il risultato migliore.",
     "rule": "Va dichiarato subito dopo il tiro originale, prima che il DM descriva l'esito.",
-    "flavor": "— Come fai a essere sempre così fortunato? — Sono uno sgabello. Gli sgabelli non credono nella sfortuna.",
+    "flavor": "Un altro giorno fortunato in una vita da sgabello fortunato.",
     "minion": ""
   },
   {
@@ -900,7 +900,7 @@ const BUNDLED_CARDS = [
     "cost": 3,
     "stat": "combat",
     "grade": "B",
-    "desc": "Simon spronta quattro gambe di legno aggiuntive e diventa una cavalcatura. Per 3 round il passeggero ottiene +4 CA. Il passeggero può interrompere il bonus in qualsiasi momento per proiettarsi dallo sgabello, ottenendo vantaggio al primo attacco di quel round.",
+    "desc": "Simon emette quattro gambe di legno aggiuntive e diventa una cavalcatura. Per 3 round il passeggero ottiene +3m al movimento e +3 CA di copertura. Il passeggero può interrompere il bonus in qualsiasi momento per proiettarsi dallo sgabello, ottenendo vantaggio al primo attacco di quel round.",
     "rule": "Un solo passeggero. La proiezione termina l'effetto di BRETTERBANK. Simon non può usare altre carte mentre funge da cavalcatura.",
     "flavor": "Simon non ha mai capito perché i suoi compagni trovino strano cavalcare uno sgabello.",
     "minion": ""
@@ -922,9 +922,9 @@ const BUNDLED_CARDS = [
     "cost": 2,
     "stat": "magia",
     "grade": "B",
-    "desc": "Simon anima un oggetto di legno nelle vicinanze evocando Billy, un mobile animato obbediente.",
+    "desc": "Simon anima un oggetto di legno nelle vicinanze.",
     "rule": "Richiede un oggetto di legno sufficientemente grande nelle vicinanze (porta, cassa, armadio, remo). Se non ve ne sono, la carta non può essere usata.",
-    "flavor": "— Da dove viene quell'armadio? — È sempre stato lì. — Siamo su una nave. — Appunto.",
+    "flavor": "- Da dove viene quell'armadio? - È sempre stato lì. - Siamo su una nave. - Chiaro.",
     "minion": "",
     "summon": {
       "npc_id": "billy",
@@ -933,27 +933,27 @@ const BUNDLED_CARDS = [
     }
   },
   {
-    "npc_id": "billy",
+    "npc_id": "arredamento",
     "title": "KNUFF",
     "cost": 1,
     "summon_cost": true,
     "stat": "combat",
     "grade": "A",
-    "desc": "1ps: Billy si scaglia su un nemico con uno schianto possente — 20 danni e il bersaglio viene abbattuto. 2ps: stesso effetto ma colpisce tutti i nemici in un quadrato di 3m.",
-    "rule": "Billy deve essere entro 3m dal bersaglio. L'abbattimento dura 1 round.",
-    "flavor": "Non è un mobile aggressivo. È solo molto, molto convinto.",
+    "desc": "1ps: L'arredamento si scaglia su un nemico - 20 danni e il bersaglio viene abbattuto. 2ps: stesso effetto ma colpisce tutti i nemici in un quadrato di 3m.",
+    "rule": "Deve essere entro 3m dal bersaglio. L'abbattimento dura 1 round.",
+    "flavor": "Non è un mobile aggressivo. È solo molto, molto motivato.",
     "minion": ""
   },
   {
-    "npc_id": "billy",
+    "npc_id": "arredamento",
     "title": "STÄNGA",
     "cost": 1,
     "summon_cost": true,
     "stat": "combat",
     "grade": "A",
-    "desc": "1ps: Billy blocca un nemico di taglia media o inferiore per 1 round. 2ps: stesso effetto ma il blocco dura 2 round.",
-    "rule": "Billy deve essere adiacente al bersaglio. Il nemico non può muoversi ma può ancora attaccare.",
-    "flavor": "L'armadio lo fissa. L'armadio non si muove. L'armadio ha tutto il tempo del mondo.",
+    "desc": "1ps: L'arredamento blocca un nemico di taglia media o inferiore per 1 round. 2ps: stesso effetto ma il blocco dura 2 round.",
+    "rule": "Deve essere adiacente al bersaglio. Il nemico non può muoversi ma può ancora attaccare.",
+    "flavor": "Il tavolo lo fissa. Il tavolo non si muove. Il tavolo ha tutto il tempo del mondo.",
     "minion": ""
   }
 ];
