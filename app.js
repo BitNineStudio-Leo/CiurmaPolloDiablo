@@ -927,7 +927,7 @@ const BUNDLED_CARDS = [
     "flavor": "- Da dove viene quell'armadio? - È sempre stato lì. - Siamo su una nave. - Chiaro.",
     "minion": "",
     "summon": {
-      "npc_id": "billy",
+      "npc_id": "arredamento",
       "pool": 2,
       "pool_name": "PS"
     }
