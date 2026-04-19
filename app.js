@@ -270,7 +270,7 @@ const BUNDLED_NPCS = [
   },
   {
     "id": "ombre",
-    "name": "Le Ombre",
+    "name": "Ombre del crocicchio",
     "star": false,
     "classe": "Evocazione · Quarantena",
     "image_url": "https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2026/04/ombre.jpg",
@@ -289,6 +289,73 @@ const BUNDLED_NPCS = [
     "tech": "D",
     "cura": "D",
     "furtivita": "B",
+    "summoned": true
+  },
+  {
+    "id": "chuck",
+    "name": "Chuckonius",
+    "star": true,
+    "classe": "Lv 18, Lich, Geomante",
+    "image_url": "",
+    "ca": 28,
+    "pf_max": 4,
+    "ts_forte": [
+      "Tempra",
+      "Volontà"
+    ],
+    "ts_debole": [
+      "Riflessi"
+    ],
+    "combat": "B",
+    "magia": "SS",
+    "nav": "B",
+    "tech": "A",
+    "cura": "C",
+    "furtivita": "D"
+  },
+  {
+    "id": "simon",
+    "name": "Simon Sgabelloviz",
+    "star": false,
+    "classe": "Lv 15, Sgabello/Umano, Chierico della Fortuna",
+    "image_url": "",
+    "ca": 25,
+    "pf_max": 3,
+    "ts_forte": [
+      "Tempra"
+    ],
+    "ts_debole": [
+      "Riflessi",
+      "Volontà"
+    ],
+    "combat": "C",
+    "magia": "A",
+    "nav": "B",
+    "tech": "D",
+    "cura": "A",
+    "furtivita": "A"
+  },
+  {
+    "id": "billy",
+    "name": "Billy",
+    "star": false,
+    "classe": "Mobile Animato · Simon",
+    "image_url": "",
+    "ca": 20,
+    "pf_max": 2,
+    "ts_forte": [
+      "Tempra"
+    ],
+    "ts_debole": [
+      "Riflessi",
+      "Volontà"
+    ],
+    "combat": "A",
+    "magia": "D",
+    "nav": "D",
+    "tech": "D",
+    "cura": "D",
+    "furtivita": "D",
     "summoned": true
   }
 ];
@@ -782,6 +849,112 @@ const BUNDLED_CARDS = [
     "rule": "Spendi 1-4 PS. L'effetto corrisponde ai punti spesi. Le Ombre devono essere entro 1,5m dal bersaglio.",
     "flavor": "Lo ombre emergono dal crocicchio al richiamo dello shadow man.",
     "minion": ""
+  },
+  {
+    "npc_id": "chuck",
+    "title": "Gamba di Legno",
+    "cost": 1,
+    "stat": "magia",
+    "grade": "SS",
+    "desc": "Chuck sfrutta il potere del suo filatterio. Per questo round è immune ai danni.",
+    "rule": "Usabile 1 volta per combattimento.",
+    "flavor": "Non è una gamba. Non è mai stata solo una gamba.",
+    "minion": ""
+  },
+  {
+    "npc_id": "chuck",
+    "title": "Maledizione Voodoo",
+    "cost": 2,
+    "stat": "magia",
+    "grade": "SS",
+    "desc": "Chuck lancia una maledizione su un nemico. Il bersaglio subisce svantaggio a tutti i tiri per 1 round e non può beneficiare di cure durante questo periodo.",
+    "rule": "Bersaglio singolo. Gli effetti durano fino all'inizio del prossimo turno di Chuck.",
+    "flavor": "— Cosa hai fatto? — Niente di permanente. Probabilmente.",
+    "minion": ""
+  },
+  {
+    "npc_id": "chuck",
+    "title": "Palla di Fuoco",
+    "cost": 1,
+    "stat": "magia",
+    "grade": "SS",
+    "desc": "Chuck lancia una classica palla di fuoco. Tutti i nemici entro 6m dal punto di impatto subiscono 35 danni da fuoco. CD Riflessi 22 dimezza.",
+    "rule": "Raggio 6m dal punto di impatto. Colpisce tutti i nemici nell'area indiscriminatamente.",
+    "flavor": "Dopo trent'anni, è ancora il suo incantesimo preferito.",
+    "minion": ""
+  },
+  {
+    "npc_id": "simon",
+    "title": "LYCKA",
+    "cost": 1,
+    "stat": "magia",
+    "grade": "A",
+    "desc": "La fortuna sfacciata di Simon sorride a un alleato. Un alleato a scelta può ritirare immediatamente un dado appena tirati e tenere il risultato migliore.",
+    "rule": "Va dichiarato subito dopo il tiro originale, prima che il DM descriva l'esito.",
+    "flavor": "— Come fai a essere sempre così fortunato? — Sono uno sgabello. Gli sgabelli non credono nella sfortuna.",
+    "minion": ""
+  },
+  {
+    "npc_id": "simon",
+    "title": "BRETTERBANK",
+    "cost": 3,
+    "stat": "combat",
+    "grade": "B",
+    "desc": "Simon spronta quattro gambe di legno aggiuntive e diventa una cavalcatura. Per 3 round il passeggero ottiene +4 CA. Il passeggero può interrompere il bonus in qualsiasi momento per proiettarsi dallo sgabello, ottenendo vantaggio al primo attacco di quel round.",
+    "rule": "Un solo passeggero. La proiezione termina l'effetto di BRETTERBANK. Simon non può usare altre carte mentre funge da cavalcatura.",
+    "flavor": "Simon non ha mai capito perché i suoi compagni trovino strano cavalcare uno sgabello.",
+    "minion": ""
+  },
+  {
+    "npc_id": "simon",
+    "title": "Infiltrazione",
+    "cost": 1,
+    "stat": "furtivita",
+    "grade": "SS",
+    "desc": "Simon si trasforma in un innocuo sgabello e si infiltra in una zona sorvegliata o in una stanza nemica. Raccoglie informazioni: il DM rivela un segreto tattico, una posizione, o un piano nemico.",
+    "rule": "Fuori combattimento. Simon deve poter raggiungere la zona bersaglio. La durata è a discrezione del DM in base alla situazione.",
+    "flavor": "Nessuno sospetta dello sgabello. Lo sgabello sente tutto.",
+    "minion": ""
+  },
+  {
+    "npc_id": "simon",
+    "title": "WANDSCHRANK",
+    "cost": 2,
+    "stat": "magia",
+    "grade": "B",
+    "desc": "Simon anima un oggetto di legno nelle vicinanze evocando Billy, un mobile animato obbediente.",
+    "rule": "Richiede un oggetto di legno sufficientemente grande nelle vicinanze (porta, cassa, armadio, remo). Se non ve ne sono, la carta non può essere usata.",
+    "flavor": "— Da dove viene quell'armadio? — È sempre stato lì. — Siamo su una nave. — Appunto.",
+    "minion": "",
+    "summon": {
+      "npc_id": "billy",
+      "pool": 2,
+      "pool_name": "PS"
+    }
+  },
+  {
+    "npc_id": "billy",
+    "title": "KNUFF",
+    "cost": 1,
+    "summon_cost": true,
+    "stat": "combat",
+    "grade": "A",
+    "desc": "1ps: Billy si scaglia su un nemico con uno schianto possente — 20 danni e il bersaglio viene abbattuto. 2ps: stesso effetto ma colpisce tutti i nemici in un quadrato di 3m.",
+    "rule": "Billy deve essere entro 3m dal bersaglio. L'abbattimento dura 1 round.",
+    "flavor": "Non è un mobile aggressivo. È solo molto, molto convinto.",
+    "minion": ""
+  },
+  {
+    "npc_id": "billy",
+    "title": "STÄNGA",
+    "cost": 1,
+    "summon_cost": true,
+    "stat": "combat",
+    "grade": "A",
+    "desc": "1ps: Billy blocca un nemico di taglia media o inferiore per 1 round. 2ps: stesso effetto ma il blocco dura 2 round.",
+    "rule": "Billy deve essere adiacente al bersaglio. Il nemico non può muoversi ma può ancora attaccare.",
+    "flavor": "L'armadio lo fissa. L'armadio non si muove. L'armadio ha tutto il tempo del mondo.",
+    "minion": ""
   }
 ];
 
@@ -816,7 +989,6 @@ let S = {
   expanded:{}, consultaExp:{}, consultaTab:'ciurma', openCard:null, openInfo:null,
   menuOpen:false, minionOpen:false, builderDeck:null,
   syncTime: LS.g('syncTime', null),
-  ghToken: LS.g('ghToken', ''),
 };
 
 // ══════════════════════════════════════════════════
@@ -1037,7 +1209,7 @@ function addWound(npcId){
     summon.pool=Math.max(0,summon.pool-1);
     if(summon.pool<=0){
       S.session.summonDeck=(S.session.summonDeck||[]).filter(id=>id!==npcId);
-      toast(`✦ ${npc.name} si dissolvono`,true);
+      toast(`✦ ${npc.name} si dissolve`,true);
     } else {
       toast(`✦ ${npc.name} — ${summon.pool}/${summon.maxPool} ${summon.pool_name||'PS'}`);
     }
@@ -1266,7 +1438,7 @@ function rSession(){
   if(!S.session) return rHome();
   const {pool,maxPool}=S.session;
   const summonDeck = S.session.summonDeck||[];
-  return `<div class="view sess-view">
+  return `<div class="view sess-view textured">
   <div class="hdr sess-hdr">
     <div class="pool-wrap">
       <div class="pool-dots">${rDots(pool,maxPool)}</div>
@@ -1280,46 +1452,66 @@ function rSession(){
     </div>
   </div>
   <div class="npc-list">
-    ${S.deck.map(id=>{
-      const npc=npcById(id); if(!npc) return '';
-      const st=status(npc), exp=S.expanded[id];
-      return `<div class="npc-row ${st}">
-        ${rNpcRow(npc, st, exp, 'session')}
-        ${exp ? `<div class="cards-panel">${rCardItems(npc)}</div>` : ''}
-      </div>`;
-    }).join('')}
-    ${summonDeck.map(id=>{
-      const npc=npcById(id); if(!npc) return '';
-      const summon=S.session.summons?.[id];
-      const exp=S.expanded[id];
-      const pool=summon?.pool||0, maxPool=summon?.maxPool||0;
-      const isDead=pool<=0;
-      const spDots = Array.from({length:maxPool},(_,i)=>
-        `<span class="sp-dot ${i<pool?'sp-dot-on':'sp-dot-off'}"></span>`).join('');
-      return `<div class="npc-row summon-row${isDead?' fuori':''}">
-        <div class="nr-hdr" data-action="toggle-npc" data-npc="${id}">
-          <div class="nr-avatar" style="border:1px solid var(--gold)">
-            ${npc.image_url
-              ?`<img src="${npc.image_url}" alt="${npc.name}">`
-              :`<span style="font-size:18px;color:var(--gold)">✦</span>`}
-          </div>
-          <div class="nr-info">
-            <div class="nr-row1">
-              <span class="nr-name" style="color:var(--gold)">${npc.name}</span>
+    ${(()=>{
+      const summonDeckSet = new Set(summonDeck);
+      // Mappa: summoner_id → [summon_ids evocati da lui]
+      const summonerOf = {};
+      S.deck.forEach(id=>{
+        const cards = npcCards(id);
+        cards.forEach(c=>{
+          if(c.summon && summonDeckSet.has(c.summon.npc_id)){
+            if(!summonerOf[id]) summonerOf[id]=[];
+            if(!summonerOf[id].includes(c.summon.npc_id))
+              summonerOf[id].push(c.summon.npc_id);
+          }
+        });
+      });
+
+      const renderSummonRow = id => {
+        const npc=npcById(id); if(!npc) return '';
+        const summon=S.session.summons?.[id];
+        const exp=S.expanded[id];
+        const pool=summon?.pool||0, maxPool=summon?.maxPool||0;
+        const isDead=pool<=0;
+        return `<div class="npc-row summon-row${isDead?' fuori':''}">
+          <div class="nr-hdr" data-action="toggle-npc" data-npc="${id}">
+            <div class="nr-avatar" style="border:1px solid var(--teal)">
+              ${npc.image_url
+                ?`<img src="${npc.image_url}" alt="${npc.name}">`
+                :`<span style="font-size:18px;color:var(--teal)">✦</span>`}
             </div>
-            <div class="nr-row2">
-              <span class="ca-badge">CA ${npc.ca||'?'}</span>
-              ${rTS(npc)}
+            <div class="nr-info">
+              <div class="nr-row1">
+                <span class="nr-name" style="color:var(--teal)">${npc.name}</span>
+              </div>
+              <div class="nr-row2">
+                <span class="ca-badge">CA ${npc.ca||'?'}</span>
+                ${rTS(npc)}
+              </div>
             </div>
+            <button class="info-btn" data-action="open-info" data-npc="${id}" data-stop>ℹ</button>
           </div>
-          <button class="info-btn" data-action="open-info" data-npc="${id}" data-stop>ℹ</button>
-        </div>
-        <div class="nr-expand-btn" data-action="toggle-npc" data-npc="${id}">
-          ${exp?'▲':'▼'}
-        </div>
-        ${exp&&!isDead ? `<div class="cards-panel">${rCardItems(npc, true)}</div>` : ''}
-      </div>`;
-    }).join('')}
+          <div class="nr-expand-btn" data-action="toggle-npc" data-npc="${id}">
+            ${exp?'▲':'▼'}
+          </div>
+          ${exp&&!isDead ? `<div class="cards-panel">${rCardItems(npc, true)}</div>` : ''}
+        </div>`;
+      };
+
+      // Summon non collegati a nessun PNG nel mazzo (orfani)
+      const linkedSummons = new Set(Object.values(summonerOf).flat());
+
+      return S.deck.map(id=>{
+        const npc=npcById(id); if(!npc) return '';
+        const st=status(npc), exp=S.expanded[id];
+        const mySummons = (summonerOf[id]||[]).map(renderSummonRow).join('');
+        return `<div class="npc-row ${st}">
+          ${rNpcRow(npc, st, exp, 'session')}
+          ${exp ? `<div class="cards-panel">${rCardItems(npc)}</div>` : ''}
+        </div>${mySummons}`;
+      }).join('')
+      + summonDeck.filter(id=>!linkedSummons.has(id)).map(renderSummonRow).join('');
+    })()}
   </div>
   ${rBotNav('session')}</div>`;
 }
@@ -1331,7 +1523,7 @@ function rConsulta(){
     ? S.npcs.filter(npc=>npc.summoned)
     : S.npcs.filter(npc=>!npc.summoned);
 
-  return `<div class="view">
+  return `<div class="view textured">
   <div class="hdr"><span class="hdr-title">🪝 Pendagli da forca</span></div>
   <div class="consulta-tabs">
     <button class="ctab${!showSummon?' ctab-active':''}" data-action="consulta-tab" data-tab="ciurma">👥 Ciurma</button>
@@ -1364,6 +1556,7 @@ function rConsulta(){
             <div class="alm-name-row">
               ${npc.star?'<span class="alm-star">★</span>':''}
               <span class="alm-name">${npc.name}</span>
+              ${st==='morto'?`<span class="chip chip-morto">☠ Morto</span>`:''}
             </div>
             <div class="alm-classe">${npc.classe||''}</div>
             <div class="alm-stats">
@@ -1373,7 +1566,7 @@ function rConsulta(){
             <div class="alm-wound-bar">
               ${npc.summoned
                 ? Array.from({length:npc.pf_max||4},(_,i)=>`
-                    <span class="alm-wd" style="background:#4a8fe0;cursor:default"></span>`).join('')
+                    <span class="alm-wd" style="background:var(--teal);cursor:default"></span>`).join('')
                 : Array.from({length:pf},(_,i)=>`
                     <span class="alm-wd ${i<w?'alm-wd-on':'alm-wd-off'}"
                       data-action="${i<w?'remove-wound-info':'add-wound'}"
@@ -1399,7 +1592,7 @@ function rConsulta(){
               <div class="alm-card-right">
                 <span class="sp ${gc(card.grade)}">${SI[card.stat]||''} ${card.grade||''}</span>
                 ${card.summon_cost
-                  ? `<span class="badge" style="background:#0d1f3a;color:#4a8fe0;border:1px solid #2a5090">1–4 PS</span>`
+                  ? `<span class="badge" style="background:#0d1f3a;color:var(--teal);border:1px solid #2a5090">1–4 PS</span>`
                   : `<span class="badge b-c${Math.min(parseInt(card.cost)||1,3)}">${card.cost}pt</span>`}
               </div>
             </div>`).join('')}
@@ -1454,12 +1647,14 @@ function rCardItems(npc, readonly=false){
   // Barra superiore: ferite per normali, pallini blu per summon
   let topBar = '';
   if(isSummon){
-    const pool=summon?.pool||0, maxPool=summon?.maxPool||0;
+    const pool=summon?.pool ?? npc.pf_max ?? 4;
+    const maxPool=summon?.maxPool ?? npc.pf_max ?? 4;
     const spDots=Array.from({length:maxPool},(_,i)=>
-      `<span class="wd" style="background:${i<pool?'#4a8fe0':'var(--surf3)'};border:${i<pool?'none':'1px solid var(--bord2)'}"></span>`).join('');
+      `<span class="wd" style="background:${i<pool?'var(--teal)':'var(--surf3)'};border:${i<pool?'none':'1px solid var(--bord2)'}"></span>`).join('');
+    const inSession=!!S.session?.summons?.[npc.id];
     topBar=`<div class="nr-wound-bar">
       <div class="wounds-row">${spDots}</div>
-      <button class="wd-btn" data-action="add-wound" data-npc="${npc.id}">+ Ferita</button>
+      ${inSession?`<button class="wd-btn" data-action="add-wound" data-npc="${npc.id}">+ Ferita</button>`:''}
     </div>`;
   } else {
     const w=wounds(npc.id), pf=npc.pf_max||1, st=status(npc);
@@ -1486,7 +1681,7 @@ function rCardItems(npc, readonly=false){
     if(card.summon_cost){
       const maxPs = summon?.maxPool||4;
       const avail = summon?.pool||0;
-      costHtml=`<span class="badge" style="background:#0d1f3a;color:#4a8fe0;border:1px solid #2a5090">1–${maxPs} PS</span>`;
+      costHtml=`<span class="badge" style="background:#0d1f3a;color:var(--teal);border:1px solid #2a5090">1–${maxPs} PS</span>`;
       if(!canAfford) extra='no-pool';
     } else if(readonly){
       costHtml=`<span class="badge b-c${Math.min(cost,3)}">${cost}pt</span>`;
@@ -1498,7 +1693,8 @@ function rCardItems(npc, readonly=false){
       costHtml=`<span class="badge b-c${Math.min(cost,3)}">${cost}pt</span>`;
       if(!canAfford) extra='no-pool';
     }
-    const isUsed = !readonly && used>0 && !(npc.star&&cost===1);
+    const isUsed = !readonly && used>0 && !(npc.star&&cost===1)
+      && !(card.summon && !S.session?.summonDeck?.includes(card.summon.npc_id));
     const action = readonly ? 'open-card-consulta' : 'open-card';
     return `<div class="card-item${extra?' '+extra:''}${isUsed?' used':''}"
       data-action="${action}" data-npc="${npc.id}" data-card="${enc(card.title)}">
@@ -1549,7 +1745,7 @@ function rCardModal(){
           : bl
             ? `<span style="font-size:12px;color:var(--red2)">PNG fuori combattimento</span>`
             : isSummonCard
-              ? `<span class="mod-cost" style="color:var(--gold)">${summonPool} ${summon?.pool_name||'PS'} disponibili</span>`
+              ? `<span class="mod-cost" style="color:var(--teal)">${summonPool} ${summon?.pool_name||'PS'} disponibili</span>`
               : free
                 ? `<span class="mod-free">★ Prima attivazione gratuita</span>`
                 : `<span class="mod-cost">${eff}pt</span>`}
@@ -1603,15 +1799,15 @@ function rInfoModal(){
     <div class="info-img-wrap">
       ${npc.image_url
         ?`<img class="info-img" src="${npc.image_url}" alt="${npc.name}">`
-        :`<div class="info-img-ph" style="${isSummon?'color:var(--gold)':''}">${isSummon?'✦':initials(npc.name)}</div>`}
+        :`<div class="info-img-ph" style="${isSummon?'color:var(--teal)':''}">${isSummon?'✦':initials(npc.name)}</div>`}
     </div>
     <div class="info-body">
-      <div class="info-name" style="${isSummon?'color:var(--gold)':''}">${npc.name}</div>
+      <div class="info-name" style="${isSummon?'color:var(--teal)':''}">${npc.name}</div>
       <div class="info-cls">${npc.classe||''}</div>
       <div class="info-row">
         <span class="ca-badge" style="font-size:13px;padding:4px 10px">CA ${npc.ca||'?'}</span>
         ${isSummon
-          ? `<span style="font-size:13px;color:#4a8fe0">✦ Evocazione attiva</span>`
+          ? `<span style="font-size:13px;color:var(--teal)">✦ Evocazione attiva</span>`
           : `<span style="font-size:13px;color:var(--muted)">${stLabel}</span>`}
       </div>
       <div class="info-section">
@@ -1624,7 +1820,7 @@ function rInfoModal(){
              <div class="wounds-ctrl">
                <button class="step-btn" data-action="adj-summon-pool" data-npc="${npc.id}" data-d="-1">−</button>
                <div class="wounds-dots-lg">
-                 ${Array.from({length:maxPool},(_,i)=>`<span class="wd-lg ${i<pool?'':'wd-lg-off'}" style="${i<pool?'background:#4a8fe0':''}"></span>`).join('')}
+                 ${Array.from({length:maxPool},(_,i)=>`<span class="wd-lg ${i<pool?'':'wd-lg-off'}" style="${i<pool?'background:var(--teal)':''}"></span>`).join('')}
                </div>
                <button class="step-btn" data-action="adj-summon-pool" data-npc="${npc.id}" data-d="1">+</button>
              </div>`
@@ -1724,41 +1920,9 @@ function rDialog(){
 // ── Settings ──────────────────────────────────────
 function rSettings(){
   const syncTxt=S.syncTime?new Date(S.syncTime).toLocaleString('it-IT'):'—';
-  const hasToken=!!(S.ghToken);
-  return `<div class="view">
+  return `<div class="view textured">
   <div class="hdr"><span class="hdr-title">⚙️ Impostazioni</span></div>
   <div class="settings-body">
-
-    <div class="settings-section">
-      <div class="settings-section-title">🔑 GitHub</div>
-      <div class="fld">
-        <label>Personal Access Token</label>
-        <input id="gh-token" type="password" value="${S.ghToken||''}"
-          placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
-          autocomplete="off" spellcheck="false">
-        <span style="font-size:11px;color:var(--muted);margin-top:4px;display:block">
-          Salvato solo su questo dispositivo. Scope richiesto: <code>repo</code>
-        </span>
-      </div>
-      <button class="btn btn-g" data-action="save-token">Salva token</button>
-    </div>
-
-    <div class="settings-section">
-      <div class="settings-section-title">🚀 Push su GitHub</div>
-      <div style="font-size:12px;color:var(--muted);margin-bottom:10px">
-        BitNineStudio-Leo · branch main
-      </div>
-      <button class="btn btn-g${hasToken?'':' btn-dis'}" data-action="push-app"
-        ${hasToken?'':'title="Inserisci prima il token"'}>
-        📦 Push app → CiurmaPolloDiablo
-      </button>
-      <button class="btn btn-g${hasToken?'':' btn-dis'}" data-action="push-data"
-        ${hasToken?'':'title="Inserisci prima il token"'}>
-        📄 Push data → CiurmaData
-      </button>
-      <div id="push-status" style="font-size:12px;color:var(--muted);min-height:18px"></div>
-    </div>
-
     <div class="settings-section">
       <div class="settings-section-title">🔄 Sincronizzazione dati</div>
       <div class="fld">
@@ -1770,12 +1934,10 @@ function rSettings(){
       <div class="sync-info">Ultimo sync: ${syncTxt}</div>
       <button class="btn btn-s" data-action="sync">🔄 Risincronizza adesso</button>
     </div>
-
     <div class="settings-section">
       <div class="settings-section-title">⚠️ Dati</div>
       <button class="btn btn-d" data-action="clear-data">🗑 Ripristina dati integrati</button>
     </div>
-
   </div>
   ${rBotNav('settings')}</div>`;
 }
@@ -1847,7 +2009,7 @@ document.addEventListener('click',e=>{
       // Se pool a 0, rimuovi dal summonDeck
       if(summon.pool<=0){
         S.session.summonDeck=S.session.summonDeck.filter(id=>id!==npc);
-        toast(`✦ Le Ombre si dissolvono`, true);
+        toast(`✦ Le Ombre si dissolve`, true);
       } else {
         toast(`✦ ${dec(card)} — ${cost} ${summon.pool_name||'PS'} (rimasti: ${summon.pool})`);
       }
@@ -1904,9 +2066,6 @@ document.addEventListener('click',e=>{
     case 'open-info':            S.openInfo=npc; render(); break;
     case 'close-info':           S.openInfo=null; render(); break;
     case 'save-url':             saveUrl(); break;
-    case 'save-token':           saveToken(); break;
-    case 'push-app':             pushApp(); break;
-    case 'push-data':            pushData(); break;
     case 'clear-data':
       S.dialog={title:'Ripristina dati',msg:'I dati GitHub verranno rimossi e si tornerà ai dati integrati.',confirmLabel:'Ripristina',danger:true,confirmAction:'do-clear'};
       render(); break;
@@ -1929,72 +2088,43 @@ function saveUrl(){
   S.rawUrl=url; LS.s('rawUrl',url); syncGithub();
 }
 
-function saveToken(){
-  const inp=document.getElementById('gh-token'); if(!inp) return;
-  const t=inp.value.trim();
-  S.ghToken=t; LS.s('ghToken',t);
-  toast(t?'Token salvato ✓':'Token rimosso'); render();
-}
-
-async function ghPush(repo, filePath, content, commitMsg){
-  const token=S.ghToken;
-  if(!token){toast('Token mancante!',true);return false;}
-  const owner='BitNineStudio-Leo';
-  const apiBase=`https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
-  const headers={'Authorization':`token ${token}`,'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'};
-
-  // Recupera SHA attuale del file (necessario per update)
-  let sha=null;
-  try{
-    const r=await fetch(apiBase,{headers});
-    if(r.ok){ const j=await r.json(); sha=j.sha; }
-  }catch(e){}
-
-  const body={message:commitMsg,content:btoa(unescape(encodeURIComponent(content))),branch:'main'};
-  if(sha) body.sha=sha;
-
-  const res=await fetch(apiBase,{method:'PUT',headers,body:JSON.stringify(body)});
-  return res.ok;
-}
-
-async function pushApp(){
-  if(!S.ghToken){toast('Inserisci prima il token!',true);return;}
-  setPushStatus('⏳ Push app in corso...');
-  const files=[
-    ['index.html', null],
-    ['app.js', null],
-    ['sw.js', null],
-  ];
-  // Legge i file dal DOM — l'app è standalone quindi usiamo i sorgenti bundled
-  // Push solo sw.js e manifest (index.html+app.js sono il bundle)
-  toast('⏳ Invio in corso...'); 
-  try{
-    // Per la PWA push il file standalone come index.html
-    const html=document.documentElement.outerHTML;
-    const ok=await ghPush('CiurmaPolloDiablo','index.html',html,'Update app da dispositivo');
-    if(ok){ setPushStatus('✅ App caricata!'); toast('✅ CiurmaPolloDiablo aggiornato!'); }
-    else  { setPushStatus('❌ Errore push'); toast('Errore push — verifica token e permessi',true); }
-  }catch(e){ setPushStatus('❌ '+e.message); toast('Errore: '+e.message,true); }
-}
-
-async function pushData(){
-  if(!S.ghToken){toast('Inserisci prima il token!',true);return;}
-  setPushStatus('⏳ Push data in corso...');
-  try{
-    const json=JSON.stringify({npcs:S.npcs,cards:S.cards},null,2);
-    const ok=await ghPush('CiurmaData','data.json',json,'Update data.json da dispositivo');
-    if(ok){ setPushStatus('✅ Data caricato!'); toast('✅ CiurmaData aggiornato!'); }
-    else  { setPushStatus('❌ Errore push'); toast('Errore push — verifica token e permessi',true); }
-  }catch(e){ setPushStatus('❌ '+e.message); toast('Errore: '+e.message,true); }
-}
-
-function setPushStatus(msg){
-  const el=document.getElementById('push-status');
-  if(el) el.textContent=msg;
-}
-
 // ══════════════════════════════════════════════════
-// INIT
+// SWIPE
+// ══════════════════════════════════════════════════
+(()=>{
+  let tx=0, ty=0;
+
+  document.addEventListener('touchstart',e=>{
+    tx=e.touches[0].clientX;
+    ty=e.touches[0].clientY;
+  },{passive:true});
+
+  document.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-tx;
+    const dy=e.changedTouches[0].clientY-ty;
+    if(Math.abs(dx)<40||Math.abs(dx)<Math.abs(dy)*1.5) return; // troppo corto o troppo verticale
+    const dir=dx>0?-1:1; // swipe sx → avanti (+1), swipe dx → indietro (-1)
+
+    // Swipe su card modal — naviga tra le carte del PNG
+    if(S.openCard){
+      const {npcId,cardTitle}=S.openCard;
+      const cards=npcCards(npcId);
+      const idx=cards.findIndex(c=>c.title===cardTitle);
+      if(idx===-1) return;
+      const next=cards[idx+dir];
+      if(next){ S.openCard={npcId,cardTitle:next.title}; render(); }
+      return;
+    }
+
+    // Swipe su tab Ciurma — cambia tab
+    if(S.view==='consulta'){
+      const tabs=['ciurma','summon'];
+      const cur=tabs.indexOf(S.consultaTab||'ciurma');
+      const next=tabs[cur+dir];
+      if(next){ S.consultaTab=next; render(); }
+    }
+  },{passive:true});
+})();
 // ══════════════════════════════════════════════════
 if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
 // Se c'è una sessione attiva al caricamento, va direttamente in sessione

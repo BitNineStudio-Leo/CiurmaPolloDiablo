@@ -11,7 +11,7 @@
 <style>
 :root{
   --bg:#0d0b07;--surf:#1c1712;--surf2:#261f15;--surf3:#2e2418;
-  --gold:#d4a84b;--red:#8b2020;--red2:#ff5555;
+  --gold:#d4a84b;--red:#8b2020;--red2:#ff5555;--teal:#2ab8b0;
   --amber:#c47a20;--amber2:#f0a040;
   --green2:#3a7a3a;--green3:#6ecf6e;
   --txt:#f0ead8;--muted:#8a7d68;--muted2:#6a5d48;
@@ -21,7 +21,10 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;height:100dvh;overflow:hidden;overscroll-behavior:none}
 #app{height:100dvh;overflow:hidden}
-.view{height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+.view{height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+.view.textured{background:url('https://iltesorodelcuorenero.wordpress.com/wp-content/uploads/2017/05/temp.jpg') center/cover fixed;}
+.view.textured::before{content:'';position:fixed;inset:0;background:rgba(10,8,4,.82);pointer-events:none;z-index:0}
+.view.textured>*{position:relative;z-index:1}
 
 /* ── Header ── */
 .hdr{background:var(--surf);padding:12px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--bord);flex-shrink:0;min-height:54px}
@@ -112,8 +115,10 @@ body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSys
 /* ── NPC row (shared between session + consulta) ── */
 .npc-list{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .npc-row{border-bottom:1px solid var(--bord)}
-.npc-row.fuori .nr-name,.npc-row.morto .nr-name{color:var(--muted)}
-.npc-row.morto{opacity:.5}
+.npc-row.fuori{opacity:.55;filter:grayscale(.4)}
+.npc-row.fuori .nr-name{color:var(--muted)}
+.npc-row.morto{opacity:.3;filter:grayscale(1)}
+.npc-row.morto .nr-name{color:var(--muted)}
 .nr-hdr{display:flex;align-items:center;padding:12px 14px;gap:10px;cursor:pointer;background:var(--surf);user-select:none}
 .nr-hdr:active{background:var(--surf2)}
 .nr-avatar{width:48px;height:48px;border-radius:9px;overflow:hidden;flex-shrink:0;background:var(--surf2);display:flex;align-items:center;justify-content:center;font-size:18px;font-family:Georgia,serif;color:var(--muted);border:1px solid var(--bord)}
@@ -203,13 +208,13 @@ body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSys
 .alm-card-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
 
 /* ── Summon row ── */
-.summon-row{border-bottom:1px solid var(--bord);border-left:3px solid var(--gold)}
+.summon-row{border-bottom:1px solid var(--bord);border-left:3px solid var(--teal)}
 .summon-row.anim-summon{animation:slide-down .35s ease}
 .summon-hdr{display:flex;align-items:center;padding:10px 14px;gap:10px;cursor:pointer;background:var(--surf);user-select:none}
 .summon-pool-ctrl{display:flex;gap:6px;margin-left:auto}
 /* Pallini blu per punti evocazione */
 .sp-dot{width:13px;height:13px;border-radius:50%;flex-shrink:0}
-.sp-dot-on{background:#4a8fe0}.sp-dot-off{background:var(--surf3);border:1px solid var(--bord2)}
+.sp-dot-on{background:var(--teal)}.sp-dot-off{background:var(--surf3);border:1px solid var(--bord2)}
 .sp-dots-row{display:flex;gap:4px;align-items:center}
 /* Slider summon nel modal */
 .summon-slider{display:flex;flex-direction:column;gap:10px;width:100%;padding:10px 0}
@@ -236,7 +241,7 @@ body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSys
 .mod-sheet{background:var(--surf);border-radius:14px;width:min(420px,100%);max-height:90dvh;overflow-y:auto;border:2px solid var(--gold);box-shadow:0 8px 40px rgba(0,0,0,.6)}
 .mod-sheet.anim-card-flip{animation:card-flip .4s cubic-bezier(.2,.8,.3,1) both}
 /* Info/dialog modal — slide dal basso */
-.mod-ov.mod-bottom{align-items:flex-end;padding:0}
+.mod-ov.mod-bottom{align-items:flex-end;padding:0;padding-bottom:56px}
 .mod-sheet.mod-sheet-bottom{border-radius:var(--r2) var(--r2) 0 0;width:100%;border:none;border-top:2px solid var(--bord);box-shadow:none}
 .mod-sheet.mod-sheet-bottom.anim-slide-up{animation:slide-up-sheet .28s ease}
 
