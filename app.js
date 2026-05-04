@@ -1267,7 +1267,9 @@ function render(){
 
   const views={home:rHome,builder:rBuilder,session:rSession,settings:rSettings,consulta:rConsulta};
   document.getElementById('app').innerHTML=
-    (views[S.view]||rHome)()+
+    (views[S.view]||rHome)();
+
+  document.getElementById('modals').innerHTML=
     (S.dialog     ? rDialog()    :'')+
     (S.openCard   ? rCardModal() :'')+
     (S.openInfo   ? rInfoModal() :'')+
@@ -1277,11 +1279,11 @@ function render(){
 
   // Anima card modal solo se appena aperto
   if(wasCardNew){
-    document.querySelector('.mod-sheet:not(.mod-sheet-bottom)')?.classList.add('anim-card-flip');
+    document.querySelector('#modals .mod-sheet:not(.mod-sheet-bottom)')?.classList.add('anim-card-flip');
   }
   // Anima info/minion modal solo se appena aperto
   if(S.openInfo && !_prevOpenCard){
-    document.querySelector('.mod-sheet-bottom')?.classList.add('anim-slide-up');
+    document.querySelector('#modals .mod-sheet-bottom')?.classList.add('anim-slide-up');
   }
   // Anima drawer solo se appena espanso (non su ogni re-render)
   Object.keys(S.expanded).forEach(id=>{
@@ -1921,7 +1923,7 @@ function rDialog(){
 function rSettings(){
   const syncTxt=S.syncTime?new Date(S.syncTime).toLocaleString('it-IT'):'—';
   return `<div class="view textured">
-  <div class="hdr"><span class="hdr-title">⚙️ Impostazioni</span></div>
+  <div class="hdr"><span class="hdr-title">⚙️ <span style="color:var(--gold)">Impostazioni</span></span></div>
   <div class="settings-body">
     <div class="settings-section">
       <div class="settings-section-title">🔄 Sincronizzazione dati</div>
@@ -1950,7 +1952,7 @@ document.addEventListener('click',e=>{
   if(!el) return;
   const{action,view,d,npc,card}=el.dataset;
   switch(action){
-    case 'goto':             S.view=view; render(); break;
+    case 'goto':             S.view=view; S.openCard=null; S.openInfo=null; S.minionOpen=false; S.dialog=null; S.menuOpen=false; render(); break;
     case 'sync':             syncGithub(); break;
     case 'open-builder':     S.builderDeck=[...S.deck]; S.view='builder'; render(); break;
     case 'cancel-builder':   S.builderDeck=null; S.view='home'; render(); break;
@@ -2009,7 +2011,7 @@ document.addEventListener('click',e=>{
       // Se pool a 0, rimuovi dal summonDeck
       if(summon.pool<=0){
         S.session.summonDeck=S.session.summonDeck.filter(id=>id!==npc);
-        toast(`✦ Le Ombre si dissolve`, true);
+        toast(`✦ ${npcById(npc)?.name||'Evocazione'} si dissolve`, true);
       } else {
         toast(`✦ ${dec(card)} — ${cost} ${summon.pool_name||'PS'} (rimasti: ${summon.pool})`);
       }
